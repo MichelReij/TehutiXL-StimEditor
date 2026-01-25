@@ -431,8 +431,32 @@ function displayTags(selectId: number = 1) {
 }
 
 function addTag() {
-    tags.push(new Tag(tags.length + 1, "new", 0, []));
-    displayTags(tags.length);
+    // Create new tag with 6 excitation points arranged in a circle
+    const excitationData: ExcitationData[] = [];
+
+    for (let i = 0; i < 6; i++) {
+        const angle = i * ((2 * Math.PI) / 6);
+        const radius = 70 + Math.random() * 10; // 70-80px
+        const x = Math.round(radius * Math.cos(angle));
+        const y = Math.round(radius * Math.sin(angle));
+        const randomIntensity = Math.floor(Math.random() * 64);
+        const randomSize = Math.floor(Math.random() * 11) + 5;
+
+        excitationData.push({
+            x,
+            y,
+            intensity: randomIntensity,
+            size: randomSize,
+        });
+    }
+
+    const defaultLayer: LayerData = {
+        layerId: 17,
+        excitationData,
+    };
+    const newTag = new Tag(tags.length + 1, "new", 0, [defaultLayer]);
+    tags.push(newTag);
+    displayTags(newTag.id);
 }
 
 function editTag(tag: Tag) {
@@ -483,10 +507,16 @@ function editTag(tag: Tag) {
                   .replace(/},{/g, "},\n  {")
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
+              <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 1-20
+              </div>
+              <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
+              <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
             </div>
-            <div class="visualizer" id="vis_${layerId}" style="background-image: url(/mri/mri_grey_${layerId
-                .toString()
-                .padStart(2, "0")}.jpg);">
+            <div class="visualizer" id="vis_${layerId}">
+              <img class="mri-background" src="/mri/mri_grey_${layerId
+                  .toString()
+                  .padStart(2, "0")}.jpg" alt="MRI scan">
               <div class="point-container" id="pc_${layerId}"></div>
               <img id="mask_${layerId}" class="mri-mask show" src="/masks/mask_${layerId
                   .toString()
@@ -497,6 +527,16 @@ function editTag(tag: Tag) {
             );
 
             renderPoints(layerId, JSON.stringify(layer.excitationData));
+            renderPointsList(layerId);
+
+            // Select first excitation point by default
+            if (layer.excitationData.length > 0) {
+                selectedPointIndex = 0;
+                selectedLayerId = layerId;
+                // Re-render to apply selection styling
+                renderPoints(layerId, JSON.stringify(layer.excitationData));
+                renderPointsList(layerId);
+            }
             // });
         }
 
@@ -577,25 +617,50 @@ function renderPoints(layerId: number, jsonStr: string) {
 
             vis.innerHTML = "";
 
-            // Now sort on size
-            excitationData.sort((a, b) => a.intensity - b.intensity);
+            // Create array with original indices before sorting
+            const indexedData = excitationData.map((epd, originalIndex) => ({
+                ...epd,
+                originalIndex,
+            }));
+
+            // Now sort on intensity
+            indexedData.sort((a, b) => a.intensity - b.intensity);
 
             // console.log("boe2");
-            excitationData.forEach((epd: ExcitationData) => {
+            indexedData.forEach((epd, displayIndex: number) => {
                 const x = 100 + epd.x - epd.size;
                 const y = 110 - epd.y - epd.size;
-                // const hue = 60 - epd.intensity * 3;
-                // const lgt = 60 - epd.intensity;
+                const isSelected =
+                    selectedPointIndex === epd.originalIndex &&
+                    selectedLayerId === layerId;
+                const zIndex = isSelected ? 100 : displayIndex;
+                const opacity =
+                    selectedPointIndex !== null &&
+                    selectedLayerId === layerId &&
+                    !isSelected
+                        ? 0.5
+                        : 1;
 
                 vis.insertAdjacentHTML(
                     "beforeend",
                     `
-          <div class="excitation-point" style="
+          <div class="excitation-point"
+               data-index="${epd.originalIndex}"
+               data-layer="${layerId}"
+               draggable="true"
+               ondragstart="handleDragStart(event)"
+               ondrag="handleDrag(event)"
+               ondragend="handleDragEnd(event)"
+               onclick="selectExcitationPoint(event)"
+               style="
             top:${y}px;
             left:${x}px;
             width:${epd.size * 2}px;
             height:${epd.size * 2}px;
             background-color: ${heatmap[63 - epd.intensity]};
+            cursor: move;
+            z-index: ${zIndex};
+            opacity: ${opacity};
           "></div>
 `,
                 ); //
@@ -858,6 +923,605 @@ function importData(): void {
 //                                                                    //
 //                                                                    //
 //                                                                    //
+// Drag and Drop for Excitation Points                               //
+//                                                                    //
+// ================================================================== //
+
+let draggedElement: HTMLElement | null = null;
+let isDragging = false;
+let selectedPointIndex: number | null = null;
+let selectedLayerId: number | null = null;
+
+function addExcitationPoint(layerId: number) {
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+    if (!ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        // Add new point at center with random values
+        const randomIntensity = Math.floor(Math.random() * 64);
+        const randomSize = Math.floor(Math.random() * 11) + 5;
+        const newPoint = {
+            x: 0,
+            y: 0,
+            intensity: randomIntensity,
+            size: randomSize,
+        };
+        excitationData.push(newPoint);
+        const newIndex = excitationData.length - 1;
+
+        // Update textarea
+        ta.value = JSON.stringify(excitationData)
+            .replace(/},{/g, "},\n  {")
+            .replace(/\[{/g, "[\n  {")
+            .replace(/}\]/g, "}\n]");
+
+        // Add new point to DOM directly (no render)
+        const pointContainer = document.getElementById(`pc_${layerId}`);
+        if (pointContainer) {
+            // Set all existing points to non-selected state
+            const allPoints =
+                pointContainer.querySelectorAll(".excitation-point");
+            allPoints.forEach((point) => {
+                const el = point as HTMLElement;
+                el.style.zIndex = "1";
+                el.style.opacity = "0.5";
+            });
+
+            // Add new point element
+            const x = 100 + newPoint.x - newPoint.size;
+            const y = 110 - newPoint.y - newPoint.size;
+            pointContainer.insertAdjacentHTML(
+                "beforeend",
+                `
+          <div class="excitation-point"
+               data-index="${newIndex}"
+               data-layer="${layerId}"
+               draggable="true"
+               ondragstart="handleDragStart(event)"
+               ondrag="handleDrag(event)"
+               ondragend="handleDragEnd(event)"
+               onclick="selectExcitationPoint(event)"
+               style="
+            top:${y}px;
+            left:${x}px;
+            width:${newPoint.size * 2}px;
+            height:${newPoint.size * 2}px;
+            background-color: ${heatmap[63 - newPoint.intensity]};
+            cursor: move;
+            z-index: 100;
+            opacity: 1;
+          "></div>
+`,
+            );
+        }
+
+        // Add new editor to list directly (no render)
+        const listContainer = document.getElementById(`pointsList_${layerId}`);
+        if (listContainer) {
+            // Update all existing editors to non-selected
+            const allEditors = listContainer.querySelectorAll(".point-editor");
+            allEditors.forEach((editor) => {
+                editor.classList.remove("selected");
+            });
+
+            // Add new editor
+            listContainer.insertAdjacentHTML(
+                "beforeend",
+                `
+        <div class="point-editor selected" data-index="${newIndex}" onclick="selectExcitationPointFromList(${layerId}, ${newIndex})" style="cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+            <strong>Point ${newIndex}</strong>
+            <button onclick="event.stopPropagation(); deleteExcitationPoint(${layerId}, ${newIndex})" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f44336; color: white; border: none; cursor: pointer;">✕</button>
+          </div>
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.3rem; font-size: 0.8rem;">
+            <label>x: ${newPoint.x}</label>
+            <span>y: ${newPoint.y}</span>
+            <label for="intensity_${layerId}_${newIndex}">Intensity:</label>
+            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="63" value="${newPoint.intensity}"
+                   oninput="updatePointProperty(${layerId}, ${newIndex}, 'intensity', this.value)"
+                   onclick="event.stopPropagation()"
+                   style="width: 100%;">
+            <label for="size_${layerId}_${newIndex}">Size:</label>
+            <input type="range" id="size_${layerId}_${newIndex}" min="1" max="20" value="${newPoint.size}"
+                   oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
+                   onclick="event.stopPropagation()"
+                   style="width: 100%;">
+          </div>
+        </div>
+      `,
+            );
+        }
+
+        // Update selection state
+        selectedPointIndex = newIndex;
+        selectedLayerId = layerId;
+
+        // Save to storage
+        const tagIdInput = document.getElementById(
+            "editId",
+        ) as HTMLInputElement;
+        if (tagIdInput) {
+            const tagId: Number = parseInt(tagIdInput.value);
+            tags.forEach((tag) => {
+                if (tag.id === tagId) {
+                    tag.setLayers(layerId, excitationData);
+                }
+            });
+            saveTags();
+        }
+    } catch (error) {
+        console.error("Failed to add point:", error);
+    }
+}
+
+function selectExcitationPoint(event: Event) {
+    const target = event.target as HTMLElement;
+    const index = parseInt(target.dataset.index || "0");
+    const layerId = parseInt(target.dataset.layer || "0");
+
+    // Update visual feedback directly without re-rendering
+    const visualizer = document.getElementById(`vis_${layerId}`);
+    if (visualizer) {
+        // Reset previous selected point (if different)
+        if (
+            selectedPointIndex !== null &&
+            selectedLayerId === layerId &&
+            selectedPointIndex !== index
+        ) {
+            const prevPoint = visualizer.querySelector(
+                `.excitation-point[data-index="${selectedPointIndex}"]`,
+            ) as HTMLElement;
+            if (prevPoint) {
+                prevPoint.style.zIndex = "1";
+                prevPoint.style.opacity = "0.6";
+            }
+        }
+
+        // Highlight new selected point
+        target.style.zIndex = "100";
+        target.style.opacity = "1";
+    }
+
+    selectedPointIndex = index;
+    selectedLayerId = layerId;
+
+    // Update list without re-rendering points
+    renderPointsList(layerId);
+}
+
+function handleDragStart(event: DragEvent) {
+    isDragging = true;
+    draggedElement = event.target as HTMLElement;
+    if (draggedElement) {
+        draggedElement.style.opacity = "0.5";
+
+        // Add mousemove listener to track during drag (ondrag is unreliable)
+        document.addEventListener("dragover", handleDragOver);
+    }
+}
+
+function handleDragOver(event: DragEvent) {
+    event.preventDefault(); // Required to allow drop
+
+    if (!draggedElement || event.clientX === 0 || event.clientY === 0) return;
+
+    const target = draggedElement;
+    const layerId = parseInt(target.dataset.layer || "0");
+    const index = parseInt(target.dataset.index || "0");
+    const visualizer = document.getElementById(`vis_${layerId}`);
+
+    if (!visualizer) return;
+
+    const rect = visualizer.getBoundingClientRect();
+
+    // Calculate new position
+    const x = event.clientX - rect.left - 100;
+    const y = -(event.clientY - rect.top - 110);
+
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (!ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        const point = excitationData[index];
+
+        const newX = 100 + Math.round(x) - point.size;
+        const newY = 110 - Math.round(y) - point.size;
+
+        // Update DOM position immediately (no lag)
+        target.style.left = `${newX}px`;
+        target.style.top = `${newY}px`;
+
+        // Update data in memory
+        point.x = Math.round(x);
+        point.y = Math.round(y);
+
+        // Trigger throttled updates for JSON/list (NO renderPoints!)
+        throttledDragUpdate(layerId, excitationData);
+    } catch (error) {
+        // Ignore errors during drag
+    }
+}
+
+function handleDrag(event: DragEvent) {
+    const target = event.target as HTMLElement;
+    if (!target || event.clientX === 0 || event.clientY === 0) return;
+
+    const layerId = parseInt(target.dataset.layer || "0");
+    const index = parseInt(target.dataset.index || "0");
+    const visualizer = document.getElementById(`vis_${layerId}`);
+
+    if (!visualizer) return;
+
+    const rect = visualizer.getBoundingClientRect();
+
+    // Calculate new position
+    const x = event.clientX - rect.left - 100;
+    const y = -(event.clientY - rect.top - 110);
+
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (!ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        const point = excitationData[index];
+
+        const newX = 100 + Math.round(x) - point.size;
+        const newY = 110 - Math.round(y) - point.size;
+
+        // Update DOM position immediately (no lag)
+        target.style.left = `${newX}px`;
+        target.style.top = `${newY}px`;
+
+        // Update data in memory
+        point.x = Math.round(x);
+        point.y = Math.round(y);
+
+        console.log(
+            `handleDrag: point[${index}] position updated to (${point.x}, ${point.y})`,
+        );
+
+        // Trigger throttled updates for JSON/list (NO renderPoints!)
+        throttledDragUpdate(layerId, excitationData);
+    } catch (error) {
+        // Ignore errors during drag
+    }
+}
+
+function handleDragEnd(event: DragEvent) {
+    const target = event.target as HTMLElement;
+    if (!target) return;
+
+    // Restore opacity based on selection state
+    const layerId = parseInt(target.dataset.layer || "0");
+    const index = parseInt(target.dataset.index || "0");
+    const isSelected =
+        selectedPointIndex === index && selectedLayerId === layerId;
+    target.style.opacity = isSelected ? "1" : "0.5";
+
+    const visualizer = document.getElementById(`vis_${layerId}`);
+    if (!visualizer) return;
+
+    const rect = visualizer.getBoundingClientRect();
+
+    // Calculate final position
+    const x = event.clientX - rect.left - 100;
+    const y = -(event.clientY - rect.top - 110);
+
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (ta) {
+        try {
+            const excitationData: ExcitationData[] = JSON.parse(ta.value);
+            const point = excitationData[index];
+            point.x = Math.round(x);
+            point.y = Math.round(y);
+
+            // Final update: JSON, list, and storage (NO renderPoints!)
+            throttledDragUpdate(layerId, excitationData);
+        } catch (error) {
+            console.error("Failed to update point position:", error);
+        }
+    }
+
+    draggedElement = null;
+    isDragging = false;
+
+    // Remove dragover listener
+    document.removeEventListener("dragover", handleDragOver);
+}
+
+function renderPointsList(layerId: number) {
+    const listContainer = document.getElementById(`pointsList_${layerId}`);
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (!listContainer || !ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        listContainer.innerHTML =
+            "<h4 style='margin: 0 0 0.5rem 0; font-size: 0.9rem;'>Excitation Points</h4>";
+
+        excitationData.forEach((point, index) => {
+            const isSelected =
+                selectedPointIndex === index && selectedLayerId === layerId;
+            listContainer.insertAdjacentHTML(
+                "beforeend",
+                `
+        <div class="point-editor ${isSelected ? "selected" : ""}" data-index="${index}" onclick="selectExcitationPointFromList(${layerId}, ${index})" style="cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+            <strong>Point ${index}</strong>
+            <button onclick="event.stopPropagation(); deleteExcitationPoint(${layerId}, ${index})" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f44336; color: white; border: none; cursor: pointer;">✕</button>
+          </div>
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.3rem; font-size: 0.8rem;">
+            <label>x: ${point.x}</label>
+            <span>y: ${point.y}</span>
+            <label for="intensity_${layerId}_${index}">Intensity:</label>
+            <input type="range" id="intensity_${layerId}_${index}" min="0" max="63" value="${point.intensity}"
+                   oninput="updatePointProperty(${layerId}, ${index}, 'intensity', this.value)"
+                   onclick="event.stopPropagation()"
+                   style="width: 100%;">
+            <label for="size_${layerId}_${index}">Size:</label>
+            <input type="range" id="size_${layerId}_${index}" min="1" max="20" value="${point.size}"
+                   oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
+                   onclick="event.stopPropagation()"
+                   style="width: 100%;">
+          </div>
+        </div>
+      `,
+            );
+        });
+    } catch (error) {
+        console.error("Failed to render points list:", error);
+    }
+}
+
+function selectExcitationPointFromList(layerId: number, index: number) {
+    // Update visual feedback directly without re-rendering
+    const visualizer = document.getElementById(`vis_${layerId}`);
+    if (visualizer) {
+        // Reset previous selected point (if different)
+        if (
+            selectedPointIndex !== null &&
+            selectedLayerId === layerId &&
+            selectedPointIndex !== index
+        ) {
+            const prevPoint = visualizer.querySelector(
+                `.excitation-point[data-index="${selectedPointIndex}"]`,
+            ) as HTMLElement;
+            if (prevPoint) {
+                prevPoint.style.zIndex = "1";
+                prevPoint.style.opacity = "0.6";
+            }
+        }
+
+        // Highlight new selected point
+        const newPoint = visualizer.querySelector(
+            `.excitation-point[data-index="${index}"]`,
+        ) as HTMLElement;
+        if (newPoint) {
+            newPoint.style.zIndex = "100";
+            newPoint.style.opacity = "1";
+        }
+    }
+
+    selectedPointIndex = index;
+    selectedLayerId = layerId;
+
+    // Update list without re-rendering points
+    renderPointsList(layerId);
+}
+
+function updatePointProperty(
+    layerId: number,
+    index: number,
+    property: "intensity" | "size",
+    value: string,
+) {
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (!ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        const point = excitationData[index];
+        const numValue = parseInt(value);
+        point[property] = numValue;
+
+        // Select this point if not already selected
+        if (selectedPointIndex !== index || selectedLayerId !== layerId) {
+            // Update visual feedback on visualizer
+            const visualizer = document.getElementById(`vis_${layerId}`);
+            if (visualizer) {
+                // Reset previous selected point
+                if (
+                    selectedPointIndex !== null &&
+                    selectedLayerId === layerId
+                ) {
+                    const prevPoint = visualizer.querySelector(
+                        `.excitation-point[data-index="${selectedPointIndex}"]`,
+                    ) as HTMLElement;
+                    if (prevPoint) {
+                        prevPoint.style.zIndex = "1";
+                        prevPoint.style.opacity = "0.5";
+                    }
+                }
+
+                // Highlight new selected point
+                const newPoint = visualizer.querySelector(
+                    `.excitation-point[data-index="${index}"]`,
+                ) as HTMLElement;
+                if (newPoint) {
+                    newPoint.style.zIndex = "100";
+                    newPoint.style.opacity = "1";
+                }
+            }
+
+            // Update selected state
+            selectedPointIndex = index;
+            selectedLayerId = layerId;
+
+            // Update list styling
+            const listContainer = document.getElementById(
+                `pointsList_${layerId}`,
+            );
+            if (listContainer) {
+                const allEditors =
+                    listContainer.querySelectorAll(".point-editor");
+                allEditors.forEach((editor, idx) => {
+                    if (idx === index) {
+                        editor.classList.add("selected");
+                    } else {
+                        editor.classList.remove("selected");
+                    }
+                });
+            }
+        }
+
+        // Update DOM immediately for visual feedback
+        const pointElement = document.querySelector(
+            `.excitation-point[data-index="${index}"][data-layer="${layerId}"]`,
+        ) as HTMLElement;
+
+        if (pointElement) {
+            if (property === "size") {
+                // Update size and reposition
+                const x = 100 + point.x - numValue;
+                const y = 110 - point.y - numValue;
+                pointElement.style.width = `${numValue * 2}px`;
+                pointElement.style.height = `${numValue * 2}px`;
+                pointElement.style.left = `${x}px`;
+                pointElement.style.top = `${y}px`;
+            } else if (property === "intensity") {
+                // Update color
+                pointElement.style.backgroundColor = heatmap[63 - numValue];
+            }
+        }
+
+        // Update textarea (throttled)
+        ta.value = JSON.stringify(excitationData)
+            .replace(/},{/g, "},\n  {")
+            .replace(/\[{/g, "[\n  {")
+            .replace(/}\]/g, "}\n]");
+
+        // Save to storage (throttled)
+        throttledStorageSave(layerId, excitationData);
+    } catch (error) {
+        console.error("Failed to update point property:", error);
+    }
+}
+
+// Throttled storage save to avoid performance issues
+const throttledStorageSave = throttle(
+    (layerId: number, excitationData: ExcitationData[]) => {
+        const tagIdInput = document.getElementById(
+            "editId",
+        ) as HTMLInputElement;
+        if (tagIdInput) {
+            const tagId: Number = parseInt(tagIdInput.value);
+            tags.forEach((tag) => {
+                if (tag.id === tagId) {
+                    tag.setLayers(layerId, excitationData);
+                }
+            });
+            saveTags();
+        }
+    },
+    300,
+);
+
+// Throttled drag update - updates JSON, list, and storage (NO renderPoints!)
+const throttledDragUpdate = throttle(
+    (layerId: number, excitationData: ExcitationData[]) => {
+        const ta = document.getElementById(
+            `textarea_layer_${layerId}`,
+        ) as HTMLTextAreaElement;
+
+        if (ta) {
+            // Update textarea JSON
+            ta.value = JSON.stringify(excitationData)
+                .replace(/},{/g, "},\n  {")
+                .replace(/\[{/g, "[\n  {")
+                .replace(/}\]/g, "}\n]");
+
+            // Update list to show new coordinates
+            renderPointsList(layerId);
+
+            // Save to storage
+            const tagIdInput = document.getElementById(
+                "editId",
+            ) as HTMLInputElement;
+            if (tagIdInput) {
+                const tagId: Number = parseInt(tagIdInput.value);
+                tags.forEach((tag) => {
+                    if (tag.id === tagId) {
+                        tag.setLayers(layerId, excitationData);
+                    }
+                });
+                saveTags();
+            }
+        }
+    },
+    100,
+);
+
+function deleteExcitationPoint(layerId: number, index: number) {
+    const ta = document.getElementById(
+        `textarea_layer_${layerId}`,
+    ) as HTMLTextAreaElement;
+
+    if (!ta) return;
+
+    try {
+        const excitationData: ExcitationData[] = JSON.parse(ta.value);
+        excitationData.splice(index, 1);
+
+        // Clear selection if deleting selected point
+        if (selectedPointIndex === index && selectedLayerId === layerId) {
+            selectedPointIndex = null;
+            selectedLayerId = null;
+        } else if (
+            selectedPointIndex !== null &&
+            selectedPointIndex > index &&
+            selectedLayerId === layerId
+        ) {
+            // Adjust selection index if deleting point before selected
+            selectedPointIndex--;
+        }
+
+        // Update textarea
+        ta.value = JSON.stringify(excitationData)
+            .replace(/},{/g, "},\n  {")
+            .replace(/\[{/g, "[\n  {")
+            .replace(/}\]/g, "}\n]");
+
+        // Trigger update
+        renderPoints(layerId, ta.value);
+        renderPointsList(layerId);
+    } catch (error) {
+        console.error("Failed to delete point:", error);
+    }
+}
+
+// ================================================================== //
+//                                                                    //
+//                                                                    //
+//                                                                    //
 // Expose functions to global scope for HTML handlers                //
 //                                                                    //
 // ================================================================== //
@@ -877,6 +1541,16 @@ windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;
 windowWithHandlers.exportData = exportData;
 windowWithHandlers.importData = importData;
+windowWithHandlers.addExcitationPoint = addExcitationPoint;
+windowWithHandlers.selectExcitationPoint = selectExcitationPoint;
+windowWithHandlers.selectExcitationPointFromList =
+    selectExcitationPointFromList;
+windowWithHandlers.updatePointProperty = updatePointProperty;
+windowWithHandlers.deleteExcitationPoint = deleteExcitationPoint;
+windowWithHandlers.handleDragStart = handleDragStart;
+windowWithHandlers.handleDragStart = handleDragStart;
+windowWithHandlers.handleDrag = handleDrag;
+windowWithHandlers.handleDragEnd = handleDragEnd;
 
 // ================================================================== //
 //                                                                    //
