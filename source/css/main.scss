@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #111;
+    overflow        : hidden;
+}
+
+
+button {
+    background-color: #ccc;
+    border-radius   : 4px;
+    border          : none;
+    padding         : 4px 8px;
+    box-shadow      : 1px 1px 5px #333;
+}
+
+#toolbar {
+    width          : 100%;
+    display        : flex;
+    flex-direction : row;
+    justify-content: space-between;
+    align-items    : center;
+
+    h1 {
+        color  : #fff;
+        padding: 0 1rem;
+    }
+
+    button {
+        flex-grow: 0;
+    }
+}
+
+main {
+    position  : relative;
+    height    : calc(100vh - 8rem);
+    overflow  : hidden;
+    display   : flex;
+    column-gap: 1rem;
+    width     : 100vw;
+
+    .panel {
+        position        : relative;
+        background-color: #fff;
+        border-radius   : 0.25rem;
+        padding         : 1rem;
+
+        &#tagNavContainer {
+            position  : relative;
+            flex      : 0 0 12rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    }
+
+    #tagsList {
+        position      : relative;
+        margin-top    : 1rem;
+        display       : flex;
+        flex-direction: column;
+        row-gap       : 0.5rem;
+        overflow-x    : hidden;
+
+        .tag-nav-elem {
+            cursor       : pointer;
+            user-select  : none;
+            border-radius: 4px;
+            padding      : 4px 8px;
+
+            &.selected {
+                background-color: lightsteelblue;
+            }
+        }
+    }
+
+    #tagEditor {
+        display                 : grid;
+        // width                : 12rem;
+        grid-template-columns   : auto auto;
+        grid-template-rows      : 2rem 2rem 2rem auto;
+        column-gap              : 1rem;
+        row-gap                 : 2rem;
+        flex                    : 0 0 40rem;
+
+        #layerContainer {
+            grid-column: 1 / -1;
+            overflow-y : auto;
+            overflow-x : hidden;
+
+            .layer {
+                display              : grid;
+                grid-template-columns: auto auto;
+                column-gap           : 1rem;
+                row-gap              : 1rem;
+                margin-bottom        : 1rem;
+
+                .left {
+                    grid-column: 1 / 2;
+
+
+
+                    textarea {
+                        width : 24rem;
+                        height: 20rem;
+
+                        &.error {
+                            background-color: #f001;
+                        }
+                    }
+                }
+
+                .visualizer {
+                    grid-column: 2 / -1;
+                    position   : relative;
+                    width      : 200px;
+                    height     : 220px;
+                    display    : block;
+                    overflow   : hidden;
+                    margin-top : 2rem;
+
+                    .point-container {
+                        position: absolute;
+                        width   : inherit;
+                        height  : inherit;
+
+                        .excitation-point {
+                            position        : absolute;
+                            overflow        : hidden;
+                            border-radius   : 50%;
+                            background-color: red;
+                        }
+
+                    }
+
+                    .mri-mask {
+                        position: absolute;
+                        display : none;
+                        opacity : 0;
+
+                        &.show {
+                            display: block;
+                            opacity: 0.7;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #stimContainer {
+        display       : flex;
+        flex-direction: row;
+        flex-wrap     : wrap;
+        row-gap       : 2rem;
+        column-gap    : 2rem;
+        flex          : 1 1 auto;
+        overflow-y    : auto;
+        overflow-x    : hidden;
+        align-content : flex-start;
+
+        label {
+            input[type='checkbox'] {
+                display: none;
+            }
+
+            img {
+                opacity: 0.8;
+                border : 5px solid transparent;
+                width  : 180px;
+            }
+
+            input[type='checkbox']:checked+img {
+                opacity: 1;
+                border : 5px solid white;
+            }
+        }
+    }
+}
+
+
+div#overlayMask {
+    display         : none;
+    position        : absolute;
+    background-color: rgb(0 0 0 / 0.8);
+    top             : 0;
+    left            : 0;
+    bottom          : 0;
+    right           : 0;
+
+    textarea#output {
+        position: relative;
+        margin  : 5vh auto 5vh;
+        width   : 30vw;
+        height  : 90vh;
+    }
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <title>Tehuti StimEditor</title>
+    </head>
+    <body class="antialiased">
+        <div id="toolbar">
+            <h1>Tehuti StimEditor</h1>
+            <div style="display: flex; gap: 0.5rem">
+                <button onclick="addStimuli()">Add stimuli</button>
+                <button onclick="generateTagsArray()">C-array tags</button>
+                <button onclick="generateStimuliArray()">
+                    C-array stimuli
+                </button>
+                <button
+                    onclick="exportData()"
+                    style="background-color: #90ee90"
+                >
+                    Export JSON
+                </button>
+                <button
+                    onclick="importData()"
+                    style="background-color: #87ceeb"
+                >
+                    Import JSON
+                </button>
+            </div>
+        </div>
+
+        <main>
+            <div class="panel" id="tagNavContainer">
+                <button id="addTagButton" onclick="addTag()">Add Tag</button>
+                <div id="tagsList" class=""></div>
+            </div>
+
+            <div id="tagEditor" class="panel">
+                <label for="editId">ID</label>
+                <input type="number" id="editId" disabled />
+                <label for="editName">Name</label>
+                <input
+                    type="text"
+                    id="editName"
+                    onchange="handleNameChange(event)"
+                />
+                <label for="editAdrenaline">Adrenaline</label>
+                <input
+                    type="number"
+                    id="editAdrenaline"
+                    step="0.05"
+                    onchange="handleAdrenalineChange(event)"
+                />
+                <div id="layerContainer"></div>
+            </div>
+
+            <div id="stimContainer"></div>
+        </main>
+
+        <div id="overlayMask" onclick="hideOverlay(event)">
+            <textarea id="output" onchange="handlePaste(event)"></textarea>
+        </div>
+        <script type="module" src="./js/main.ts"></script>
+    </body>
+</html>
