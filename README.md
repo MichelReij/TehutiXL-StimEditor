@@ -4,7 +4,7 @@ Een visuele tool voor het categoriseren en annoteren van emotionele stimuli voor
 
 ## 📋 Functies
 
-- **Auto-Discovery Stimuli**: Automatische detectie van alle afbeeldingen in `/source/img/stimuli`
+- **Auto-Discovery Stimuli**: Automatische detectie van alle afbeeldingen in `/source/assets/stimuli`
   - Scant folder bij elke start van de applicatie
   - Voegt nieuwe bestanden automatisch toe
   - Verwijdert niet-bestaande bestanden uit de lijst
@@ -76,8 +76,17 @@ npm run preview
 
 ### Stimuli Beheren
 
+**Foto's voorbereiden:**
+
+Voordat je foto's toevoegt aan de applicatie:
+1. Exporteer foto's uit Lightroom (1024x1024px, JPEG)
+2. Verwerk alle geëxporteerde foto's met **ImageOptim** app
+   - Sleep de foto's in ImageOptim voor optimale compressie
+   - Dit verkleint de bestandsgrootte zonder kwaliteitsverlies
+3. Plaats de geoptimaliseerde foto's in `source/assets/stimuli/`
+
 **Automatisch:**
-De applicatie detecteert automatisch alle `.jpg` bestanden in `/source/img/stimuli/`:
+De applicatie detecteert automatisch alle `.jpg` bestanden in `/source/assets/stimuli/`:
 - Bij elke start worden nieuwe bestanden toegevoegd
 - Bestanden blijven alfabetisch gesorteerd
 - Bestaande tag-toewijzingen blijven behouden
@@ -227,7 +236,7 @@ Output in `dist/` folder
 - Controleer browser console voor errors
 
 **Afbeeldingen laden niet:**
-- Verifieer dat afbeeldingen in `source/img/stimuli/` staan
+- Verifieer dat afbeeldingen in `source/assets/stimuli/` staan
 - Check of bestandsnamen .jpg extensie hebben
 
 **JSON parsing errors:**

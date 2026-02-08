@@ -147,7 +147,7 @@ function throttle<F extends (...args: any[]) => void>(
  */
 async function autoDiscoverStimuli(): Promise<void> {
     // Get all jpg files from the stimuli folder
-    const imageModules = import.meta.glob("/img/stimuli/*.jpg", {
+    const imageModules = import.meta.glob("/assets/stimuli/*.jpg", {
         eager: true,
         query: "?url",
         import: "default",
@@ -229,8 +229,20 @@ async function init() {
         stimuli.length,
         "stimuli",
     );
-    displayTags();
     displayStimuli();
+    displayTags();
+
+    // Add global Escape key handler for image zoom
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+            const imageZoom = document.getElementById(
+                "imageZoom",
+            ) as HTMLDivElement;
+            if (imageZoom && imageZoom.style.display === "flex") {
+                hideImageZoom();
+            }
+        }
+    });
 }
 
 // ================================================================== //
@@ -324,9 +336,10 @@ function displayStimuli() {
        <input type="checkbox" id="stimCb_${
            stimulus.id
        }" onchange="handleStimChecked(event)">
-        <img src="/stimuli/${stimulus.file}" title="${
+        <span class="tag-count-badge">${stimulus.tags.length}</span>
+        <img src="/assets/stimuli/${stimulus.file}" title="${
             stimulus.id
-        }: ${stimulus.file.replace(/_/g, ", ").replace(".jpg", "")}">
+        }: ${stimulus.file.replace(/_/g, ", ").replace(".jpg", "")}" oncontextmenu="showImageZoom('/assets/stimuli/${stimulus.file}', event)">
         </label>`;
             stimContainer.insertAdjacentHTML("beforeend", stimElem);
         });
@@ -336,6 +349,9 @@ function displayStimuli() {
             stimuli.length,
             "stimuli (alfabetisch gesorteerd)",
         );
+
+        // Update checkbox states based on currently selected tag
+        setCheckStimuli();
     } else {
         console.error("❌ stimContainer element not found!");
     }
@@ -363,6 +379,33 @@ function check4JpgExtension(file: string): string {
     return file.indexOf(".jpg") > 0 ? file : file + ".jpg";
 }
 
+/**
+ * Clamp excitation point size to valid range (3-15)
+ */
+function clampExcitationSize(data: ExcitationData): ExcitationData {
+    return {
+        ...data,
+        size: Math.max(3, Math.min(15, data.size)),
+    };
+}
+
+function showImageZoom(imageSrc: string, event: MouseEvent) {
+    event.preventDefault();
+    const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+    const img = document.getElementById("zoomedImage") as HTMLImageElement;
+    if (overlay && img) {
+        img.src = imageSrc;
+        overlay.style.display = "flex";
+    }
+}
+
+function hideImageZoom() {
+    const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+    if (overlay) {
+        overlay.style.display = "none";
+    }
+}
+
 function handleStimChecked(event: Event) {
     const input = event.target as HTMLInputElement;
     const editId = document.getElementById("editId") as HTMLInputElement;
@@ -383,10 +426,19 @@ function handleStimChecked(event: Event) {
                         stim.tags = stim.tags.filter((tag) => tag !== tagId);
                     }
                     // console.log("post: ", stim.tags);
+
+                    // Update the badge count
+                    const badge =
+                        input.parentElement?.querySelector(".tag-count-badge");
+                    if (badge) {
+                        badge.textContent = stim.tags.length.toString();
+                    }
                 }
             });
 
             saveStimuli();
+            // Update tag list to reflect new photo counts
+            displayTags(tagId);
         }
     }
 }
@@ -417,9 +469,14 @@ function displayTags(selectId: number = 1) {
     if (tagsList) {
         tagsList.innerHTML = ""; // Clear existing tags display
         tags.forEach((tag) => {
+            // Count how many stimuli have this tag
+            const photoCount = stimuli.filter((stim) =>
+                stim.tags.includes(tag.id),
+            ).length;
+
             const element = document.createElement("div") as HTMLDivElement;
             element.id = "tagNav_" + tag.id.toString();
-            element.textContent = tag.name; // Simple display, customize as needed
+            element.textContent = `${tag.name} (${photoCount})`; // Display name with photo count
             element.addEventListener("click", () => editTag(tag));
             element.classList.add("tag-nav-elem");
             tagsList.appendChild(element);
@@ -431,23 +488,63 @@ function displayTags(selectId: number = 1) {
 }
 
 function addTag() {
-    // Create new tag with 6 excitation points arranged in a circle
+    // Create new tag with 6 excitation points in 2 overlapping clusters
     const excitationData: ExcitationData[] = [];
 
-    for (let i = 0; i < 6; i++) {
-        const angle = i * ((2 * Math.PI) / 6);
-        const radius = 70 + Math.random() * 10; // 70-80px
-        const x = Math.round(radius * Math.cos(angle));
-        const y = Math.round(radius * Math.sin(angle));
-        const randomIntensity = Math.floor(Math.random() * 64);
-        const randomSize = Math.floor(Math.random() * 11) + 5;
+    // Helper function to create an overlapping point near an existing point
+    const createOverlappingPoint = (
+        existingPoints: ExcitationData[],
+    ): ExcitationData => {
+        // Pick a random existing point to overlap with
+        const basePoint =
+            existingPoints[Math.floor(Math.random() * existingPoints.length)];
+        const size = Math.floor(Math.random() * 14) + 1; // 1-14
+        const intensity = Math.floor(Math.random() * 64); // 0-63
 
-        excitationData.push({
-            x,
-            y,
-            intensity: randomIntensity,
-            size: randomSize,
-        });
+        // Position it close enough to overlap (within combined radius)
+        const maxDistance = (basePoint.size + size) * 0.7; // 70% of combined size for good overlap
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * maxDistance;
+
+        return {
+            x: Math.round(basePoint.x + distance * Math.cos(angle)),
+            y: Math.round(basePoint.y + distance * Math.sin(angle)),
+            intensity,
+            size,
+        };
+    };
+
+    // Create 2 clusters
+    for (let cluster = 0; cluster < 2; cluster++) {
+        const clusterPoints: ExcitationData[] = [];
+
+        // First point: random position within radius from center
+        // Cluster 0 (left side): negative x, angle between π/2 and 3π/2
+        // Cluster 1 (right side): positive x, angle between -π/2 and π/2
+        let angle;
+        if (cluster === 0) {
+            // Left side: angle between 90° and 270° (π/2 to 3π/2)
+            angle = Math.PI / 2 + Math.random() * Math.PI;
+        } else {
+            // Right side: angle between -90° and 90° (-π/2 to π/2)
+            angle = -Math.PI / 2 + Math.random() * Math.PI;
+        }
+        const radius = 70 + Math.random() * 10; // 70-80
+        const firstPoint: ExcitationData = {
+            x: Math.round(radius * Math.cos(angle)),
+            y: Math.round(radius * Math.sin(angle)),
+            intensity: Math.floor(Math.random() * 64), // 0-63
+            size: Math.floor(Math.random() * 12) + 5, // 5-16
+        };
+        clusterPoints.push(firstPoint);
+        excitationData.push(firstPoint);
+
+        // Second and third points: overlap with existing points in this cluster
+        for (let i = 0; i < 2; i++) {
+            const overlappingPoint = createOverlappingPoint(clusterPoints);
+            clusterPoints.push(overlappingPoint);
+            excitationData.push(overlappingPoint);
+        }
     }
 
     const defaultLayer: LayerData = {
@@ -457,6 +554,17 @@ function addTag() {
     const newTag = new Tag(tags.length + 1, "new", 0, [defaultLayer]);
     tags.push(newTag);
     displayTags(newTag.id);
+
+    // Focus and select the name field
+    setTimeout(() => {
+        const editName = document.getElementById(
+            "editName",
+        ) as HTMLInputElement;
+        if (editName) {
+            editName.focus();
+            editName.select();
+        }
+    }, 100);
 }
 
 function editTag(tag: Tag) {
@@ -492,6 +600,11 @@ function editTag(tag: Tag) {
             // const layerId: number = layer.layerId;
             const layerId = 17;
             const layer = tag.getLayer(layerId);
+
+            // Clamp excitation point sizes to valid range (3-15)
+            const clampedExcitationData =
+                layer.excitationData.map(clampExcitationSize);
+
             layerContainer.insertAdjacentHTML(
                 "beforeend",
                 `
@@ -502,13 +615,13 @@ function editTag(tag: Tag) {
               <label><input type="checkbox" checked id="cbMask_${layerId}" onchange="handleMask(event)"> mask</label>
               </div>
               <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
-                  layer.excitationData,
+                  clampedExcitationData,
               )
                   .replace(/},{/g, "},\n  {")
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
               <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 1-20
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 3-15
               </div>
               <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
               <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
@@ -526,15 +639,15 @@ function editTag(tag: Tag) {
         `,
             );
 
-            renderPoints(layerId, JSON.stringify(layer.excitationData));
+            renderPoints(layerId, JSON.stringify(clampedExcitationData));
             renderPointsList(layerId);
 
             // Select first excitation point by default
-            if (layer.excitationData.length > 0) {
+            if (clampedExcitationData.length > 0) {
                 selectedPointIndex = 0;
                 selectedLayerId = layerId;
                 // Re-render to apply selection styling
-                renderPoints(layerId, JSON.stringify(layer.excitationData));
+                renderPoints(layerId, JSON.stringify(clampedExcitationData));
                 renderPointsList(layerId);
             }
             // });
@@ -615,10 +728,13 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
+            // Clamp all sizes to valid range (3-15)
+            const clampedData = excitationData.map(clampExcitationSize);
+
             vis.innerHTML = "";
 
             // Create array with original indices before sorting
-            const indexedData = excitationData.map((epd, originalIndex) => ({
+            const indexedData = clampedData.map((epd, originalIndex) => ({
                 ...epd,
                 originalIndex,
             }));
@@ -855,6 +971,83 @@ function exportData(): void {
     URL.revokeObjectURL(url);
 
     console.log("Data exported successfully");
+}
+
+/**
+ * Export tags for Tehuti XL (layer 17 only, normalized coordinates)
+ */
+function exportTehutiXL(): void {
+    const tehutiExport = tags.map((tag) => {
+        // Find layer 17
+        const layer17 = tag.layers.find((layer) => layer.layerId === 17);
+
+        if (!layer17) {
+            return {
+                id: tag.id,
+                name: tag.name,
+                adrenaline: tag.adrenaline,
+                excitationData: [],
+            };
+        }
+
+        return {
+            id: tag.id,
+            name: tag.name,
+            adrenaline: tag.adrenaline,
+            excitationData: layer17.excitationData
+                .map((data) => {
+                    // Clamp size to valid range (3-15)
+                    const clampedSize = Math.max(3, Math.min(15, data.size));
+                    return {
+                        x: Math.round((data.x / 220) * 1000) / 1000,
+                        y: Math.round((data.y / 220) * 1000) / 1000,
+                        intensity: data.intensity,
+                        size: Math.round((clampedSize / 200) * 1000) / 1000,
+                    };
+                })
+                .sort((a, b) => b.size - a.size),
+        };
+    });
+
+    const dataStr = JSON.stringify(tehutiExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `tehuti-xl-tags-${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    console.log("Tehuti XL tags exported successfully");
+}
+
+/**
+ * Export photos and tags for Tehuti XL
+ */
+function exportPhotosAndTags(): void {
+    const photosExport = {
+        photos: stimuli.map((stimulus) => ({
+            photo: stimulus.file,
+            tags: stimulus.tags,
+        })),
+    };
+
+    const dataStr = JSON.stringify(photosExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `tehuti-xl-photos-tags-${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    console.log("Tehuti XL photos and tags exported successfully");
 }
 
 /**
@@ -1266,19 +1459,21 @@ function renderPointsList(layerId: number) {
             <strong>Point ${index}</strong>
             <button onclick="event.stopPropagation(); deleteExcitationPoint(${layerId}, ${index})" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f44336; color: white; border: none; cursor: pointer;">✕</button>
           </div>
-          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.3rem; font-size: 0.8rem;">
+          <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 0.3rem 0.5rem; font-size: 0.8rem; align-items: center;">
             <label>x: ${point.x}</label>
-            <span>y: ${point.y}</span>
+            <span style="grid-column: 2 / 4;">y: ${point.y}</span>
             <label for="intensity_${layerId}_${index}">Intensity:</label>
             <input type="range" id="intensity_${layerId}_${index}" min="0" max="63" value="${point.intensity}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'intensity', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
+            <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="1" max="20" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="3" max="15" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
+            <span id="size_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.size}</span>
           </div>
         </div>
       `,
@@ -1342,6 +1537,14 @@ function updatePointProperty(
         const point = excitationData[index];
         const numValue = parseInt(value);
         point[property] = numValue;
+
+        // Update the value label immediately
+        const valueLabel = document.getElementById(
+            `${property}_value_${layerId}_${index}`,
+        );
+        if (valueLabel) {
+            valueLabel.textContent = value;
+        }
 
         // Select this point if not already selected
         if (selectedPointIndex !== index || selectedLayerId !== layerId) {
@@ -1539,7 +1742,11 @@ windowWithHandlers.handleStimChecked = handleStimChecked;
 windowWithHandlers.handleMask = handleMask;
 windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;
+windowWithHandlers.showImageZoom = showImageZoom;
+windowWithHandlers.hideImageZoom = hideImageZoom;
 windowWithHandlers.exportData = exportData;
+windowWithHandlers.exportTehutiXL = exportTehutiXL;
+windowWithHandlers.exportPhotosAndTags = exportPhotosAndTags;
 windowWithHandlers.importData = importData;
 windowWithHandlers.addExcitationPoint = addExcitationPoint;
 windowWithHandlers.selectExcitationPoint = selectExcitationPoint;

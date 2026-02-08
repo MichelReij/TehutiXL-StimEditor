@@ -136,6 +136,8 @@ export interface WindowWithHandlers extends Window {
     handleMask: (event: Event) => void;
     handlePaste: (event: Event) => void;
     hideOverlay: (event: Event) => void;
+    showImageZoom: (imageSrc: string, event: MouseEvent) => void;
+    hideImageZoom: () => void;
     exportData: () => void;
     importData: () => void;
 }

@@ -30,6 +30,18 @@
                     C-array stimuli
                 </button>
                 <button
+                    onclick="exportPhotosAndTags()"
+                    style="background-color: #ffb366"
+                >
+                    Export photos & tags for Tehuti XL
+                </button>
+                <button
+                    onclick="exportTehutiXL()"
+                    style="background-color: #ffd700"
+                >
+                    Export tags for Tehuti XL
+                </button>
+                <button
                     onclick="exportData()"
                     style="background-color: #90ee90"
                 >
@@ -74,6 +86,14 @@
 
         <div id="overlayMask" onclick="hideOverlay(event)">
             <textarea id="output" onchange="handlePaste(event)"></textarea>
+        </div>
+        <div
+            id="imageZoom"
+            onclick="hideImageZoom()"
+            tabindex="0"
+            onblur="hideImageZoom()"
+        >
+            <img id="zoomedImage" src="" alt="Vergrote foto" />
         </div>
         <script type="module" src="./js/main.ts"></script>
     </body>

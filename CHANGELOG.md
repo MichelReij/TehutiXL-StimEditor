@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-02-08
+
+### 🚀 Added
+
+- **Image Zoom Feature**:
+  - Right-click on stimulus images to view at full 1024x1024px resolution
+  - Multiple close methods: left-click, blur event, or Escape key
+  - Full-screen overlay with dark background
+  - Smooth fade-in animation
+
+- **Auto-Focus for New Tags**:
+  - Name field automatically receives focus when adding new tag
+  - "new" text is pre-selected for easy replacement
+  - Immediate typing without manual focus
+
+- **Smart Excitation Point Clustering**:
+  - New tags now generate 2 clusters of 3 overlapping excitation points
+  - First point per cluster: random position within radius 70-80 from center, size 5-16
+  - Additional points: automatically positioned to overlap with existing cluster points
+  - Overlapping points: size 1-14, positioned within 70% of combined radius
+  - Full randomization: intensity 0-63 for all points
+
+### 🔧 Changed
+
+- **Asset Organization**:
+  - Moved stimuli from `source/img/stimuli/` to `source/assets/stimuli/`
+  - Fixed Vite asset handling for proper import.meta.glob usage
+  - Updated all image paths throughout application
+
+- **Initialization Order**:
+  - Stimuli now display before tags during initialization
+  - Ensures checkboxes exist before tag selection applies
+  - Fixes issue where selections weren't preserved after page reload
+
+### 🐛 Fixed
+
+- **Image Loading**:
+  - Fixed path mismatch between `import.meta.glob` and runtime image paths
+  - Resolved Vite warnings about publicDir asset imports
+  - Corrected asset path configuration for development server
+
+- **Export Normalization**:
+  - Fixed X-coordinate normalization in "Export Tags for Tehuti XL"
+  - Changed from `x / 200` to `x / 220` (consistent with Y normalization)
+  - Ensures proper coordinate scaling for Tehuti XL hardware
+
+- **Checkbox State Persistence**:
+  - Fixed issue where stimulus selections were lost on page reload
+  - Added `setCheckStimuli()` call after displaying stimuli
+  - Checkbox states now correctly reflect stored tag associations
+
+### 📝 Technical Details
+
+- Image zoom implemented with new overlay div and keyboard event listener
+- Asset reorganization required updates to Vite build configuration
+- Excitation point algorithm uses trigonometry for natural clustering
+- Export normalization now uses consistent 220-based scaling for both axes
+
+---
+
 ## [2.1.0] - 2026-01-25
 
 ### 🚀 Added

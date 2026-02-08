@@ -220,8 +220,24 @@ main {
         align-content : flex-start;
 
         label {
+            position: relative;
+
             input[type='checkbox'] {
                 display: none;
+            }
+
+            .tag-count-badge {
+                position        : absolute;
+                top             : 5px;
+                left            : 5px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color           : white;
+                padding         : 2px 6px;
+                border-radius   : 0 3px 3px 3px;
+                font-size       : 0.75rem;
+                font-weight     : bold;
+                z-index         : 10;
+                pointer-events  : none;
             }
 
             img {
@@ -230,7 +246,7 @@ main {
                 width  : 180px;
             }
 
-            input[type='checkbox']:checked+img {
+            input[type='checkbox']:checked~img {
                 opacity: 1;
                 border : 5px solid white;
             }
@@ -253,5 +269,27 @@ div#overlayMask {
         margin  : 5vh auto 5vh;
         width   : 30vw;
         height  : 90vh;
+    }
+}
+
+div#imageZoom {
+    display         : none;
+    position        : fixed;
+    background-color: rgb(0 0 0 / 0.9);
+    top             : 0;
+    left            : 0;
+    width           : 100vw;
+    height          : 100vh;
+    z-index         : 10000;
+    justify-content : center;
+    align-items     : center;
+    cursor          : pointer;
+
+    img {
+        max-width : 1024px;
+        max-height: 1024px;
+        width     : auto;
+        height    : auto;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
     }
 }
