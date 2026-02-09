@@ -10,7 +10,7 @@ export interface ExcitationData {
     x: number;
     /** Y coordinate (-20 to +20) */
     y: number;
-    /** Intensity level (0-63) */
+    /** Intensity level (0-8) */
     intensity: number;
     /** Size of the excitation zone (1-20) */
     size: number;

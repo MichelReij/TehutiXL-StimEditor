@@ -21,71 +21,17 @@ import {
 // Globals vars
 let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
-const heatmap: readonly string[] = [
-    "#FF0000",
-    "#FF0400",
-    "#FF0800",
-    "#FF0C00",
-    "#FF1000",
-    "#FF1400",
-    "#FF1800",
-    "#FF1C00",
-    "#FF2000",
-    "#FF2400",
-    "#FF2800",
-    "#FF2D00",
-    "#FF3100",
-    "#FF3500",
-    "#FF3900",
-    "#FF3D00",
-    "#FF4100",
-    "#FF4500",
-    "#FF4900",
-    "#FF4D00",
-    "#FF5100",
-    "#FF5500",
-    "#FF5900",
-    "#FF5D00",
-    "#FF6100",
-    "#FF6500",
-    "#FF6900",
-    "#FF6D00",
-    "#FF7100",
-    "#FF7500",
-    "#FF7900",
-    "#FF7D00",
-    "#FF8200",
-    "#FF8200",
-    "#FF8A00",
-    "#FF8E00",
-    "#FF9200",
-    "#FF9200",
-    "#FF9A00",
-    "#FF9E00",
-    "#FFA200",
-    "#FFA200",
-    "#FFAA00",
-    "#FFAE00",
-    "#FFB200",
-    "#FFB200",
-    "#FFBA00",
-    "#FFBE00",
-    "#FFC200",
-    "#FFC200",
-    "#FFCA00",
-    "#FFCE00",
-    "#FFD200",
-    "#FFD700",
-    "#FFDB00",
-    "#FFDF00",
-    "#FFE300",
-    "#FFE300",
-    "#FFEB00",
-    "#FFEF00",
-    "#FFF300",
-    "#FFF300",
-    "#FFFB00",
-    "#FFFF00",
+// 9-point intensity scale (0-8)
+const intensityPalette: readonly string[] = [
+    "#06080B", // 0 - stilte / achtergrond
+    "#08162A", // 1 - zeer laag
+    "#0A2C45", // 2 - laag
+    "#0E4F63", // 3 - mild
+    "#1F7F7A", // 4 - actief
+    "#3FB6A1", // 5 - verhoogd
+    "#6FE7C8", // 6 - hoog
+    "#A6F29B", // 7 - piek
+    "#E6FFD1", // 8 - saturatie (spaarzaam)
 ];
 
 // Example usage of writeTags to store some tags
@@ -93,19 +39,19 @@ const joyLayers: LayerData[] = [
     {
         layerId: 0,
         excitationData: [
-            { x: 0, y: 0, intensity: 15, size: 3 },
-            { x: 5, y: 3, intensity: 10, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 8 },
-            { x: -5, y: -3, intensity: 3, size: 11 },
+            { x: 0, y: 0, intensity: 8, size: 3 },
+            { x: 5, y: 3, intensity: 6, size: 5 },
+            { x: -5, y: 1, intensity: 4, size: 8 },
+            { x: -5, y: -3, intensity: 2, size: 11 },
         ],
     },
     {
         layerId: 1,
         excitationData: [
-            { x: 0, y: 0, intensity: 15, size: 3 },
-            { x: 5, y: 3, intensity: 10, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 8 },
-            { x: -5, y: -3, intensity: 3, size: 11 },
+            { x: 0, y: 0, intensity: 8, size: 3 },
+            { x: 5, y: 3, intensity: 6, size: 5 },
+            { x: -5, y: 1, intensity: 4, size: 8 },
+            { x: -5, y: -3, intensity: 2, size: 11 },
         ],
     },
 ];
@@ -647,7 +593,7 @@ function addTag() {
         const basePoint =
             existingPoints[Math.floor(Math.random() * existingPoints.length)];
         const size = Math.floor(Math.random() * 14) + 1; // 1-14
-        const intensity = Math.floor(Math.random() * 64); // 0-63
+        const intensity = Math.floor(Math.random() * 9); // 0-8
 
         // Position it with slight overlap (max 25%)
         // Distance between 0.75 and 1.0 of combined radius gives light overlap
@@ -685,7 +631,7 @@ function addTag() {
         const firstPoint: ExcitationData = {
             x: Math.round(radius * Math.cos(angle)),
             y: Math.round(radius * Math.sin(angle)),
-            intensity: Math.floor(Math.random() * 64), // 0-63
+            intensity: Math.floor(Math.random() * 9), // 0-8
             size: Math.floor(Math.random() * 12) + 5, // 5-16
         };
         clusterPoints.push(firstPoint);
@@ -779,7 +725,7 @@ function editTag(tag: Tag) {
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
               <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 3-12
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-8 | size: 3-12
               </div>
               <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
               <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
@@ -931,7 +877,7 @@ function renderPoints(layerId: number, jsonStr: string) {
             left:${x}px;
             width:${epd.size * 2}px;
             height:${epd.size * 2}px;
-            background-color: ${heatmap[63 - epd.intensity]};
+            background-color: ${intensityPalette[epd.intensity]};
             cursor: move;
             z-index: ${zIndex};
             opacity: ${opacity};
@@ -1062,6 +1008,21 @@ function readTags(): void {
             adrenaline: number;
             layers: LayerData[];
         }[] = JSON.parse(tagsJSON);
+
+        // Convert old intensity scale (0-63) to new scale (0-8)
+        tagsData.forEach((tagData) => {
+            tagData.layers.forEach((layer) => {
+                layer.excitationData.forEach((point) => {
+                    // If intensity > 8, it's from the old scale, convert it
+                    if (point.intensity > 8) {
+                        point.intensity = Math.round(
+                            (point.intensity / 63) * 8,
+                        );
+                    }
+                });
+            });
+        });
+
         tags = tagsData.map(
             (tagData) =>
                 new Tag(
@@ -1340,7 +1301,7 @@ function addExcitationPoint(layerId: number) {
             left:${x}px;
             width:${newPoint.size * 2}px;
             height:${newPoint.size * 2}px;
-            background-color: ${heatmap[63 - newPoint.intensity]};
+            background-color: ${intensityPalette[newPoint.intensity]};
             cursor: move;
             z-index: 100;
             opacity: 1;
@@ -1371,7 +1332,7 @@ function addExcitationPoint(layerId: number) {
             <label>x: ${newPoint.x}</label>
             <span>y: ${newPoint.y}</span>
             <label for="intensity_${layerId}_${newIndex}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="63" value="${newPoint.intensity}"
+            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="8" value="${newPoint.intensity}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'intensity', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1621,7 +1582,7 @@ function renderPointsList(layerId: number) {
             <label>x: ${point.x}</label>
             <span style="grid-column: 2 / 4;">y: ${point.y}</span>
             <label for="intensity_${layerId}_${index}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${index}" min="0" max="63" value="${point.intensity}"
+            <input type="range" id="intensity_${layerId}_${index}" min="0" max="8" value="${point.intensity}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'intensity', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1770,7 +1731,7 @@ function updatePointProperty(
                 pointElement.style.top = `${y}px`;
             } else if (property === "intensity") {
                 // Update color
-                pointElement.style.backgroundColor = heatmap[63 - numValue];
+                pointElement.style.backgroundColor = intensityPalette[numValue];
             }
         }
 

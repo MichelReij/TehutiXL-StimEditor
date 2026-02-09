@@ -58,14 +58,14 @@ npm run preview
 
 ```json
 [
-  {"x": 0, "y": 0, "intensity": 15, "size": 3},
-  {"x": 5, "y": 3, "intensity": 10, "size": 5}
+  {"x": 0, "y": 0, "intensity": 8, "size": 3},
+  {"x": 5, "y": 3, "intensity": 6, "size": 5}
 ]
 ```
 
 **Parameters:**
 - `x`, `y`: Coördinaten (-20 tot +20)
-- `intensity`: Intensiteit (0-63)
+- `intensity`: Intensiteit (0-8, 9-punts schaal)
 - `size`: Grootte van de excitatie zone (1-20)
 
 ### Stimuli Toewijzen
@@ -226,7 +226,7 @@ Output in `dist/` folder
 1. **Regelmatig Backup**: Exporteer JSON regelmatig als veiligheid
 2. **Tag Naming**: Gebruik consistente naamgeving (lowercase, underscore separators)
 3. **Layer Organisation**: Layer 17 wordt gebruikt voor C-export
-4. **Intensity Range**: Houd intensiteit tussen 0-63 voor correcte visualisatie
+4. **Intensity Range**: Houd intensiteit tussen 0-8 (9-punts schaal) voor correcte visualisatie
 5. **Browser Compatibility**: Gebruik moderne browsers (Chrome, Firefox, Safari, Edge)
 
 ## 🐛 Troubleshooting

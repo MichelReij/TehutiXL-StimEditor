@@ -181,7 +181,7 @@ main {
                         .excitation-point {
                             position        : absolute;
                             overflow        : hidden;
-                            border-radius   : 50%;
+                            border-radius   : 0;
                             background-color: red;
                             cursor          : move;
                             transition      : opacity 0.2s;
