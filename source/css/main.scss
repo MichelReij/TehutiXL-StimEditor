@@ -238,6 +238,24 @@ main {
                 font-weight     : bold;
                 z-index         : 10;
                 pointer-events  : none;
+
+                &.zero-tags {
+                    background-color: rgba(220, 38, 38, 0.75);
+                }
+            }
+
+            .adrenaline-badge {
+                position        : absolute;
+                top             : 5px;
+                right           : 5px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color           : white;
+                padding         : 2px 6px;
+                border-radius   : 3px 0 3px 3px;
+                font-size       : 0.75rem;
+                font-weight     : bold;
+                z-index         : 10;
+                pointer-events  : none;
             }
 
             img {
@@ -284,12 +302,62 @@ div#imageZoom {
     justify-content : center;
     align-items     : center;
     cursor          : pointer;
+    flex-direction  : column;
+
+    .zoom-content {
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        gap           : 1rem;
+    }
 
     img {
         max-width : 1024px;
-        max-height: 1024px;
+        max-height: 800px;
         width     : auto;
         height    : auto;
         box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        cursor    : default;
+    }
+
+    .zoom-tags {
+        display        : flex;
+        flex-wrap      : wrap;
+        gap            : 0.5rem;
+        max-width      : 1024px;
+        justify-content: center;
+        padding        : 1rem;
+
+        .zoom-tag {
+            display         : flex;
+            align-items     : center;
+            gap             : 0.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color           : white;
+            padding         : 0.4rem 0.6rem;
+            border-radius   : 4px;
+            font-size       : 0.9rem;
+            cursor          : default;
+
+            button {
+                background-color: rgba(220, 38, 38, 0.8);
+                color           : white;
+                border          : none;
+                border-radius   : 3px;
+                padding         : 0.2rem 0.4rem;
+                cursor          : pointer;
+                font-size       : 0.8rem;
+                font-weight     : bold;
+
+                &:hover {
+                    background-color: rgba(220, 38, 38, 1);
+                }
+            }
+        }
+
+        .no-tags {
+            color    : rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
     }
 }

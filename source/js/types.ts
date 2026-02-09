@@ -136,10 +136,25 @@ export interface WindowWithHandlers extends Window {
     handleMask: (event: Event) => void;
     handlePaste: (event: Event) => void;
     hideOverlay: (event: Event) => void;
-    showImageZoom: (imageSrc: string, event: MouseEvent) => void;
+    showImageZoom: (
+        imageSrc: string,
+        stimulusId: number,
+        event: MouseEvent,
+    ) => void;
     hideImageZoom: () => void;
+    removeTagFromZoomedPhoto: (stimulusId: number, tagId: number) => void;
     exportData: () => void;
+    exportTehutiXL: () => void;
+    exportPhotosAndTags: () => void;
     importData: () => void;
+    addExcitationPoint: () => void;
+    selectExcitationPoint: (index: number) => void;
+    selectExcitationPointFromList: (index: number) => void;
+    updatePointProperty: (property: string) => void;
+    deleteExcitationPoint: (index: number) => void;
+    handleDragStart: (event: MouseEvent) => void;
+    handleDrag: (event: MouseEvent) => void;
+    handleDragEnd: (event: MouseEvent) => void;
 }
 
 /**

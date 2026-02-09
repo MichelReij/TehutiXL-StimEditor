@@ -332,14 +332,37 @@ function displayStimuli() {
         sortedStimuli.forEach((stimulus) => {
             stimulus.file = check4JpgExtension(stimulus.file);
 
+            const badgeClass =
+                stimulus.tags.length === 0
+                    ? "tag-count-badge zero-tags"
+                    : "tag-count-badge";
+
+            // Calculate total adrenaline from all assigned tags
+            const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
+                const tag = tags.find((t) => t.id === tagId);
+                return sum + (tag ? tag.adrenaline : 0);
+            }, 0);
+
+            // Get tag names for title
+            const tagNames = stimulus.tags
+                .map((tagId) => {
+                    const tag = tags.find((t) => t.id === tagId);
+                    return tag ? tag.name : "";
+                })
+                .filter((name) => name !== "")
+                .join(", ");
+
+            const titleText = tagNames
+                ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)}`
+                : `adrenaline: ${totalAdrenaline.toFixed(2)}`;
+
             const stimElem = `<label>
        <input type="checkbox" id="stimCb_${
            stimulus.id
        }" onchange="handleStimChecked(event)">
-        <span class="tag-count-badge">${stimulus.tags.length}</span>
-        <img src="/assets/stimuli/${stimulus.file}" title="${
-            stimulus.id
-        }: ${stimulus.file.replace(/_/g, ", ").replace(".jpg", "")}" oncontextmenu="showImageZoom('/assets/stimuli/${stimulus.file}', event)">
+        <span class="${badgeClass}">${stimulus.tags.length}</span>
+        <span class="adrenaline-badge">${totalAdrenaline.toFixed(2)}</span>
+        <img src="/assets/stimuli/${stimulus.file}" title="${titleText}" oncontextmenu="showImageZoom('/assets/stimuli/${stimulus.file}', ${stimulus.id}, event)">
         </label>`;
             stimContainer.insertAdjacentHTML("beforeend", stimElem);
         });
@@ -380,22 +403,126 @@ function check4JpgExtension(file: string): string {
 }
 
 /**
- * Clamp excitation point size to valid range (3-15)
+ * Clamp excitation point size to valid range (3-12)
  */
 function clampExcitationSize(data: ExcitationData): ExcitationData {
     return {
         ...data,
-        size: Math.max(3, Math.min(15, data.size)),
+        size: Math.max(3, Math.min(12, data.size)),
     };
 }
 
-function showImageZoom(imageSrc: string, event: MouseEvent) {
+function showImageZoom(
+    imageSrc: string,
+    stimulusId: number,
+    event: MouseEvent,
+) {
     event.preventDefault();
     const overlay = document.getElementById("imageZoom") as HTMLDivElement;
     const img = document.getElementById("zoomedImage") as HTMLImageElement;
-    if (overlay && img) {
+    const tagsContainer = document.getElementById(
+        "zoomedImageTags",
+    ) as HTMLDivElement;
+
+    if (overlay && img && tagsContainer) {
         img.src = imageSrc;
+
+        // Find the stimulus
+        const stimulus = stimuli.find((s) => s.id === stimulusId);
+
+        // Render tags
+        if (stimulus) {
+            tagsContainer.innerHTML = "";
+            if (stimulus.tags.length > 0) {
+                stimulus.tags.forEach((tagId) => {
+                    const tag = tags.find((t) => t.id === tagId);
+                    if (tag) {
+                        const tagElem = document.createElement("div");
+                        tagElem.className = "zoom-tag";
+                        tagElem.innerHTML = `
+                            <span>${tag.name}</span>
+                            <button onclick="removeTagFromZoomedPhoto(${stimulusId}, ${tagId}); event.stopPropagation();">✕</button>
+                        `;
+                        tagsContainer.appendChild(tagElem);
+                    }
+                });
+            } else {
+                tagsContainer.innerHTML =
+                    '<div class="no-tags">No tags assigned</div>';
+            }
+        }
+
         overlay.style.display = "flex";
+        overlay.setAttribute("data-stimulus-id", stimulusId.toString());
+    }
+}
+
+function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
+    const stimulus = stimuli.find((s) => s.id === stimulusId);
+    if (stimulus) {
+        stimulus.tags = stimulus.tags.filter((t) => t !== tagId);
+        saveStimuli();
+
+        // Update the badge in the main view
+        const checkbox = document.getElementById(
+            `stimCb_${stimulusId}`,
+        ) as HTMLInputElement;
+        if (checkbox) {
+            const badge =
+                checkbox.parentElement?.querySelector(".tag-count-badge");
+            if (badge) {
+                badge.textContent = stimulus.tags.length.toString();
+                if (stimulus.tags.length === 0) {
+                    badge.classList.add("zero-tags");
+                } else {
+                    badge.classList.remove("zero-tags");
+                }
+            }
+
+            // Update the adrenaline badge
+            const adrenalineBadge =
+                checkbox.parentElement?.querySelector(".adrenaline-badge");
+            if (adrenalineBadge) {
+                const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
+                    const tag = tags.find((t) => t.id === tagId);
+                    return sum + (tag ? tag.adrenaline : 0);
+                }, 0);
+                adrenalineBadge.textContent = totalAdrenaline.toFixed(2);
+            }
+
+            // Uncheck the checkbox if currently selected tag was removed
+            const editId = document.getElementById(
+                "editId",
+            ) as HTMLInputElement;
+            if (editId && parseInt(editId.value) === tagId) {
+                checkbox.checked = false;
+            }
+        }
+
+        // Re-render the zoom view
+        const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+        const currentStimId = overlay.getAttribute("data-stimulus-id");
+        if (currentStimId && parseInt(currentStimId) === stimulusId) {
+            const img = document.getElementById(
+                "zoomedImage",
+            ) as HTMLImageElement;
+            if (img && img.src) {
+                showImageZoom(
+                    img.src,
+                    stimulusId,
+                    new MouseEvent("contextmenu"),
+                );
+            }
+        }
+
+        // Update tag list counts
+        const editIdVal = document.getElementById("editId") as HTMLInputElement;
+        if (editIdVal) {
+            const currentTagId = parseInt(editIdVal.value);
+            if (!isNaN(currentTagId)) {
+                displayTags(currentTagId);
+            }
+        }
     }
 }
 
@@ -427,11 +554,32 @@ function handleStimChecked(event: Event) {
                     }
                     // console.log("post: ", stim.tags);
 
-                    // Update the badge count
+                    // Update the badge count and styling
                     const badge =
                         input.parentElement?.querySelector(".tag-count-badge");
                     if (badge) {
                         badge.textContent = stim.tags.length.toString();
+                        // Add or remove zero-tags class based on count
+                        if (stim.tags.length === 0) {
+                            badge.classList.add("zero-tags");
+                        } else {
+                            badge.classList.remove("zero-tags");
+                        }
+                    }
+
+                    // Update the adrenaline badge
+                    const adrenalineBadge =
+                        input.parentElement?.querySelector(".adrenaline-badge");
+                    if (adrenalineBadge) {
+                        const totalAdrenaline = stim.tags.reduce(
+                            (sum, tagId) => {
+                                const tag = tags.find((t) => t.id === tagId);
+                                return sum + (tag ? tag.adrenaline : 0);
+                            },
+                            0,
+                        );
+                        adrenalineBadge.textContent =
+                            totalAdrenaline.toFixed(2);
                     }
                 }
             });
@@ -501,10 +649,14 @@ function addTag() {
         const size = Math.floor(Math.random() * 14) + 1; // 1-14
         const intensity = Math.floor(Math.random() * 64); // 0-63
 
-        // Position it close enough to overlap (within combined radius)
-        const maxDistance = (basePoint.size + size) * 0.7; // 70% of combined size for good overlap
+        // Position it with slight overlap (max 25%)
+        // Distance between 0.75 and 1.0 of combined radius gives light overlap
+        const combinedRadius = basePoint.size + size;
+        const minDistance = combinedRadius * 0.75;
+        const maxDistance = combinedRadius * 1.0;
         const angle = Math.random() * 2 * Math.PI;
-        const distance = Math.random() * maxDistance;
+        const distance =
+            minDistance + Math.random() * (maxDistance - minDistance);
 
         return {
             x: Math.round(basePoint.x + distance * Math.cos(angle)),
@@ -546,6 +698,9 @@ function addTag() {
             excitationData.push(overlappingPoint);
         }
     }
+
+    // Sort by size (largest first) for better visibility
+    excitationData.sort((a, b) => b.size - a.size);
 
     const defaultLayer: LayerData = {
         layerId: 17,
@@ -601,9 +756,12 @@ function editTag(tag: Tag) {
             const layerId = 17;
             const layer = tag.getLayer(layerId);
 
-            // Clamp excitation point sizes to valid range (3-15)
+            // Clamp excitation point sizes to valid range (3-12)
             const clampedExcitationData =
                 layer.excitationData.map(clampExcitationSize);
+
+            // Sort by size (largest first) for better visibility
+            clampedExcitationData.sort((a, b) => b.size - a.size);
 
             layerContainer.insertAdjacentHTML(
                 "beforeend",
@@ -621,7 +779,7 @@ function editTag(tag: Tag) {
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
               <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 3-15
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-63 | size: 3-12
               </div>
               <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
               <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
@@ -728,7 +886,7 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
-            // Clamp all sizes to valid range (3-15)
+            // Clamp all sizes to valid range (3-12)
             const clampedData = excitationData.map(clampExcitationSize);
 
             vis.innerHTML = "";
@@ -996,8 +1154,8 @@ function exportTehutiXL(): void {
             adrenaline: tag.adrenaline,
             excitationData: layer17.excitationData
                 .map((data) => {
-                    // Clamp size to valid range (3-15)
-                    const clampedSize = Math.max(3, Math.min(15, data.size));
+                    // Clamp size to valid range (3-12)
+                    const clampedSize = Math.max(3, Math.min(12, data.size));
                     return {
                         x: Math.round((data.x / 220) * 1000) / 1000,
                         y: Math.round((data.y / 220) * 1000) / 1000,
@@ -1469,7 +1627,7 @@ function renderPointsList(layerId: number) {
                    style="width: 100%;">
             <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="3" max="15" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="3" max="12" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1744,6 +1902,7 @@ windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;
 windowWithHandlers.showImageZoom = showImageZoom;
 windowWithHandlers.hideImageZoom = hideImageZoom;
+windowWithHandlers.removeTagFromZoomedPhoto = removeTagFromZoomedPhoto;
 windowWithHandlers.exportData = exportData;
 windowWithHandlers.exportTehutiXL = exportTehutiXL;
 windowWithHandlers.exportPhotosAndTags = exportPhotosAndTags;

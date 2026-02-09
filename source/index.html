@@ -93,7 +93,10 @@
             tabindex="0"
             onblur="hideImageZoom()"
         >
-            <img id="zoomedImage" src="" alt="Vergrote foto" />
+            <div class="zoom-content" onclick="event.stopPropagation()">
+                <img id="zoomedImage" src="" alt="Vergrote foto" />
+                <div id="zoomedImageTags" class="zoom-tags"></div>
+            </div>
         </div>
         <script type="module" src="./js/main.ts"></script>
     </body>
