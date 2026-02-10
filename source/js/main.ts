@@ -21,17 +21,19 @@ import {
 // Globals vars
 let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
-// 9-point intensity scale (0-8)
+// 11-point intensity scale (0-10)
 const intensityPalette: readonly string[] = [
-    "#06080B", // 0 - stilte / achtergrond
-    "#08162A", // 1 - zeer laag
-    "#0A2C45", // 2 - laag
-    "#0E4F63", // 3 - mild
-    "#1F7F7A", // 4 - actief
-    "#3FB6A1", // 5 - verhoogd
-    "#6FE7C8", // 6 - hoog
-    "#A6F29B", // 7 - piek
-    "#E6FFD1", // 8 - saturatie (spaarzaam)
+    "#F4D166", // 0
+    "#F8BC58", // 1
+    "#F7A94B", // 2
+    "#F49639", // 3
+    "#F28227", // 4
+    "#EC6E1C", // 5
+    "#DF5E1F", // 6
+    "#D15022", // 7
+    "#BF4723", // 8
+    "#AB3F24", // 9
+    "#973727", // 10
 ];
 
 // Example usage of writeTags to store some tags
@@ -39,19 +41,19 @@ const joyLayers: LayerData[] = [
     {
         layerId: 0,
         excitationData: [
-            { x: 0, y: 0, intensity: 8, size: 3 },
-            { x: 5, y: 3, intensity: 6, size: 5 },
-            { x: -5, y: 1, intensity: 4, size: 8 },
-            { x: -5, y: -3, intensity: 2, size: 11 },
+            { x: 0, y: 0, intensity: 10, size: 3 },
+            { x: 5, y: 3, intensity: 7, size: 5 },
+            { x: -5, y: 1, intensity: 5, size: 8 },
+            { x: -5, y: -3, intensity: 3, size: 11 },
         ],
     },
     {
         layerId: 1,
         excitationData: [
-            { x: 0, y: 0, intensity: 8, size: 3 },
-            { x: 5, y: 3, intensity: 6, size: 5 },
-            { x: -5, y: 1, intensity: 4, size: 8 },
-            { x: -5, y: -3, intensity: 2, size: 11 },
+            { x: 0, y: 0, intensity: 10, size: 3 },
+            { x: 5, y: 3, intensity: 7, size: 5 },
+            { x: -5, y: 1, intensity: 5, size: 8 },
+            { x: -5, y: -3, intensity: 3, size: 11 },
         ],
     },
 ];
@@ -302,6 +304,8 @@ function displayStimuli() {
                 ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)}`
                 : `adrenaline: ${totalAdrenaline.toFixed(2)}`;
 
+            const description = stimulus.description || "";
+
             const stimElem = `<label>
        <input type="checkbox" id="stimCb_${
            stimulus.id
@@ -309,6 +313,7 @@ function displayStimuli() {
         <span class="${badgeClass}">${stimulus.tags.length}</span>
         <span class="adrenaline-badge">${totalAdrenaline.toFixed(2)}</span>
         <img src="/assets/stimuli/${stimulus.file}" title="${titleText}" oncontextmenu="showImageZoom('/assets/stimuli/${stimulus.file}', ${stimulus.id}, event)">
+        <textarea class="stim-description" id="stimDesc_${stimulus.id}" placeholder="Beschrijving..." onchange="handleDescriptionChange(event)">${description}</textarea>
         </label>`;
             stimContainer.insertAdjacentHTML("beforeend", stimElem);
         });
@@ -527,6 +532,55 @@ function handleStimChecked(event: Event) {
                         adrenalineBadge.textContent =
                             totalAdrenaline.toFixed(2);
                     }
+
+                    // Update the title attribute
+                    const img = input.parentElement?.querySelector("img");
+                    if (img) {
+                        const tagNames = stim.tags
+                            .map((tagId) => {
+                                const tag = tags.find((t) => t.id === tagId);
+                                return tag ? tag.name : "";
+                            })
+                            .filter((name) => name !== "")
+                            .join(", ");
+
+                        const totalAdrenaline = stim.tags.reduce(
+                            (sum, tagId) => {
+                                const tag = tags.find((t) => t.id === tagId);
+                                return sum + (tag ? tag.adrenaline : 0);
+                            },
+                            0,
+                        );
+
+                        const titleText = tagNames
+                            ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)}`
+                            : `adrenaline: ${totalAdrenaline.toFixed(2)}`;
+
+                        img.setAttribute("title", titleText);
+                    }
+
+                    // Update zoom view if currently displayed
+                    const overlay = document.getElementById(
+                        "imageZoom",
+                    ) as HTMLDivElement;
+                    const currentStimId =
+                        overlay?.getAttribute("data-stimulus-id");
+                    if (
+                        currentStimId &&
+                        parseInt(currentStimId) === stimId &&
+                        overlay.style.display === "flex"
+                    ) {
+                        const zoomedImg = document.getElementById(
+                            "zoomedImage",
+                        ) as HTMLImageElement;
+                        if (zoomedImg && zoomedImg.src) {
+                            showImageZoom(
+                                zoomedImg.src,
+                                stimId,
+                                new MouseEvent("contextmenu"),
+                            );
+                        }
+                    }
                 }
             });
 
@@ -534,6 +588,17 @@ function handleStimChecked(event: Event) {
             // Update tag list to reflect new photo counts
             displayTags(tagId);
         }
+    }
+}
+
+function handleDescriptionChange(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    const stimId = parseInt(textarea.id.split("_")[1]);
+
+    const stimulus = stimuli.find((s) => s.id === stimId);
+    if (stimulus) {
+        stimulus.description = textarea.value;
+        saveStimuli();
     }
 }
 
@@ -593,7 +658,7 @@ function addTag() {
         const basePoint =
             existingPoints[Math.floor(Math.random() * existingPoints.length)];
         const size = Math.floor(Math.random() * 14) + 1; // 1-14
-        const intensity = Math.floor(Math.random() * 9); // 0-8
+        const intensity = Math.floor(Math.random() * 11); // 0-10
 
         // Position it with slight overlap (max 25%)
         // Distance between 0.75 and 1.0 of combined radius gives light overlap
@@ -631,7 +696,7 @@ function addTag() {
         const firstPoint: ExcitationData = {
             x: Math.round(radius * Math.cos(angle)),
             y: Math.round(radius * Math.sin(angle)),
-            intensity: Math.floor(Math.random() * 9), // 0-8
+            intensity: Math.floor(Math.random() * 11), // 0-10
             size: Math.floor(Math.random() * 12) + 5, // 5-16
         };
         clusterPoints.push(firstPoint);
@@ -725,7 +790,7 @@ function editTag(tag: Tag) {
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
               <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-8 | size: 3-12
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-10 | size: 3-12
               </div>
               <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
               <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
@@ -941,13 +1006,16 @@ function generateStimuliArray() {
             textarea.style.display = "block";
             var txt = "";
             stimuli.forEach((stim) => {
+                const descComment = stim.description
+                    ? ` // ${stim.description.replace(/\n/g, " ")}`
+                    : "";
                 txt += `
   {
     ${stim.id},
     ${stim.file.replace(".jpg", "")},
     sizeof(${stim.file.replace(".jpg", "")}),
     {${stim.tags.join(",")}}
-  },`;
+  },${descComment}`;
             });
             textarea.value = txt;
         }
@@ -1009,14 +1077,15 @@ function readTags(): void {
             layers: LayerData[];
         }[] = JSON.parse(tagsJSON);
 
-        // Convert old intensity scale (0-63) to new scale (0-8)
+        // Convert old intensity scale to new scale (0-10)
         tagsData.forEach((tagData) => {
             tagData.layers.forEach((layer) => {
                 layer.excitationData.forEach((point) => {
-                    // If intensity > 8, it's from the old scale, convert it
-                    if (point.intensity > 8) {
+                    // If intensity > 10, it's from an old scale, convert it
+                    if (point.intensity > 10) {
+                        // Convert from 0-63 scale to 0-10 scale
                         point.intensity = Math.round(
-                            (point.intensity / 63) * 8,
+                            (point.intensity / 63) * 10,
                         );
                     }
                 });
@@ -1151,6 +1220,7 @@ function exportPhotosAndTags(): void {
         photos: stimuli.map((stimulus) => ({
             photo: stimulus.file,
             tags: stimulus.tags,
+            description: stimulus.description || "",
         })),
     };
 
@@ -1332,7 +1402,7 @@ function addExcitationPoint(layerId: number) {
             <label>x: ${newPoint.x}</label>
             <span>y: ${newPoint.y}</span>
             <label for="intensity_${layerId}_${newIndex}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="8" value="${newPoint.intensity}"
+            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="10" value="${newPoint.intensity}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'intensity', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1582,7 +1652,7 @@ function renderPointsList(layerId: number) {
             <label>x: ${point.x}</label>
             <span style="grid-column: 2 / 4;">y: ${point.y}</span>
             <label for="intensity_${layerId}_${index}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${index}" min="0" max="8" value="${point.intensity}"
+            <input type="range" id="intensity_${layerId}_${index}" min="0" max="10" value="${point.intensity}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'intensity', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1858,6 +1928,7 @@ windowWithHandlers.generateStimuliArray = generateStimuliArray;
 windowWithHandlers.handleNameChange = handleNameChange;
 windowWithHandlers.handleAdrenalineChange = handleAdrenalineChange;
 windowWithHandlers.handleStimChecked = handleStimChecked;
+windowWithHandlers.handleDescriptionChange = handleDescriptionChange;
 windowWithHandlers.handleMask = handleMask;
 windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;

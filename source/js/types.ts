@@ -10,7 +10,7 @@ export interface ExcitationData {
     x: number;
     /** Y coordinate (-20 to +20) */
     y: number;
-    /** Intensity level (0-8) */
+    /** Intensity level (0-10) */
     intensity: number;
     /** Size of the excitation zone (1-20) */
     size: number;
@@ -99,6 +99,8 @@ export interface Stimulus {
     size: string;
     /** Array of tag IDs associated with this stimulus */
     tags: number[];
+    /** Optional description text */
+    description?: string;
 }
 
 /**
@@ -136,6 +138,7 @@ export interface WindowWithHandlers extends Window {
     handleMask: (event: Event) => void;
     handlePaste: (event: Event) => void;
     hideOverlay: (event: Event) => void;
+    handleDescriptionChange: (event: Event) => void;
     showImageZoom: (
         imageSrc: string,
         stimulusId: number,
