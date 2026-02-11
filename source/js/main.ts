@@ -23,17 +23,17 @@ let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
 // 11-point intensity scale (0-10)
 const intensityPalette: readonly string[] = [
-    "#F4D166", // 0
-    "#F8BC58", // 1
-    "#F7A94B", // 2
-    "#F49639", // 3
-    "#F28227", // 4
-    "#EC6E1C", // 5
-    "#DF5E1F", // 6
-    "#D15022", // 7
-    "#BF4723", // 8
-    "#AB3F24", // 9
-    "#973727", // 10
+    "#FAE073", // 0 - low intensity (light yellow)
+    "#F8C34B", // 1
+    "#F7A72B", // 2
+    "#F58924", // 3
+    "#F26839", // 4
+    "#E04E5D", // 5
+    "#CB376E", // 6
+    "#B22375", // 7
+    "#971574", // 8
+    "#7B106D", // 9
+    "#5D1161", // 10 - high intensity (dark purple)
 ];
 
 // Example usage of writeTags to store some tags
@@ -180,14 +180,134 @@ async function init() {
     displayStimuli();
     displayTags();
 
-    // Add global Escape key handler for image zoom
+    // Add global keyboard handlers
     document.addEventListener("keydown", (event: KeyboardEvent) => {
+        // Check if focus is in an input or textarea
+        const activeElement = document.activeElement;
+        const isInputFocused =
+            activeElement instanceof HTMLInputElement ||
+            activeElement instanceof HTMLTextAreaElement;
+
         if (event.key === "Escape") {
             const imageZoom = document.getElementById(
                 "imageZoom",
             ) as HTMLDivElement;
             if (imageZoom && imageZoom.style.display === "flex") {
                 hideImageZoom();
+            }
+        }
+
+        // Handle A and Z keys for size adjustment (only when not typing in input/textarea)
+        if (
+            !isInputFocused &&
+            selectedPointIndex !== null &&
+            selectedLayerId !== null
+        ) {
+            const ta = document.getElementById(
+                `textarea_layer_${selectedLayerId}`,
+            ) as HTMLTextAreaElement;
+
+            if (ta) {
+                try {
+                    const excitationData: ExcitationData[] = JSON.parse(
+                        ta.value,
+                    );
+                    const point = excitationData[selectedPointIndex];
+
+                    if (event.key.toLowerCase() === "a") {
+                        // Increase size (max 25)
+                        event.preventDefault();
+                        const newSize = Math.min(point.size + 1, 25);
+                        if (newSize !== point.size) {
+                            updatePointProperty(
+                                selectedLayerId,
+                                selectedPointIndex,
+                                "size",
+                                String(newSize),
+                            );
+                            // Update the slider value
+                            const slider = document.getElementById(
+                                `size_${selectedLayerId}_${selectedPointIndex}`,
+                            ) as HTMLInputElement;
+                            if (slider) {
+                                slider.value = String(newSize);
+                            }
+                        }
+                    } else if (event.key.toLowerCase() === "z") {
+                        // Decrease size (min 5)
+                        event.preventDefault();
+                        const newSize = Math.max(point.size - 1, 5);
+                        if (newSize !== point.size) {
+                            updatePointProperty(
+                                selectedLayerId,
+                                selectedPointIndex,
+                                "size",
+                                String(newSize),
+                            );
+                            // Update the slider value
+                            const slider = document.getElementById(
+                                `size_${selectedLayerId}_${selectedPointIndex}`,
+                            ) as HTMLInputElement;
+                            if (slider) {
+                                slider.value = String(newSize);
+                            }
+                        }
+                    } else if (event.key.toLowerCase() === "s") {
+                        // Increase intensity (max 10)
+                        event.preventDefault();
+                        const newIntensity = Math.min(point.intensity + 1, 10);
+                        if (newIntensity !== point.intensity) {
+                            updatePointProperty(
+                                selectedLayerId,
+                                selectedPointIndex,
+                                "intensity",
+                                String(newIntensity),
+                            );
+                            // Update the slider value
+                            const slider = document.getElementById(
+                                `intensity_${selectedLayerId}_${selectedPointIndex}`,
+                            ) as HTMLInputElement;
+                            if (slider) {
+                                slider.value = String(newIntensity);
+                            }
+                        }
+                    } else if (event.key.toLowerCase() === "x") {
+                        // Decrease intensity (min 0)
+                        event.preventDefault();
+                        const newIntensity = Math.max(point.intensity - 1, 0);
+                        if (newIntensity !== point.intensity) {
+                            updatePointProperty(
+                                selectedLayerId,
+                                selectedPointIndex,
+                                "intensity",
+                                String(newIntensity),
+                            );
+                            // Update the slider value
+                            const slider = document.getElementById(
+                                `intensity_${selectedLayerId}_${selectedPointIndex}`,
+                            ) as HTMLInputElement;
+                            if (slider) {
+                                slider.value = String(newIntensity);
+                            }
+                        }
+                    } else if (event.key.toLowerCase() === "q") {
+                        // Add new excitation point
+                        event.preventDefault();
+                        addExcitationPoint(selectedLayerId);
+                    } else if (event.key.toLowerCase() === "w") {
+                        // Delete selected excitation point
+                        event.preventDefault();
+                        deleteExcitationPoint(
+                            selectedLayerId,
+                            selectedPointIndex,
+                        );
+                    }
+                } catch (error) {
+                    console.error(
+                        "Failed to update property via keyboard:",
+                        error,
+                    );
+                }
             }
         }
     });
@@ -354,12 +474,12 @@ function check4JpgExtension(file: string): string {
 }
 
 /**
- * Clamp excitation point size to valid range (3-12)
+ * Clamp excitation point size to valid range (5-25)
  */
 function clampExcitationSize(data: ExcitationData): ExcitationData {
     return {
         ...data,
-        size: Math.max(3, Math.min(12, data.size)),
+        size: Math.max(5, Math.min(25, data.size)),
     };
 }
 
@@ -657,7 +777,7 @@ function addTag() {
         // Pick a random existing point to overlap with
         const basePoint =
             existingPoints[Math.floor(Math.random() * existingPoints.length)];
-        const size = Math.floor(Math.random() * 14) + 1; // 1-14
+        const size = Math.floor(Math.random() * 21) + 5; // 5-25
         const intensity = Math.floor(Math.random() * 11); // 0-10
 
         // Position it with slight overlap (max 25%)
@@ -692,12 +812,12 @@ function addTag() {
             // Right side: angle between -90° and 90° (-π/2 to π/2)
             angle = -Math.PI / 2 + Math.random() * Math.PI;
         }
-        const radius = 70 + Math.random() * 10; // 70-80
+        const radius = 120 + Math.random() * 50; // 120-170
         const firstPoint: ExcitationData = {
             x: Math.round(radius * Math.cos(angle)),
             y: Math.round(radius * Math.sin(angle)),
             intensity: Math.floor(Math.random() * 11), // 0-10
-            size: Math.floor(Math.random() * 12) + 5, // 5-16
+            size: Math.floor(Math.random() * 21) + 5, // 5-25
         };
         clusterPoints.push(firstPoint);
         excitationData.push(firstPoint);
@@ -767,7 +887,7 @@ function editTag(tag: Tag) {
             const layerId = 17;
             const layer = tag.getLayer(layerId);
 
-            // Clamp excitation point sizes to valid range (3-12)
+            // Clamp excitation point sizes to valid range (5-25)
             const clampedExcitationData =
                 layer.excitationData.map(clampExcitationSize);
 
@@ -790,19 +910,15 @@ function editTag(tag: Tag) {
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
               <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-10 | size: 3-12
+                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-10 | size: 5-25
               </div>
               <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
               <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
             </div>
             <div class="visualizer" id="vis_${layerId}">
-              <img class="mri-background" src="/mri/mri_grey_${layerId
-                  .toString()
-                  .padStart(2, "0")}.jpg" alt="MRI scan">
+              <img class="mri-background" src="/mri/mri_017.jpg" alt="MRI scan" draggable="false">
               <div class="point-container" id="pc_${layerId}"></div>
-              <img id="mask_${layerId}" class="mri-mask show" src="/masks/mask_${layerId
-                  .toString()
-                  .padStart(2, "0")}.gif">
+              <img id="mask_${layerId}" class="mri-mask show" src="/masks/mri_mask_017.gif" draggable="false">
             </div>
           </div>
         `,
@@ -897,7 +1013,7 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
-            // Clamp all sizes to valid range (3-12)
+            // Clamp all sizes to valid range (5-25)
             const clampedData = excitationData.map(clampExcitationSize);
 
             vis.innerHTML = "";
@@ -911,19 +1027,22 @@ function renderPoints(layerId: number, jsonStr: string) {
             // Now sort on intensity
             indexedData.sort((a, b) => a.intensity - b.intensity);
 
+            // Find max size for z-index calculation
+            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 25);
+
             // console.log("boe2");
             indexedData.forEach((epd, displayIndex: number) => {
-                const x = 100 + epd.x - epd.size;
-                const y = 110 - epd.y - epd.size;
+                const x = 200 + epd.x - epd.size;
+                const y = 200 - epd.y - epd.size;
                 const isSelected =
                     selectedPointIndex === epd.originalIndex &&
                     selectedLayerId === layerId;
-                const zIndex = isSelected ? 100 : displayIndex;
+                const zIndex = isSelected ? 200 : maxSize - epd.size;
                 const opacity =
                     selectedPointIndex !== null &&
                     selectedLayerId === layerId &&
                     !isSelected
-                        ? 0.5
+                        ? 0.9
                         : 1;
 
                 vis.insertAdjacentHTML(
@@ -1129,6 +1248,7 @@ function readStimuli(): void {
 
 /**
  * Export complete dataset as JSON file
+ * Normalizes x, y, and size values by dividing by 200 (half the MRI image width/height)
  */
 function exportData(): void {
     const dataExport: DataExport = {
@@ -1140,7 +1260,12 @@ function exportData(): void {
             adrenaline: tag.adrenaline,
             layers: tag.layers.map((layer) => ({
                 layerId: layer.layerId,
-                excitationData: layer.excitationData,
+                excitationData: layer.excitationData.map((data) => ({
+                    x: data.x / 200,
+                    y: data.y / 200,
+                    intensity: data.intensity,
+                    size: data.size / 200,
+                })),
             })),
         })),
         stimuli: stimuli,
@@ -1184,8 +1309,8 @@ function exportTehutiXL(): void {
             adrenaline: tag.adrenaline,
             excitationData: layer17.excitationData
                 .map((data) => {
-                    // Clamp size to valid range (3-12)
-                    const clampedSize = Math.max(3, Math.min(12, data.size));
+                    // Clamp size to valid range (5-25)
+                    const clampedSize = Math.max(5, Math.min(25, data.size));
                     return {
                         x: Math.round((data.x / 220) * 1000) / 1000,
                         y: Math.round((data.y / 220) * 1000) / 1000,
@@ -1323,8 +1448,8 @@ function addExcitationPoint(layerId: number) {
     try {
         const excitationData: ExcitationData[] = JSON.parse(ta.value);
         // Add new point at center with random values
-        const randomIntensity = Math.floor(Math.random() * 64);
-        const randomSize = Math.floor(Math.random() * 11) + 5;
+        const randomIntensity = Math.floor(Math.random() * 11); // 0-10
+        const randomSize = Math.floor(Math.random() * 21) + 5; // 5-25
         const newPoint = {
             x: 0,
             y: 0,
@@ -1343,18 +1468,28 @@ function addExcitationPoint(layerId: number) {
         // Add new point to DOM directly (no render)
         const pointContainer = document.getElementById(`pc_${layerId}`);
         if (pointContainer) {
-            // Set all existing points to non-selected state
+            // Find max size for z-index calculation
+            const maxSize = Math.max(
+                ...excitationData.map((ep) => ep.size),
+                25,
+            );
+
+            // Set all existing points to non-selected state with correct z-index
             const allPoints =
                 pointContainer.querySelectorAll(".excitation-point");
             allPoints.forEach((point) => {
                 const el = point as HTMLElement;
-                el.style.zIndex = "1";
-                el.style.opacity = "0.5";
+                const pointIndex = parseInt(el.dataset.index || "0");
+                const pointData = excitationData[pointIndex];
+                if (pointData) {
+                    el.style.zIndex = String(maxSize - pointData.size);
+                }
+                el.style.opacity = "0.9";
             });
 
             // Add new point element
-            const x = 100 + newPoint.x - newPoint.size;
-            const y = 110 - newPoint.y - newPoint.size;
+            const x = 200 + newPoint.x - newPoint.size;
+            const y = 200 - newPoint.y - newPoint.size;
             pointContainer.insertAdjacentHTML(
                 "beforeend",
                 `
@@ -1373,7 +1508,7 @@ function addExcitationPoint(layerId: number) {
             height:${newPoint.size * 2}px;
             background-color: ${intensityPalette[newPoint.intensity]};
             cursor: move;
-            z-index: 100;
+            z-index: 200;
             opacity: 1;
           "></div>
 `,
@@ -1407,7 +1542,7 @@ function addExcitationPoint(layerId: number) {
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
             <label for="size_${layerId}_${newIndex}">Size:</label>
-            <input type="range" id="size_${layerId}_${newIndex}" min="1" max="20" value="${newPoint.size}"
+            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="25" value="${newPoint.size}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1447,23 +1582,41 @@ function selectExcitationPoint(event: Event) {
     // Update visual feedback directly without re-rendering
     const visualizer = document.getElementById(`vis_${layerId}`);
     if (visualizer) {
-        // Reset previous selected point (if different)
-        if (
-            selectedPointIndex !== null &&
-            selectedLayerId === layerId &&
-            selectedPointIndex !== index
-        ) {
-            const prevPoint = visualizer.querySelector(
-                `.excitation-point[data-index="${selectedPointIndex}"]`,
-            ) as HTMLElement;
-            if (prevPoint) {
-                prevPoint.style.zIndex = "1";
-                prevPoint.style.opacity = "0.6";
+        // Get excitation data for z-index calculation
+        const ta = document.getElementById(
+            `textarea_layer_${layerId}`,
+        ) as HTMLTextAreaElement;
+        if (ta) {
+            try {
+                const excitationData: ExcitationData[] = JSON.parse(ta.value);
+                const maxSize = Math.max(
+                    ...excitationData.map((ep) => ep.size),
+                    25,
+                );
+
+                // Reset previous selected point (if different)
+                if (
+                    selectedPointIndex !== null &&
+                    selectedLayerId === layerId &&
+                    selectedPointIndex !== index
+                ) {
+                    const prevPoint = visualizer.querySelector(
+                        `.excitation-point[data-index="${selectedPointIndex}"]`,
+                    ) as HTMLElement;
+                    if (prevPoint && excitationData[selectedPointIndex]) {
+                        prevPoint.style.zIndex = String(
+                            maxSize - excitationData[selectedPointIndex].size,
+                        );
+                        prevPoint.style.opacity = "0.9";
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to parse excitation data:", error);
             }
         }
 
         // Highlight new selected point
-        target.style.zIndex = "100";
+        target.style.zIndex = "200";
         target.style.opacity = "1";
     }
 
@@ -1478,7 +1631,59 @@ function handleDragStart(event: DragEvent) {
     isDragging = true;
     draggedElement = event.target as HTMLElement;
     if (draggedElement) {
-        draggedElement.style.opacity = "0.5";
+        const layerId = parseInt(draggedElement.dataset.layer || "0");
+        const index = parseInt(draggedElement.dataset.index || "0");
+
+        // Select this point
+        const visualizer = document.getElementById(`vis_${layerId}`);
+        if (visualizer) {
+            // Get excitation data for z-index calculation
+            const ta = document.getElementById(
+                `textarea_layer_${layerId}`,
+            ) as HTMLTextAreaElement;
+            if (ta) {
+                try {
+                    const excitationData: ExcitationData[] = JSON.parse(
+                        ta.value,
+                    );
+                    const maxSize = Math.max(
+                        ...excitationData.map((ep) => ep.size),
+                        25,
+                    );
+
+                    // Reset previous selected point (if different)
+                    if (
+                        selectedPointIndex !== null &&
+                        selectedLayerId === layerId &&
+                        selectedPointIndex !== index
+                    ) {
+                        const prevPoint = visualizer.querySelector(
+                            `.excitation-point[data-index="${selectedPointIndex}"]`,
+                        ) as HTMLElement;
+                        if (prevPoint && excitationData[selectedPointIndex]) {
+                            prevPoint.style.zIndex = String(
+                                maxSize -
+                                    excitationData[selectedPointIndex].size,
+                            );
+                            prevPoint.style.opacity = "0.7";
+                        }
+                    }
+                } catch (error) {
+                    console.error("Failed to parse excitation data:", error);
+                }
+            }
+        }
+
+        // Update selection state
+        selectedPointIndex = index;
+        selectedLayerId = layerId;
+
+        // Set dragged element appearance
+        draggedElement.style.opacity = "0.8";
+        draggedElement.style.zIndex = "200";
+
+        // Update points list to show selected point editor
+        renderPointsList(layerId);
 
         // Add mousemove listener to track during drag (ondrag is unreliable)
         document.addEventListener("dragover", handleDragOver);
@@ -1500,8 +1705,8 @@ function handleDragOver(event: DragEvent) {
     const rect = visualizer.getBoundingClientRect();
 
     // Calculate new position
-    const x = event.clientX - rect.left - 100;
-    const y = -(event.clientY - rect.top - 110);
+    const x = event.clientX - rect.left - 200;
+    const y = -(event.clientY - rect.top - 200);
 
     const ta = document.getElementById(
         `textarea_layer_${layerId}`,
@@ -1513,8 +1718,8 @@ function handleDragOver(event: DragEvent) {
         const excitationData: ExcitationData[] = JSON.parse(ta.value);
         const point = excitationData[index];
 
-        const newX = 100 + Math.round(x) - point.size;
-        const newY = 110 - Math.round(y) - point.size;
+        const newX = 200 + Math.round(x) - point.size;
+        const newY = 200 - Math.round(y) - point.size;
 
         // Update DOM position immediately (no lag)
         target.style.left = `${newX}px`;
@@ -1544,8 +1749,8 @@ function handleDrag(event: DragEvent) {
     const rect = visualizer.getBoundingClientRect();
 
     // Calculate new position
-    const x = event.clientX - rect.left - 100;
-    const y = -(event.clientY - rect.top - 110);
+    const x = event.clientX - rect.left - 200;
+    const y = -(event.clientY - rect.top - 200);
 
     const ta = document.getElementById(
         `textarea_layer_${layerId}`,
@@ -1557,8 +1762,8 @@ function handleDrag(event: DragEvent) {
         const excitationData: ExcitationData[] = JSON.parse(ta.value);
         const point = excitationData[index];
 
-        const newX = 100 + Math.round(x) - point.size;
-        const newY = 110 - Math.round(y) - point.size;
+        const newX = 200 + Math.round(x) - point.size;
+        const newY = 200 - Math.round(y) - point.size;
 
         // Update DOM position immediately (no lag)
         target.style.left = `${newX}px`;
@@ -1588,7 +1793,7 @@ function handleDragEnd(event: DragEvent) {
     const index = parseInt(target.dataset.index || "0");
     const isSelected =
         selectedPointIndex === index && selectedLayerId === layerId;
-    target.style.opacity = isSelected ? "1" : "0.5";
+    target.style.opacity = isSelected ? "1" : "0.7";
 
     const visualizer = document.getElementById(`vis_${layerId}`);
     if (!visualizer) return;
@@ -1596,8 +1801,8 @@ function handleDragEnd(event: DragEvent) {
     const rect = visualizer.getBoundingClientRect();
 
     // Calculate final position
-    const x = event.clientX - rect.left - 100;
-    const y = -(event.clientY - rect.top - 110);
+    const x = event.clientX - rect.left - 200;
+    const y = -(event.clientY - rect.top - 200);
 
     const ta = document.getElementById(
         `textarea_layer_${layerId}`,
@@ -1658,7 +1863,7 @@ function renderPointsList(layerId: number) {
                    style="width: 100%;">
             <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="3" max="12" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="5" max="25" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -1677,28 +1882,46 @@ function selectExcitationPointFromList(layerId: number, index: number) {
     // Update visual feedback directly without re-rendering
     const visualizer = document.getElementById(`vis_${layerId}`);
     if (visualizer) {
-        // Reset previous selected point (if different)
-        if (
-            selectedPointIndex !== null &&
-            selectedLayerId === layerId &&
-            selectedPointIndex !== index
-        ) {
-            const prevPoint = visualizer.querySelector(
-                `.excitation-point[data-index="${selectedPointIndex}"]`,
-            ) as HTMLElement;
-            if (prevPoint) {
-                prevPoint.style.zIndex = "1";
-                prevPoint.style.opacity = "0.6";
-            }
-        }
+        // Get excitation data for z-index calculation
+        const ta = document.getElementById(
+            `textarea_layer_${layerId}`,
+        ) as HTMLTextAreaElement;
+        if (ta) {
+            try {
+                const excitationData: ExcitationData[] = JSON.parse(ta.value);
+                const maxSize = Math.max(
+                    ...excitationData.map((ep) => ep.size),
+                    25,
+                );
 
-        // Highlight new selected point
-        const newPoint = visualizer.querySelector(
-            `.excitation-point[data-index="${index}"]`,
-        ) as HTMLElement;
-        if (newPoint) {
-            newPoint.style.zIndex = "100";
-            newPoint.style.opacity = "1";
+                // Reset previous selected point (if different)
+                if (
+                    selectedPointIndex !== null &&
+                    selectedLayerId === layerId &&
+                    selectedPointIndex !== index
+                ) {
+                    const prevPoint = visualizer.querySelector(
+                        `.excitation-point[data-index="${selectedPointIndex}"]`,
+                    ) as HTMLElement;
+                    if (prevPoint && excitationData[selectedPointIndex]) {
+                        prevPoint.style.zIndex = String(
+                            maxSize - excitationData[selectedPointIndex].size,
+                        );
+                        prevPoint.style.opacity = "0.9";
+                    }
+                }
+
+                // Highlight new selected point
+                const newPoint = visualizer.querySelector(
+                    `.excitation-point[data-index="${index}"]`,
+                ) as HTMLElement;
+                if (newPoint) {
+                    newPoint.style.zIndex = "200";
+                    newPoint.style.opacity = "1";
+                }
+            } catch (error) {
+                console.error("Failed to parse excitation data:", error);
+            }
         }
     }
 
@@ -1740,6 +1963,11 @@ function updatePointProperty(
             // Update visual feedback on visualizer
             const visualizer = document.getElementById(`vis_${layerId}`);
             if (visualizer) {
+                const maxSize = Math.max(
+                    ...excitationData.map((ep) => ep.size),
+                    25,
+                );
+
                 // Reset previous selected point
                 if (
                     selectedPointIndex !== null &&
@@ -1748,9 +1976,11 @@ function updatePointProperty(
                     const prevPoint = visualizer.querySelector(
                         `.excitation-point[data-index="${selectedPointIndex}"]`,
                     ) as HTMLElement;
-                    if (prevPoint) {
-                        prevPoint.style.zIndex = "1";
-                        prevPoint.style.opacity = "0.5";
+                    if (prevPoint && excitationData[selectedPointIndex]) {
+                        prevPoint.style.zIndex = String(
+                            maxSize - excitationData[selectedPointIndex].size,
+                        );
+                        prevPoint.style.opacity = "0.9";
                     }
                 }
 
@@ -1759,7 +1989,7 @@ function updatePointProperty(
                     `.excitation-point[data-index="${index}"]`,
                 ) as HTMLElement;
                 if (newPoint) {
-                    newPoint.style.zIndex = "100";
+                    newPoint.style.zIndex = "200";
                     newPoint.style.opacity = "1";
                 }
             }
@@ -1793,12 +2023,22 @@ function updatePointProperty(
         if (pointElement) {
             if (property === "size") {
                 // Update size and reposition
-                const x = 100 + point.x - numValue;
-                const y = 110 - point.y - numValue;
+                const x = 200 + point.x - numValue;
+                const y = 200 - point.y - numValue;
                 pointElement.style.width = `${numValue * 2}px`;
                 pointElement.style.height = `${numValue * 2}px`;
                 pointElement.style.left = `${x}px`;
                 pointElement.style.top = `${y}px`;
+                // Update z-index based on size (inverse relation)
+                const maxSize = Math.max(
+                    ...excitationData.map((ep) => ep.size),
+                    25,
+                );
+                const isSelected =
+                    selectedPointIndex === index && selectedLayerId === layerId;
+                pointElement.style.zIndex = isSelected
+                    ? "200"
+                    : String(maxSize - numValue);
             } else if (property === "intensity") {
                 // Update color
                 pointElement.style.backgroundColor = intensityPalette[numValue];
