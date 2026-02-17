@@ -21,6 +21,7 @@ import {
 // Globals vars
 let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
+let selectedFilterTags: number[] = []; // Tag IDs selected for filtering stimuli
 // 11-point intensity scale (0-10)
 const intensityPalette: readonly string[] = [
     "#FAE073", // 0 - low intensity (light yellow)
@@ -194,6 +195,25 @@ async function init() {
             ) as HTMLDivElement;
             if (imageZoom && imageZoom.style.display === "flex") {
                 hideImageZoom();
+            }
+        }
+
+        // Handle Shift+arrow keys for zoom navigation (when zoom is open)
+        // Shift+Up/Down arrow keys work even when search input has focus
+        const imageZoom = document.getElementById(
+            "imageZoom",
+        ) as HTMLDivElement;
+        if (imageZoom && imageZoom.style.display === "flex" && event.shiftKey) {
+            if (event.key === "ArrowUp") {
+                event.preventDefault();
+                showPrevZoomImage(
+                    new MouseEvent("click") as unknown as MouseEvent,
+                );
+            } else if (event.key === "ArrowDown") {
+                event.preventDefault();
+                showNextZoomImage(
+                    new MouseEvent("click") as unknown as MouseEvent,
+                );
             }
         }
 
@@ -392,8 +412,11 @@ function displayStimuli() {
     if (stimContainer) {
         stimContainer.innerHTML = "";
 
+        // Get filtered stimuli based on selected filter tags
+        const filteredStimuli = getFilteredStimuli();
+
         // Sort stimuli alphabetically by filename before displaying
-        const sortedStimuli = [...stimuli].sort((a, b) =>
+        const sortedStimuli = [...filteredStimuli].sort((a, b) =>
             a.file.localeCompare(b.file),
         );
 
@@ -405,24 +428,8 @@ function displayStimuli() {
                     ? "tag-count-badge zero-tags"
                     : "tag-count-badge";
 
-            // Calculate total adrenaline from all assigned tags
-            const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
-                const tag = tags.find((t) => t.id === tagId);
-                return sum + (tag ? tag.adrenaline : 0);
-            }, 0);
-
-            // Get tag names for title
-            const tagNames = stimulus.tags
-                .map((tagId) => {
-                    const tag = tags.find((t) => t.id === tagId);
-                    return tag ? tag.name : "";
-                })
-                .filter((name) => name !== "")
-                .join(", ");
-
-            const titleText = tagNames
-                ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)}`
-                : `adrenaline: ${totalAdrenaline.toFixed(2)}`;
+            const { totalAdrenaline, titleText } =
+                getStimulusTagSummary(stimulus);
 
             const description = stimulus.description || "";
 
@@ -438,16 +445,83 @@ function displayStimuli() {
             stimContainer.insertAdjacentHTML("beforeend", stimElem);
         });
         saveStimuli();
+
+        const filterInfo =
+            selectedFilterTags.length > 0
+                ? ` (gefilterd: ${sortedStimuli.length} van ${stimuli.length})`
+                : "";
         console.log(
-            "✅ Displayed",
-            stimuli.length,
-            "stimuli (alfabetisch gesorteerd)",
+            `✅ Displayed ${sortedStimuli.length} stimuli (alfabetisch gesorteerd)${filterInfo}`,
         );
 
         // Update checkbox states based on currently selected tag
         setCheckStimuli();
     } else {
         console.error("❌ stimContainer element not found!");
+    }
+}
+
+function getStimulusTagSummary(stimulus: Stimulus): {
+    totalAdrenaline: number;
+    titleText: string;
+} {
+    const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
+        const tag = tags.find((t) => t.id === tagId);
+        return sum + (tag ? tag.adrenaline : 0);
+    }, 0);
+
+    const tagNames = stimulus.tags
+        .map((tagId) => {
+            const tag = tags.find((t) => t.id === tagId);
+            return tag ? tag.name : "";
+        })
+        .filter((name) => name !== "")
+        .join(", ");
+
+    const titleText = tagNames
+        ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)} - ${stimulus.file}`
+        : `adrenaline: ${totalAdrenaline.toFixed(2)} - ${stimulus.file}`;
+
+    return { totalAdrenaline, titleText };
+}
+
+function updateStimulusBadges(stimulus: Stimulus) {
+    const checkbox = document.getElementById(
+        `stimCb_${stimulus.id}`,
+    ) as HTMLInputElement;
+    if (!checkbox) return;
+
+    const badge = checkbox.parentElement?.querySelector(
+        ".tag-count-badge",
+    ) as HTMLSpanElement | null;
+    if (badge) {
+        badge.textContent = stimulus.tags.length.toString();
+        if (stimulus.tags.length === 0) {
+            badge.classList.add("zero-tags");
+        } else {
+            badge.classList.remove("zero-tags");
+        }
+    }
+
+    const { totalAdrenaline, titleText } = getStimulusTagSummary(stimulus);
+    const adrenalineBadge = checkbox.parentElement?.querySelector(
+        ".adrenaline-badge",
+    ) as HTMLSpanElement | null;
+    if (adrenalineBadge) {
+        adrenalineBadge.textContent = totalAdrenaline.toFixed(2);
+    }
+
+    const img = checkbox.parentElement?.querySelector("img");
+    if (img) {
+        img.setAttribute("title", titleText);
+    }
+
+    const editId = document.getElementById("editId") as HTMLInputElement;
+    if (editId) {
+        const currentTagId = parseInt(editId.value);
+        if (!isNaN(currentTagId)) {
+            checkbox.checked = stimulus.tags.includes(currentTagId);
+        }
     }
 }
 
@@ -469,6 +543,63 @@ function setCheckStimuli() {
     }
 }
 
+// ================================================================== //
+//                                                                    //
+// Tag Filtering Functions                                            //
+//                                                                    //
+// ================================================================== //
+
+/**
+ * Handle changes to tag filter checkboxes
+ */
+function handleTagFilterChange(event: Event) {
+    const checkbox = event.target as HTMLInputElement;
+    const tagId = parseInt(checkbox.value);
+
+    if (checkbox.checked) {
+        // Add tag to filter
+        if (!selectedFilterTags.includes(tagId)) {
+            selectedFilterTags.push(tagId);
+        }
+    } else {
+        // Remove tag from filter
+        const index = selectedFilterTags.indexOf(tagId);
+        if (index > -1) {
+            selectedFilterTags.splice(index, 1);
+        }
+    }
+
+    // Re-display stimuli with updated filter
+    displayStimuli();
+}
+
+/**
+ * Clear all tag filters
+ */
+function clearTagFilters() {
+    selectedFilterTags = [];
+    displayTags();
+    displayStimuli();
+}
+
+/**
+ * Get filtered stimuli based on selected filter tags
+ * If no filters are selected, returns all stimuli
+ * If filters are selected, returns stimuli that have ALL selected tags (AND logic)
+ */
+function getFilteredStimuli(): Stimulus[] {
+    if (selectedFilterTags.length === 0) {
+        return stimuli;
+    }
+
+    return stimuli.filter((stimulus) => {
+        // Stimulus must have ALL selected filter tags
+        return selectedFilterTags.every((tagId) =>
+            stimulus.tags.includes(tagId),
+        );
+    });
+}
+
 function check4JpgExtension(file: string): string {
     return file.indexOf(".jpg") > 0 ? file : file + ".jpg";
 }
@@ -483,49 +614,327 @@ function clampExcitationSize(data: ExcitationData): ExcitationData {
     };
 }
 
+/**
+ * Clamp excitation point coordinates to stay within visible bounds
+ * The visualizer is 400x400px with center at (200, 200)
+ * Coordinates should stay roughly between -180 and +180 to remain visible
+ */
+function clampExcitationPosition(data: ExcitationData): ExcitationData {
+    const maxCoord = 180;
+    const minCoord = -180;
+    return {
+        ...data,
+        x: Math.max(minCoord, Math.min(maxCoord, data.x)),
+        y: Math.max(minCoord, Math.min(maxCoord, data.y)),
+    };
+}
+
+/**
+ * Generate random intensity and size ensuring intensity + size <= 18
+ * Intensity: 0-10
+ * Size: 5-25
+ * Constraint: intensity + size <= 18
+ */
+function generateIntensityAndSize(): {
+    intensity: number;
+    size: number;
+} {
+    // Generate intensity first (0-10)
+    const intensity = Math.floor(Math.random() * 11);
+    // Calculate max size based on intensity constraint
+    const maxSize = Math.min(25, 18 - intensity);
+    const minSize = 5;
+    // Generate size, but ensure it's valid
+    const size = Math.max(
+        minSize,
+        Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
+    );
+    return { intensity, size };
+}
+
 function showImageZoom(
     imageSrc: string,
     stimulusId: number,
     event: MouseEvent,
 ) {
     event.preventDefault();
+    openZoomForStimulus(stimulusId, imageSrc);
+}
+
+function openZoomForStimulus(stimulusId: number, imageSrc?: string) {
     const overlay = document.getElementById("imageZoom") as HTMLDivElement;
     const img = document.getElementById("zoomedImage") as HTMLImageElement;
+    const searchInput = document.getElementById(
+        "zoomTagSearch",
+    ) as HTMLInputElement;
+    const descriptionTextarea = document.getElementById(
+        "zoomDescription",
+    ) as HTMLTextAreaElement;
+
+    if (!overlay || !img) return;
+
+    const stimulus = stimuli.find((s) => s.id === stimulusId);
+    if (!stimulus) return;
+
+    img.src = imageSrc || `/assets/stimuli/${stimulus.file}`;
+    renderZoomTagList(stimulus);
+    updateZoomAdrenaline(stimulus);
+
+    // Load description
+    if (descriptionTextarea) {
+        descriptionTextarea.value = stimulus.description || "";
+    }
+
+    // Clear search field
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    const sortedStimuli = getSortedStimuli();
+    const currentIndex = sortedStimuli.findIndex((s) => s.id === stimulusId);
+    overlay.setAttribute("data-stimulus-id", stimulusId.toString());
+    overlay.setAttribute("data-stimulus-index", currentIndex.toString());
+    overlay.style.display = "flex";
+
+    // Focus search input for convenience
+    if (searchInput) {
+        setTimeout(() => searchInput.focus(), 100);
+    }
+}
+
+function getSortedStimuli(): Stimulus[] {
+    return [...stimuli].sort((a, b) => a.file.localeCompare(b.file));
+}
+
+function showPrevZoomImage(event: MouseEvent) {
+    event.stopPropagation();
+    showAdjacentZoomImage(-1);
+}
+
+function showNextZoomImage(event: MouseEvent) {
+    event.stopPropagation();
+    showAdjacentZoomImage(1);
+}
+
+function showAdjacentZoomImage(offset: number) {
+    const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+    if (!overlay) return;
+
+    const sortedStimuli = getSortedStimuli();
+    if (sortedStimuli.length === 0) return;
+
+    const currentId = parseInt(overlay.getAttribute("data-stimulus-id") || "");
+    const currentIndex = sortedStimuli.findIndex((s) => s.id === currentId);
+    if (currentIndex === -1) return;
+
+    const nextIndex =
+        (currentIndex + offset + sortedStimuli.length) % sortedStimuli.length;
+    const nextStimulus = sortedStimuli[nextIndex];
+    openZoomForStimulus(nextStimulus.id);
+}
+
+function renderZoomTagList(stimulus: Stimulus) {
     const tagsContainer = document.getElementById(
         "zoomedImageTags",
     ) as HTMLDivElement;
+    if (!tagsContainer) return;
 
-    if (overlay && img && tagsContainer) {
-        img.src = imageSrc;
+    tagsContainer.innerHTML = "";
+    if (tags.length === 0) {
+        tagsContainer.innerHTML =
+            '<div class="no-tags">Geen tags beschikbaar</div>';
+        return;
+    }
 
-        // Find the stimulus
-        const stimulus = stimuli.find((s) => s.id === stimulusId);
+    // Sort tags alphabetically by name
+    const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name));
 
-        // Render tags
-        if (stimulus) {
-            tagsContainer.innerHTML = "";
-            if (stimulus.tags.length > 0) {
-                stimulus.tags.forEach((tagId) => {
-                    const tag = tags.find((t) => t.id === tagId);
-                    if (tag) {
-                        const tagElem = document.createElement("div");
-                        tagElem.className = "zoom-tag";
-                        tagElem.innerHTML = `
-                            <span>${tag.name}</span>
-                            <button onclick="removeTagFromZoomedPhoto(${stimulusId}, ${tagId}); event.stopPropagation();">✕</button>
-                        `;
-                        tagsContainer.appendChild(tagElem);
-                    }
-                });
-            } else {
-                tagsContainer.innerHTML =
-                    '<div class="no-tags">No tags assigned</div>';
-            }
+    sortedTags.forEach((tag) => {
+        const isActive = stimulus.tags.includes(tag.id);
+        const tagButton = document.createElement("button");
+        tagButton.type = "button";
+        tagButton.className = isActive ? "zoom-tag is-active" : "zoom-tag";
+        tagButton.textContent = tag.name;
+        tagButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            toggleTagForZoom(stimulus.id, tag.id);
+        });
+        tagsContainer.appendChild(tagButton);
+    });
+}
+
+function toggleTagForZoom(stimulusId: number, tagId: number) {
+    const stimulus = stimuli.find((s) => s.id === stimulusId);
+    if (!stimulus) return;
+
+    if (stimulus.tags.includes(tagId)) {
+        stimulus.tags = stimulus.tags.filter((t) => t !== tagId);
+    } else {
+        stimulus.tags.push(tagId);
+    }
+
+    saveStimuli();
+    updateStimulusBadges(stimulus);
+    renderZoomTagList(stimulus);
+    updateZoomAdrenaline(stimulus);
+
+    const editIdVal = document.getElementById("editId") as HTMLInputElement;
+    if (editIdVal) {
+        const currentTagId = parseInt(editIdVal.value);
+        if (!isNaN(currentTagId)) {
+            displayTags(currentTagId);
+        }
+    }
+
+    // Return focus to search input after toggling tag
+    const searchInput = document.getElementById(
+        "zoomTagSearch",
+    ) as HTMLInputElement;
+    if (searchInput) {
+        searchInput.focus();
+    }
+}
+
+function handleZoomTagSearchKeydown(event: KeyboardEvent) {
+    const searchInput = event.target as HTMLInputElement;
+    const searchTerm = searchInput.value.toLowerCase().trim();
+
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const tagsContainer = document.getElementById(
+            "zoomedImageTags",
+        ) as HTMLDivElement;
+        if (!tagsContainer) return;
+
+        const buttons = tagsContainer.querySelectorAll(".zoom-tag");
+
+        // If there are matching tags, click the first one
+        if (buttons.length > 0) {
+            (buttons[0] as HTMLButtonElement).click();
+            searchInput.value = "";
+            handleZoomTagFilter(new Event("input") as Event);
+            return;
         }
 
-        overlay.style.display = "flex";
-        overlay.setAttribute("data-stimulus-id", stimulusId.toString());
+        // No matches - check if user wants to create a new tag
+        if (searchTerm && searchTerm.length > 0) {
+            const confirmed = confirm(`Create new tag "${searchTerm}"?`);
+            if (confirmed) {
+                // Create new tag with the search term as name
+                const newTag = createNewTag(searchTerm);
+
+                // Apply the new tag to the current stimulus
+                const overlay = document.getElementById(
+                    "imageZoom",
+                ) as HTMLDivElement;
+                const currentId = parseInt(
+                    overlay.getAttribute("data-stimulus-id") || "",
+                );
+                const stimulus = stimuli.find((s) => s.id === currentId);
+                if (stimulus && !stimulus.tags.includes(newTag.id)) {
+                    stimulus.tags.push(newTag.id);
+                    saveStimuli();
+                    updateStimulusBadges(stimulus);
+                }
+
+                // Refresh the zoom tag list
+                if (stimulus) {
+                    renderZoomTagList(stimulus);
+                    updateZoomAdrenaline(stimulus);
+                }
+
+                // Update main screen tag list with new tag's photo count
+                displayTags(newTag.id);
+
+                searchInput.value = "";
+                searchInput.focus();
+            }
+        }
+        return;
     }
+
+    if (event.key === "Escape") {
+        searchInput.value = "";
+        handleZoomTagFilter(new Event("input") as Event);
+        return;
+    }
+}
+
+function handleZoomTagFilter(event: Event) {
+    const searchInput = event.target as HTMLInputElement;
+    const searchTerm = searchInput.value.toLowerCase();
+
+    // Filter and re-render tags
+    const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+    const currentId = parseInt(overlay.getAttribute("data-stimulus-id") || "");
+    const stimulus = stimuli.find((s) => s.id === currentId);
+    if (!stimulus) return;
+
+    const tagsContainer = document.getElementById(
+        "zoomedImageTags",
+    ) as HTMLDivElement;
+    if (!tagsContainer) return;
+
+    tagsContainer.innerHTML = "";
+    if (tags.length === 0) {
+        tagsContainer.innerHTML =
+            '<div class="no-tags">Geen tags beschikbaar</div>';
+        return;
+    }
+
+    // Sort tags alphabetically by name
+    const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name));
+
+    let matchCount = 0;
+    let firstMatchButton: HTMLButtonElement | null = null;
+    sortedTags.forEach((tag) => {
+        const isMatch =
+            tag.name.toLowerCase().startsWith(searchTerm) || searchTerm === "";
+        if (!isMatch) return;
+
+        const isActive = stimulus.tags.includes(tag.id);
+        const tagButton = document.createElement("button");
+        tagButton.type = "button";
+        tagButton.className = isActive ? "zoom-tag is-active" : "zoom-tag";
+        tagButton.textContent = tag.name;
+        tagButton.addEventListener("click", (clickEvent) => {
+            clickEvent.stopPropagation();
+            toggleTagForZoom(stimulus.id, tag.id);
+            const search = document.getElementById(
+                "zoomTagSearch",
+            ) as HTMLInputElement;
+            if (search) {
+                search.value = "";
+                handleZoomTagFilter(new Event("input") as Event);
+            }
+        });
+        tagsContainer.appendChild(tagButton);
+
+        if (matchCount === 0) {
+            firstMatchButton = tagButton;
+        }
+        matchCount++;
+    });
+
+    if (matchCount === 0) {
+        tagsContainer.innerHTML =
+            '<div class="no-tags">Geen tags gevonden</div>';
+    } else if (matchCount === 1 && searchTerm.length > 0 && firstMatchButton) {
+        // Highlight the single matching tag (ready to add with Enter)
+        firstMatchButton.classList.add("ready-to-add");
+    }
+}
+
+function updateZoomAdrenaline(stimulus: Stimulus) {
+    const adrenalineDisplay = document.getElementById("zoomAdrenaline");
+    if (!adrenalineDisplay) return;
+
+    const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
+        const tag = tags.find((t) => t.id === tagId);
+        return sum + (tag?.adrenaline || 0);
+    }, 0);
+
+    adrenalineDisplay.textContent = `Adrenaline: ${totalAdrenaline.toFixed(2)}`;
 }
 
 function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
@@ -533,60 +942,10 @@ function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
     if (stimulus) {
         stimulus.tags = stimulus.tags.filter((t) => t !== tagId);
         saveStimuli();
+        updateStimulusBadges(stimulus);
+        renderZoomTagList(stimulus);
+        updateZoomAdrenaline(stimulus);
 
-        // Update the badge in the main view
-        const checkbox = document.getElementById(
-            `stimCb_${stimulusId}`,
-        ) as HTMLInputElement;
-        if (checkbox) {
-            const badge =
-                checkbox.parentElement?.querySelector(".tag-count-badge");
-            if (badge) {
-                badge.textContent = stimulus.tags.length.toString();
-                if (stimulus.tags.length === 0) {
-                    badge.classList.add("zero-tags");
-                } else {
-                    badge.classList.remove("zero-tags");
-                }
-            }
-
-            // Update the adrenaline badge
-            const adrenalineBadge =
-                checkbox.parentElement?.querySelector(".adrenaline-badge");
-            if (adrenalineBadge) {
-                const totalAdrenaline = stimulus.tags.reduce((sum, tagId) => {
-                    const tag = tags.find((t) => t.id === tagId);
-                    return sum + (tag ? tag.adrenaline : 0);
-                }, 0);
-                adrenalineBadge.textContent = totalAdrenaline.toFixed(2);
-            }
-
-            // Uncheck the checkbox if currently selected tag was removed
-            const editId = document.getElementById(
-                "editId",
-            ) as HTMLInputElement;
-            if (editId && parseInt(editId.value) === tagId) {
-                checkbox.checked = false;
-            }
-        }
-
-        // Re-render the zoom view
-        const overlay = document.getElementById("imageZoom") as HTMLDivElement;
-        const currentStimId = overlay.getAttribute("data-stimulus-id");
-        if (currentStimId && parseInt(currentStimId) === stimulusId) {
-            const img = document.getElementById(
-                "zoomedImage",
-            ) as HTMLImageElement;
-            if (img && img.src) {
-                showImageZoom(
-                    img.src,
-                    stimulusId,
-                    new MouseEvent("contextmenu"),
-                );
-            }
-        }
-
-        // Update tag list counts
         const editIdVal = document.getElementById("editId") as HTMLInputElement;
         if (editIdVal) {
             const currentTagId = parseInt(editIdVal.value);
@@ -638,46 +997,7 @@ function handleStimChecked(event: Event) {
                         }
                     }
 
-                    // Update the adrenaline badge
-                    const adrenalineBadge =
-                        input.parentElement?.querySelector(".adrenaline-badge");
-                    if (adrenalineBadge) {
-                        const totalAdrenaline = stim.tags.reduce(
-                            (sum, tagId) => {
-                                const tag = tags.find((t) => t.id === tagId);
-                                return sum + (tag ? tag.adrenaline : 0);
-                            },
-                            0,
-                        );
-                        adrenalineBadge.textContent =
-                            totalAdrenaline.toFixed(2);
-                    }
-
-                    // Update the title attribute
-                    const img = input.parentElement?.querySelector("img");
-                    if (img) {
-                        const tagNames = stim.tags
-                            .map((tagId) => {
-                                const tag = tags.find((t) => t.id === tagId);
-                                return tag ? tag.name : "";
-                            })
-                            .filter((name) => name !== "")
-                            .join(", ");
-
-                        const totalAdrenaline = stim.tags.reduce(
-                            (sum, tagId) => {
-                                const tag = tags.find((t) => t.id === tagId);
-                                return sum + (tag ? tag.adrenaline : 0);
-                            },
-                            0,
-                        );
-
-                        const titleText = tagNames
-                            ? `${tagNames} - adrenaline: ${totalAdrenaline.toFixed(2)}`
-                            : `adrenaline: ${totalAdrenaline.toFixed(2)}`;
-
-                        img.setAttribute("title", titleText);
-                    }
+                    updateStimulusBadges(stim);
 
                     // Update zoom view if currently displayed
                     const overlay = document.getElementById(
@@ -694,11 +1014,7 @@ function handleStimChecked(event: Event) {
                             "zoomedImage",
                         ) as HTMLImageElement;
                         if (zoomedImg && zoomedImg.src) {
-                            showImageZoom(
-                                zoomedImg.src,
-                                stimId,
-                                new MouseEvent("contextmenu"),
-                            );
+                            openZoomForStimulus(stimId, zoomedImg.src);
                         }
                     }
                 }
@@ -719,6 +1035,27 @@ function handleDescriptionChange(event: Event) {
     if (stimulus) {
         stimulus.description = textarea.value;
         saveStimuli();
+    }
+}
+
+function handleZoomDescriptionChange(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    const overlay = document.getElementById("imageZoom") as HTMLDivElement;
+    if (!overlay) return;
+
+    const stimulusId = parseInt(overlay.getAttribute("data-stimulus-id") || "");
+    const stimulus = stimuli.find((s) => s.id === stimulusId);
+    if (stimulus) {
+        stimulus.description = textarea.value;
+        saveStimuli();
+
+        // Update main view description if it exists
+        const mainDescTextarea = document.getElementById(
+            `stimDesc_${stimulusId}`,
+        ) as HTMLTextAreaElement;
+        if (mainDescTextarea) {
+            mainDescTextarea.value = textarea.value;
+        }
     }
 }
 
@@ -747,7 +1084,13 @@ function displayTags(selectId: number = 1) {
     const tagsList = document.getElementById("tagsList");
     if (tagsList) {
         tagsList.innerHTML = ""; // Clear existing tags display
-        tags.forEach((tag) => {
+
+        // Sort tags alphabetically by name
+        const sortedTags = [...tags].sort((a, b) =>
+            a.name.localeCompare(b.name),
+        );
+
+        sortedTags.forEach((tag) => {
             // Count how many stimuli have this tag
             const photoCount = stimuli.filter((stim) =>
                 stim.tags.includes(tag.id),
@@ -755,10 +1098,29 @@ function displayTags(selectId: number = 1) {
 
             const element = document.createElement("div") as HTMLDivElement;
             element.id = "tagNav_" + tag.id.toString();
-            element.textContent = `${tag.name} (${photoCount})`; // Display name with photo count
-            element.addEventListener("click", () => editTag(tag));
             element.classList.add("tag-nav-elem");
+
+            // Create checkbox for filtering
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `tagFilter_${tag.id}`;
+            checkbox.value = tag.id.toString();
+            checkbox.checked = selectedFilterTags.includes(tag.id);
+            checkbox.addEventListener("change", handleTagFilterChange);
+            checkbox.addEventListener("click", (e) => e.stopPropagation());
+
+            // Create span for tag name and count
+            const tagNameSpan = document.createElement("span");
+            tagNameSpan.classList.add("tag-name");
+            tagNameSpan.textContent = `${tag.name} (${photoCount})`;
+
+            // Add click handler to the element (not the checkbox)
+            element.addEventListener("click", () => editTag(tag));
+
+            element.appendChild(checkbox);
+            element.appendChild(tagNameSpan);
             tagsList.appendChild(element);
+
             if (tag.id == selectId) {
                 editTag(tag);
             }
@@ -767,18 +1129,90 @@ function displayTags(selectId: number = 1) {
 }
 
 function addTag() {
+    createNewTag("new");
+}
+
+/**
+ * Create a new tag with the specified name or "new" as default
+ * Generates 6 random excitation points according to the intensity+size constraint
+ */
+function createNewTag(nameHint: string = "new") {
     // Create new tag with 6 excitation points in 2 overlapping clusters
     const excitationData: ExcitationData[] = [];
+
+    // Helper function to generate intensity for a cluster point
+    const generateClusterIntensity = (
+        existingIntensities: number[],
+        remainingIntensityBudget: number,
+        isLastPoint: boolean,
+    ): number => {
+        if (existingIntensities.length === 0) {
+            // First point: random intensity (0-10), but leave room for others
+            return Math.floor(
+                Math.random() * Math.min(11, remainingIntensityBudget - 5),
+            );
+        }
+
+        // Try to find an intensity with difference >= 3 from all existing
+        const attempts = isLastPoint ? 50 : 20;
+        for (let i = 0; i < attempts; i++) {
+            const candidate = Math.floor(
+                Math.random() * Math.min(11, remainingIntensityBudget + 1),
+            );
+            const minDiff = Math.min(
+                ...existingIntensities.map((existing) =>
+                    Math.abs(candidate - existing),
+                ),
+            );
+
+            if (minDiff >= 3) {
+                return candidate;
+            }
+        }
+
+        // For last point: if we can't maintain difference >= 3, just use remaining budget
+        if (isLastPoint) {
+            return Math.floor(
+                Math.random() * Math.min(11, remainingIntensityBudget + 1),
+            );
+        }
+
+        // For second point: ensure some difference, prefer larger differences
+        let bestCandidate = 0;
+        let bestMinDiff = 0;
+        for (let i = 0; i < 10; i++) {
+            const candidate = Math.floor(
+                Math.random() * Math.min(11, remainingIntensityBudget + 1),
+            );
+            const minDiff = Math.min(
+                ...existingIntensities.map((existing) =>
+                    Math.abs(candidate - existing),
+                ),
+            );
+            if (minDiff > bestMinDiff) {
+                bestMinDiff = minDiff;
+                bestCandidate = candidate;
+            }
+        }
+        return bestCandidate;
+    };
 
     // Helper function to create an overlapping point near an existing point
     const createOverlappingPoint = (
         existingPoints: ExcitationData[],
+        intensity: number,
     ): ExcitationData => {
         // Pick a random existing point to overlap with
         const basePoint =
             existingPoints[Math.floor(Math.random() * existingPoints.length)];
-        const size = Math.floor(Math.random() * 21) + 5; // 5-25
-        const intensity = Math.floor(Math.random() * 11); // 0-10
+
+        // Calculate size based on intensity constraint (intensity + size <= 18)
+        const maxSize = Math.min(25, 18 - intensity);
+        const minSize = 5;
+        const size = Math.max(
+            minSize,
+            Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
+        );
 
         // Position it with slight overlap (max 25%)
         // Distance between 0.75 and 1.0 of combined radius gives light overlap
@@ -789,17 +1223,22 @@ function addTag() {
         const distance =
             minDistance + Math.random() * (maxDistance - minDistance);
 
-        return {
+        const newPoint = {
             x: Math.round(basePoint.x + distance * Math.cos(angle)),
             y: Math.round(basePoint.y + distance * Math.sin(angle)),
             intensity,
             size,
         };
+
+        // Clamp position to visible bounds
+        return clampExcitationPosition(newPoint);
     };
 
     // Create 2 clusters
     for (let cluster = 0; cluster < 2; cluster++) {
         const clusterPoints: ExcitationData[] = [];
+        const clusterIntensities: number[] = [];
+        const maxClusterIntensity = 18;
 
         // First point: random position within radius from center
         // Cluster 0 (left side): negative x, angle between π/2 and 3π/2
@@ -813,21 +1252,49 @@ function addTag() {
             angle = -Math.PI / 2 + Math.random() * Math.PI;
         }
         const radius = 120 + Math.random() * 50; // 120-170
-        const firstPoint: ExcitationData = {
+
+        const intensity1 = generateClusterIntensity(
+            [],
+            maxClusterIntensity,
+            false,
+        );
+        clusterIntensities.push(intensity1);
+        const maxSize1 = Math.min(25, 18 - intensity1);
+        const minSize1 = 5;
+        const size1 = Math.max(
+            minSize1,
+            Math.floor(Math.random() * (maxSize1 - minSize1 + 1)) + minSize1,
+        );
+
+        const firstPoint: ExcitationData = clampExcitationPosition({
             x: Math.round(radius * Math.cos(angle)),
             y: Math.round(radius * Math.sin(angle)),
-            intensity: Math.floor(Math.random() * 11), // 0-10
-            size: Math.floor(Math.random() * 21) + 5, // 5-25
-        };
+            intensity: intensity1,
+            size: size1,
+        });
         clusterPoints.push(firstPoint);
         excitationData.push(firstPoint);
 
-        // Second and third points: overlap with existing points in this cluster
-        for (let i = 0; i < 2; i++) {
-            const overlappingPoint = createOverlappingPoint(clusterPoints);
-            clusterPoints.push(overlappingPoint);
-            excitationData.push(overlappingPoint);
-        }
+        // Second point
+        const intensity2 = generateClusterIntensity(
+            clusterIntensities,
+            maxClusterIntensity - intensity1,
+            false,
+        );
+        clusterIntensities.push(intensity2);
+        const secondPoint = createOverlappingPoint(clusterPoints, intensity2);
+        clusterPoints.push(secondPoint);
+        excitationData.push(secondPoint);
+
+        // Third point
+        const intensity3 = generateClusterIntensity(
+            clusterIntensities,
+            maxClusterIntensity - intensity1 - intensity2,
+            true,
+        );
+        const thirdPoint = createOverlappingPoint(clusterPoints, intensity3);
+        clusterPoints.push(thirdPoint);
+        excitationData.push(thirdPoint);
     }
 
     // Sort by size (largest first) for better visibility
@@ -837,20 +1304,25 @@ function addTag() {
         layerId: 17,
         excitationData,
     };
-    const newTag = new Tag(tags.length + 1, "new", 0, [defaultLayer]);
+    const newTag = new Tag(tags.length + 1, nameHint, 0, [defaultLayer]);
     tags.push(newTag);
+    saveTags();
     displayTags(newTag.id);
 
-    // Focus and select the name field
-    setTimeout(() => {
-        const editName = document.getElementById(
-            "editName",
-        ) as HTMLInputElement;
-        if (editName) {
-            editName.focus();
-            editName.select();
-        }
-    }, 100);
+    // If called from main screen, focus and select the name field
+    if (nameHint === "new") {
+        setTimeout(() => {
+            const editName = document.getElementById(
+                "editName",
+            ) as HTMLInputElement;
+            if (editName) {
+                editName.focus();
+                editName.select();
+            }
+        }, 100);
+    }
+
+    return newTag;
 }
 
 function editTag(tag: Tag) {
@@ -878,6 +1350,10 @@ function editTag(tag: Tag) {
         editId.value = tag.id.toString();
         editName.value = tag.name;
         editAdrenaline.value = tag.adrenaline.toString();
+        const adrenalineValue = document.getElementById("adrenalineValue");
+        if (adrenalineValue) {
+            adrenalineValue.textContent = tag.adrenaline.toFixed(2);
+        }
 
         const layerContainer = document.getElementById("layerContainer");
         if (layerContainer) {
@@ -898,27 +1374,28 @@ function editTag(tag: Tag) {
                 "beforeend",
                 `
           <div class="layer" id="layer_${layerId}">
-            <div class="left">
-              <div>
-              <label for="textarea_layer_${layerId}">Layer ${layerId}</label>
-              <label><input type="checkbox" checked id="cbMask_${layerId}" onchange="handleMask(event)"> mask</label>
+            <div class="visualizer-section">
+              <div class="mask-control">
+                <label><input type="checkbox" checked id="cbMask_${layerId}" onchange="handleMask(event)"> Show mask</label>
               </div>
+              <div class="visualizer" id="vis_${layerId}">
+                <img class="mri-background" src="/mri/mri_017.jpg" alt="MRI scan" draggable="false">
+                <div class="point-container" id="pc_${layerId}"></div>
+                <img id="mask_${layerId}" class="mri-mask show" src="/masks/mri_mask_017.gif" draggable="false">
+              </div>
+            </div>
+            <div class="controls-section">
+              <button onclick="addExcitationPoint(${layerId})">+ Add Point</button>
+              <div id="pointsList_${layerId}" class="points-list"></div>
+            </div>
+            <div class="json-section">
+              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-25)</label>
               <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
                   clampedExcitationData,
               )
                   .replace(/},{/g, "},\n  {")
                   .replace(/\[{/g, "[\n  {")
                   .replace(/}\]/g, "}\n]")}</textarea>
-              <div style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">
-                <strong>Parameters:</strong> x, y: -20 tot +20 | intensity: 0-10 | size: 5-25
-              </div>
-              <button onclick="addExcitationPoint(${layerId})" style="margin-top: 0.5rem;">+ Add Point</button>
-              <div id="pointsList_${layerId}" class="points-list" style="margin-top: 1rem;"></div>
-            </div>
-            <div class="visualizer" id="vis_${layerId}">
-              <img class="mri-background" src="/mri/mri_017.jpg" alt="MRI scan" draggable="false">
-              <div class="point-container" id="pc_${layerId}"></div>
-              <img id="mask_${layerId}" class="mri-mask show" src="/masks/mri_mask_017.gif" draggable="false">
             </div>
           </div>
         `,
@@ -972,6 +1449,12 @@ function handleNameChange(event: Event) {
 
 function handleAdrenalineChange(event: Event) {
     const input = event.target as HTMLInputElement;
+
+    // Update the value label
+    const adrenalineValue = document.getElementById("adrenalineValue");
+    if (adrenalineValue) {
+        adrenalineValue.textContent = parseFloat(input.value).toFixed(2);
+    }
 
     const tagIdInput = document.getElementById("editId") as HTMLInputElement;
     if (tagIdInput) {
@@ -1312,10 +1795,10 @@ function exportTehutiXL(): void {
                     // Clamp size to valid range (5-25)
                     const clampedSize = Math.max(5, Math.min(25, data.size));
                     return {
-                        x: Math.round((data.x / 220) * 1000) / 1000,
-                        y: Math.round((data.y / 220) * 1000) / 1000,
+                        x: Math.round((data.x / 200) * 10000) / 10000,
+                        y: Math.round((data.y / 200) * 10000) / 10000,
                         intensity: data.intensity,
-                        size: Math.round((clampedSize / 200) * 1000) / 1000,
+                        size: Math.round((clampedSize / 200) * 10000) / 10000,
                     };
                 })
                 .sort((a, b) => b.size - a.size),
@@ -1447,14 +1930,13 @@ function addExcitationPoint(layerId: number) {
 
     try {
         const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        // Add new point at center with random values
-        const randomIntensity = Math.floor(Math.random() * 11); // 0-10
-        const randomSize = Math.floor(Math.random() * 21) + 5; // 5-25
+        // Add new point at center with constrained random values
+        const { intensity, size } = generateIntensityAndSize();
         const newPoint = {
             x: 0,
             y: 0,
-            intensity: randomIntensity,
-            size: randomSize,
+            intensity,
+            size,
         };
         excitationData.push(newPoint);
         const newIndex = excitationData.length - 1;
@@ -1484,7 +1966,7 @@ function addExcitationPoint(layerId: number) {
                 if (pointData) {
                     el.style.zIndex = String(maxSize - pointData.size);
                 }
-                el.style.opacity = "0.9";
+                el.style.opacity = "0.6";
             });
 
             // Add new point element
@@ -1630,9 +2112,15 @@ function selectExcitationPoint(event: Event) {
 function handleDragStart(event: DragEvent) {
     isDragging = true;
     draggedElement = event.target as HTMLElement;
-    if (draggedElement) {
+    if (draggedElement && event.dataTransfer) {
         const layerId = parseInt(draggedElement.dataset.layer || "0");
         const index = parseInt(draggedElement.dataset.index || "0");
+
+        // Hide the default drag ghost image
+        const emptyImage = new Image();
+        emptyImage.src =
+            "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+        event.dataTransfer.setDragImage(emptyImage, 0, 0);
 
         // Select this point
         const visualizer = document.getElementById(`vis_${layerId}`);
@@ -1665,7 +2153,7 @@ function handleDragStart(event: DragEvent) {
                                 maxSize -
                                     excitationData[selectedPointIndex].size,
                             );
-                            prevPoint.style.opacity = "0.7";
+                            prevPoint.style.opacity = "0.6";
                         }
                     }
                 } catch (error) {
@@ -1793,7 +2281,7 @@ function handleDragEnd(event: DragEvent) {
     const index = parseInt(target.dataset.index || "0");
     const isSelected =
         selectedPointIndex === index && selectedLayerId === layerId;
-    target.style.opacity = isSelected ? "1" : "0.7";
+    target.style.opacity = isSelected ? "1" : "0.6";
 
     const visualizer = document.getElementById(`vis_${layerId}`);
     if (!visualizer) return;
@@ -1907,7 +2395,7 @@ function selectExcitationPointFromList(layerId: number, index: number) {
                         prevPoint.style.zIndex = String(
                             maxSize - excitationData[selectedPointIndex].size,
                         );
-                        prevPoint.style.opacity = "0.9";
+                        prevPoint.style.opacity = "0.6";
                     }
                 }
 
@@ -1980,7 +2468,7 @@ function updatePointProperty(
                         prevPoint.style.zIndex = String(
                             maxSize - excitationData[selectedPointIndex].size,
                         );
-                        prevPoint.style.opacity = "0.9";
+                        prevPoint.style.opacity = "0.6";
                     }
                 }
 
@@ -2169,12 +2657,18 @@ windowWithHandlers.handleNameChange = handleNameChange;
 windowWithHandlers.handleAdrenalineChange = handleAdrenalineChange;
 windowWithHandlers.handleStimChecked = handleStimChecked;
 windowWithHandlers.handleDescriptionChange = handleDescriptionChange;
+windowWithHandlers.handleZoomDescriptionChange = handleZoomDescriptionChange;
 windowWithHandlers.handleMask = handleMask;
 windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;
 windowWithHandlers.showImageZoom = showImageZoom;
 windowWithHandlers.hideImageZoom = hideImageZoom;
 windowWithHandlers.removeTagFromZoomedPhoto = removeTagFromZoomedPhoto;
+windowWithHandlers.showPrevZoomImage = showPrevZoomImage;
+windowWithHandlers.showNextZoomImage = showNextZoomImage;
+windowWithHandlers.handleZoomTagSearchKeydown = handleZoomTagSearchKeydown;
+windowWithHandlers.handleZoomTagFilter = handleZoomTagFilter;
+windowWithHandlers.clearTagFilters = clearTagFilters;
 windowWithHandlers.exportData = exportData;
 windowWithHandlers.exportTehutiXL = exportTehutiXL;
 windowWithHandlers.exportPhotosAndTags = exportPhotosAndTags;

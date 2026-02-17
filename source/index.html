@@ -59,25 +59,44 @@
         <main>
             <div class="panel" id="tagNavContainer">
                 <button id="addTagButton" onclick="addTag()">Add Tag</button>
+                <button id="clearTagFiltersButton" onclick="clearTagFilters()">
+                    Clear filters
+                </button>
                 <div id="tagsList" class=""></div>
             </div>
 
             <div id="tagEditor" class="panel">
-                <label for="editId">ID</label>
-                <input type="number" id="editId" disabled />
-                <label for="editName">Name</label>
-                <input
-                    type="text"
-                    id="editName"
-                    onchange="handleNameChange(event)"
-                />
-                <label for="editAdrenaline">Adrenaline</label>
                 <input
                     type="number"
-                    id="editAdrenaline"
-                    step="0.05"
-                    onchange="handleAdrenalineChange(event)"
+                    id="editId"
+                    disabled
+                    style="display: none"
                 />
+                <div class="tag-header">
+                    <div class="form-group">
+                        <label for="editName">Name</label>
+                        <input
+                            type="text"
+                            id="editName"
+                            onchange="handleNameChange(event)"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdrenaline">Adrenaline</label>
+                        <div class="slider-with-value">
+                            <input
+                                type="range"
+                                id="editAdrenaline"
+                                min="-0.25"
+                                max="0.25"
+                                step="0.01"
+                                value="0"
+                                oninput="handleAdrenalineChange(event)"
+                            />
+                            <span id="adrenalineValue">0.00</span>
+                        </div>
+                    </div>
+                </div>
                 <div id="layerContainer"></div>
             </div>
 
@@ -94,8 +113,40 @@
             onblur="hideImageZoom()"
         >
             <div class="zoom-content" onclick="event.stopPropagation()">
-                <img id="zoomedImage" src="" alt="Vergrote foto" />
-                <div id="zoomedImageTags" class="zoom-tags"></div>
+                <div class="zoom-main">
+                    <img id="zoomedImage" src="" alt="Vergrote foto" />
+                    <textarea
+                        id="zoomDescription"
+                        class="zoom-description"
+                        placeholder="Beschrijving..."
+                        onchange="handleZoomDescriptionChange(event)"
+                    ></textarea>
+                    <div class="zoom-nav">
+                        <button onclick="showPrevZoomImage(event)">
+                            ↑ Vorige
+                        </button>
+                        <button onclick="showNextZoomImage(event)">
+                            ↓ Volgende
+                        </button>
+                    </div>
+                </div>
+                <div class="zoom-tag-panel">
+                    <div class="zoom-tags-header">
+                        <div class="zoom-tags-title">Tags</div>
+                        <div id="zoomAdrenaline" class="zoom-adrenaline">
+                            Adrenaline: 0
+                        </div>
+                    </div>
+                    <input
+                        type="text"
+                        id="zoomTagSearch"
+                        placeholder="Zoeken..."
+                        oninput="handleZoomTagFilter(event)"
+                        onkeydown="handleZoomTagSearchKeydown(event)"
+                        autocomplete="off"
+                    />
+                    <div id="zoomedImageTags" class="zoom-tags"></div>
+                </div>
             </div>
         </div>
         <script type="module" src="./js/main.ts"></script>

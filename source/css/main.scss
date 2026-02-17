@@ -52,11 +52,22 @@ main {
         padding         : 1rem;
 
         &#tagNavContainer {
-            position  : relative;
-            flex      : 0 0 12rem;
-            overflow-y: auto;
-            overflow-x: hidden;
+            position      : relative;
+            flex          : 0 0 12rem;
+            overflow-y    : auto;
+            overflow-x    : hidden;
+            display       : flex;
+            flex-direction: column;
         }
+    }
+
+    #addTagButton,
+    #clearTagFiltersButton {
+        position        : sticky;
+        top             : 0;
+        z-index         : 10;
+        background-color: #fff;
+        margin-bottom   : 0.5rem;
     }
 
     #tagsList {
@@ -68,54 +79,119 @@ main {
         overflow-x    : hidden;
 
         .tag-nav-elem {
+            display      : flex;
+            align-items  : center;
+            gap          : 0.5rem;
             cursor       : pointer;
             user-select  : none;
             border-radius: 4px;
             padding      : 4px 8px;
+            transition   : background-color 0.2s;
 
             &.selected {
                 background-color: lightsteelblue;
+            }
+
+            input[type='checkbox'] {
+                cursor        : pointer;
+                margin        : 0;
+                flex-shrink   : 0;
+                pointer-events: auto;
+            }
+
+            .tag-name {
+                flex         : 1;
+                min-width    : 0;
+                white-space  : nowrap;
+                overflow     : hidden;
+                text-overflow: ellipsis;
             }
         }
     }
 
     #tagEditor {
-        display                 : grid;
-        // width                : 12rem;
-        grid-template-columns   : auto auto;
-        grid-template-rows      : 2rem 2rem 2rem auto;
-        column-gap              : 1rem;
-        row-gap                 : 2rem;
-        flex                    : 0 0 40rem;
+        display       : flex;
+        flex-direction: column;
+        gap           : 1rem;
+        flex          : 0 0 auto;
+        width         : fit-content;
+        max-width     : calc(100vw - 15rem);
+
+        .tag-header {
+            display       : flex;
+            flex-direction: column;
+            gap           : 0.5rem;
+
+            .form-group {
+                display       : flex;
+                flex-direction: column;
+                gap           : 0.25rem;
+
+                label {
+                    font-weight: bold;
+                    font-size  : 0.9rem;
+                }
+
+                input[type="text"] {
+                    padding: 0.25rem 0.5rem;
+                }
+
+                .slider-with-value {
+                    display    : flex;
+                    align-items: center;
+                    gap        : 0.5rem;
+
+                    input[type="range"] {
+                        flex: 1;
+                    }
+
+                    span {
+                        min-width  : 3rem;
+                        text-align : right;
+                        font-family: monospace;
+                        font-size  : 0.9rem;
+                    }
+                }
+            }
+        }
 
         #layerContainer {
-            grid-column: 1 / -1;
-            overflow-y : auto;
-            overflow-x : hidden;
+            display       : flex;
+            flex-direction: column;
+            gap           : 1rem;
+            overflow-y    : auto;
+            overflow-x    : hidden;
 
             .layer {
-                display              : grid;
-                grid-template-columns: auto auto;
-                column-gap           : 1rem;
-                row-gap              : 1rem;
-                margin-bottom        : 1rem;
+                display       : flex;
+                flex-direction: column;
+                gap           : 1rem;
 
-                .left {
-                    grid-column: 1 / 2;
+                .visualizer-section {
+                    display       : flex;
+                    flex-direction: column;
+                    gap           : 0.5rem;
+                    align-items   : center;
 
+                    .mask-control {
+                        display    : flex;
+                        align-items: center;
+                        gap        : 0.5rem;
+                        font-size  : 0.9rem;
+                    }
+                }
 
+                .controls-section {
+                    display       : flex;
+                    flex-direction: column;
+                    gap           : 0.5rem;
 
-                    textarea {
-                        width : 24rem;
-                        height: 20rem;
-
-                        &.error {
-                            background-color: #f001;
-                        }
+                    button {
+                        align-self: flex-start;
                     }
 
                     .points-list {
-                        max-height   : 60rem;
+                        max-height   : 30rem;
                         overflow-y   : auto;
                         border       : 1px solid #ccc;
                         padding      : 0.5rem;
@@ -154,14 +230,33 @@ main {
                     }
                 }
 
+                .json-section {
+                    display       : flex;
+                    flex-direction: column;
+                    gap           : 0.5rem;
+
+                    label {
+                        font-size: 0.9rem;
+                        color    : #888;
+                    }
+
+                    textarea {
+                        width : 100%;
+                        height: 15rem;
+                        resize: vertical;
+
+                        &.error {
+                            background-color: #f001;
+                        }
+                    }
+                }
+
                 .visualizer {
-                    grid-column: 2 / -1;
-                    position   : relative;
-                    width      : 400px;
-                    height     : 400px;
-                    display    : block;
-                    overflow   : hidden;
-                    margin-top : 2rem;
+                    position: relative;
+                    width   : 400px;
+                    height  : 400px;
+                    display : block;
+                    overflow: hidden;
 
                     .mri-background {
                         position: absolute;
@@ -187,6 +282,8 @@ main {
                             transition      : opacity 0.2s;
                             pointer-events  : auto;
                             z-index         : 1;
+                            opacity         : 0.6;
+                            border-radius   : 20%;
                         }
 
                     }
@@ -261,7 +358,7 @@ main {
             img {
                 opacity: 0.8;
                 border : 5px solid transparent;
-                width  : 180px;
+                width  : 256px;
             }
 
             input[type='checkbox']:checked~img {
@@ -270,7 +367,7 @@ main {
             }
 
             .stim-description {
-                width           : 180px;
+                width           : 256px;
                 min-height      : 2rem;
                 max-height      : 6rem;
                 background-color: rgba(0, 0, 0, 0.3);
@@ -330,9 +427,40 @@ div#imageZoom {
 
     .zoom-content {
         display       : flex;
+        flex-direction: row;
+        align-items   : flex-start;
+        gap           : 2rem;
+        max-width     : 95vw;
+        max-height    : 90vh;
+        padding       : 1rem;
+        box-sizing    : border-box;
+    }
+
+    .zoom-main {
+        display       : flex;
         flex-direction: column;
         align-items   : center;
         gap           : 1rem;
+    }
+
+    .zoom-nav {
+        display        : flex;
+        gap            : 0.75rem;
+        justify-content: center;
+
+        button {
+            background-color: rgba(255, 255, 255, 0.15);
+            color           : white;
+            border          : 1px solid rgba(255, 255, 255, 0.2);
+            border-radius   : 4px;
+            padding         : 0.4rem 0.8rem;
+            cursor          : pointer;
+            font-size       : 0.9rem;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.25);
+            }
+        }
     }
 
     img {
@@ -344,38 +472,122 @@ div#imageZoom {
         cursor    : default;
     }
 
-    .zoom-tags {
+    .zoom-description {
+        width           : 100%;
+        max-width       : 1024px;
+        min-height      : 3rem;
+        max-height      : 8rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        color           : white;
+        font-size       : 0.9rem;
+        padding         : 0.5rem;
+        border          : 1px solid rgba(255, 255, 255, 0.2);
+        border-radius   : 4px;
+        resize          : vertical;
+        font-family     : inherit;
+        margin-top      : 0.5rem;
+
+        &::placeholder {
+            color  : rgba(255, 255, 255, 0.5);
+            opacity: 1;
+        }
+
+        &:focus {
+            outline         : none;
+            border-color    : rgba(255, 255, 255, 0.4);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    }
+
+    .zoom-tag-panel {
+        display       : flex;
+        flex-direction: column;
+        gap           : 0.75rem;
+        min-width     : 1200px;
+        max-width     : 2000px;
+        max-height    : 85vh;
+    }
+
+    .zoom-tags-header {
         display        : flex;
-        flex-wrap      : wrap;
-        gap            : 0.5rem;
-        max-width      : 1024px;
-        justify-content: center;
-        padding        : 1rem;
+        justify-content: space-between;
+        align-items    : center;
+    }
+
+    .zoom-tags-title {
+        color      : rgba(255, 255, 255, 0.8);
+        font-size  : 0.9rem;
+        font-weight: bold;
+    }
+
+    .zoom-adrenaline {
+        color        : rgba(255, 255, 80, 0.9);
+        font-size    : 0.85rem;
+        font-weight  : bold;
+        padding      : 0.2rem 0.5rem;
+        background   : rgba(255, 255, 80, 0.1);
+        border       : 1px solid rgba(255, 255, 80, 0.3);
+        border-radius: 4px;
+    }
+
+    #zoomTagSearch {
+        width           : 100%;
+        padding         : 0.4rem 0.6rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color           : white;
+        border          : 1px solid rgba(255, 255, 255, 0.2);
+        border-radius   : 4px;
+        font-size       : 0.85rem;
+        font-family     : inherit;
+
+        &::placeholder {
+            color  : rgba(255, 255, 255, 0.5);
+            opacity: 1;
+        }
+
+        &:focus {
+            outline         : none;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color    : rgba(255, 255, 255, 0.4);
+        }
+    }
+
+    .zoom-tags {
+        display     : block;
+        column-count: auto;
+        column-width: 140px;
+        column-gap  : 0.5rem;
+        max-height  : 85vh;
+        overflow-y  : auto;
+        padding     : 1rem;
 
         .zoom-tag {
-            display         : flex;
-            align-items     : center;
-            gap             : 0.5rem;
-            background-color: rgba(255, 255, 255, 0.1);
+            display         : block;
+            width           : 100%;
+            text-align      : left;
+            background-color: rgba(255, 255, 255, 0.08);
             color           : white;
             padding         : 0.4rem 0.6rem;
+            border          : 1px solid rgba(255, 255, 255, 0.15);
             border-radius   : 4px;
             font-size       : 0.9rem;
-            cursor          : default;
+            cursor          : pointer;
+            break-inside    : avoid;
+            margin-bottom   : 0.5rem;
 
-            button {
-                background-color: rgba(220, 38, 38, 0.8);
-                color           : white;
-                border          : none;
-                border-radius   : 3px;
-                padding         : 0.2rem 0.4rem;
-                cursor          : pointer;
-                font-size       : 0.8rem;
-                font-weight     : bold;
+            &.is-active {
+                background-color: rgba(96, 165, 250, 0.35);
+                border-color    : rgba(96, 165, 250, 0.7);
+            }
 
-                &:hover {
-                    background-color: rgba(220, 38, 38, 1);
-                }
+            &.ready-to-add {
+                background-color: rgba(76, 175, 80, 0.25);
+                border-color    : rgba(76, 175, 80, 0.8);
+                box-shadow      : 0 0 8px rgba(76, 175, 80, 0.5);
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.18);
             }
         }
 

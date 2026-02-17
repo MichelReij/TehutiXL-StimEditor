@@ -139,6 +139,7 @@ export interface WindowWithHandlers extends Window {
     handlePaste: (event: Event) => void;
     hideOverlay: (event: Event) => void;
     handleDescriptionChange: (event: Event) => void;
+    handleZoomDescriptionChange: (event: Event) => void;
     showImageZoom: (
         imageSrc: string,
         stimulusId: number,
@@ -146,6 +147,11 @@ export interface WindowWithHandlers extends Window {
     ) => void;
     hideImageZoom: () => void;
     removeTagFromZoomedPhoto: (stimulusId: number, tagId: number) => void;
+    showPrevZoomImage: (event: MouseEvent) => void;
+    showNextZoomImage: (event: MouseEvent) => void;
+    handleZoomTagSearchKeydown: (event: KeyboardEvent) => void;
+    handleZoomTagFilter: (event: Event) => void;
+    clearTagFilters: () => void;
     exportData: () => void;
     exportTehutiXL: () => void;
     exportPhotosAndTags: () => void;
