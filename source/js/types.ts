@@ -136,6 +136,7 @@ export interface WindowWithHandlers extends Window {
     handleAdrenalineChange: (event: Event) => void;
     handleStimChecked: (event: Event) => void;
     handleMask: (event: Event) => void;
+    handleZoomMask: (event: Event) => void;
     handlePaste: (event: Event) => void;
     hideOverlay: (event: Event) => void;
     handleDescriptionChange: (event: Event) => void;

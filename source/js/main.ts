@@ -22,6 +22,7 @@ import {
 let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
 let selectedFilterTags: number[] = []; // Tag IDs selected for filtering stimuli
+let showMask: boolean = true; // Remember mask visibility preference across tag switches
 // 11-point intensity scale (0-10)
 const intensityPalette: readonly string[] = [
     "#FAE073", // 0 - low intensity (light yellow)
@@ -235,9 +236,9 @@ async function init() {
                     const point = excitationData[selectedPointIndex];
 
                     if (event.key.toLowerCase() === "a") {
-                        // Increase size (max 25)
+                        // Increase size (max 12)
                         event.preventDefault();
-                        const newSize = Math.min(point.size + 1, 25);
+                        const newSize = Math.min(point.size + 1, 12);
                         if (newSize !== point.size) {
                             updatePointProperty(
                                 selectedLayerId,
@@ -314,8 +315,11 @@ async function init() {
                         // Add new excitation point
                         event.preventDefault();
                         addExcitationPoint(selectedLayerId);
-                    } else if (event.key.toLowerCase() === "w") {
-                        // Delete selected excitation point
+                    } else if (
+                        event.key.toLowerCase() === "w" ||
+                        event.key === "Backspace"
+                    ) {
+                        // Delete selected excitation point (W or Backspace)
                         event.preventDefault();
                         deleteExcitationPoint(
                             selectedLayerId,
@@ -605,12 +609,12 @@ function check4JpgExtension(file: string): string {
 }
 
 /**
- * Clamp excitation point size to valid range (5-25)
+ * Clamp excitation point size to valid range (5-12)
  */
 function clampExcitationSize(data: ExcitationData): ExcitationData {
     return {
         ...data,
-        size: Math.max(5, Math.min(25, data.size)),
+        size: Math.max(5, Math.min(12, data.size)),
     };
 }
 
@@ -632,7 +636,7 @@ function clampExcitationPosition(data: ExcitationData): ExcitationData {
 /**
  * Generate random intensity and size ensuring intensity + size <= 18
  * Intensity: 0-10
- * Size: 5-25
+ * Size: 5-12
  * Constraint: intensity + size <= 18
  */
 function generateIntensityAndSize(): {
@@ -642,7 +646,7 @@ function generateIntensityAndSize(): {
     // Generate intensity first (0-10)
     const intensity = Math.floor(Math.random() * 11);
     // Calculate max size based on intensity constraint
-    const maxSize = Math.min(25, 18 - intensity);
+    const maxSize = Math.min(12, 18 - intensity);
     const minSize = 5;
     // Generate size, but ensure it's valid
     const size = Math.max(
@@ -679,6 +683,23 @@ function openZoomForStimulus(stimulusId: number, imageSrc?: string) {
     img.src = imageSrc || `/assets/stimuli/${stimulus.file}`;
     renderZoomTagList(stimulus);
     updateZoomAdrenaline(stimulus);
+    renderZoomEPPreview(stimulus);
+
+    // Sync zoom mask checkbox with global showMask preference
+    const zoomMaskCheckbox = document.getElementById(
+        "cbZoomMask",
+    ) as HTMLInputElement;
+    const zoomMaskImage = document.getElementById("zoomEpMask");
+    if (zoomMaskCheckbox) {
+        zoomMaskCheckbox.checked = showMask;
+    }
+    if (zoomMaskImage) {
+        if (showMask) {
+            zoomMaskImage.classList.add("show");
+        } else {
+            zoomMaskImage.classList.remove("show");
+        }
+    }
 
     // Load description
     if (descriptionTextarea) {
@@ -777,6 +798,7 @@ function toggleTagForZoom(stimulusId: number, tagId: number) {
     updateStimulusBadges(stimulus);
     renderZoomTagList(stimulus);
     updateZoomAdrenaline(stimulus);
+    renderZoomEPPreview(stimulus);
 
     const editIdVal = document.getElementById("editId") as HTMLInputElement;
     if (editIdVal) {
@@ -941,6 +963,59 @@ function updateZoomAdrenaline(stimulus: Stimulus) {
     adrenalineDisplay.textContent = `Adrenaline: ${totalAdrenaline.toFixed(2)}`;
 }
 
+/**
+ * Render all excitation points from all tags associated with a stimulus
+ * in the zoom preview canvas
+ */
+function renderZoomEPPreview(stimulus: Stimulus) {
+    const canvas = document.getElementById("zoomEpCanvas");
+    if (!canvas) return;
+
+    // Clear existing excitation points (but keep the mask image)
+    const existingPoints = canvas.querySelectorAll(".excitation-point");
+    existingPoints.forEach((point) => point.remove());
+
+    // Get all tags for this stimulus
+    const stimulusTags = stimulus.tags
+        .map((tagId) => tags.find((t) => t.id === tagId))
+        .filter((tag): tag is Tag => tag !== undefined);
+
+    if (stimulusTags.length === 0) return;
+
+    // Collect all excitation points from all layers of all tags
+    const allPoints: Array<ExcitationData & { tagId: number }> = [];
+
+    stimulusTags.forEach((tag) => {
+        tag.layers.forEach((layer) => {
+            layer.excitationData.forEach((ep) => {
+                allPoints.push({ ...ep, tagId: tag.id });
+            });
+        });
+    });
+
+    // Sort by intensity (lower intensity rendered first, appears behind)
+    allPoints.sort((a, b) => a.intensity - b.intensity);
+
+    // Render each point
+    allPoints.forEach((ep) => {
+        // Limit size to maximum 12 for preview
+        const previewSize = Math.min(ep.size, 12);
+        const x = 200 + ep.x - previewSize;
+        const y = 200 - ep.y - previewSize;
+        const color = intensityPalette[ep.intensity];
+
+        const pointDiv = document.createElement("div");
+        pointDiv.className = "excitation-point";
+        pointDiv.style.top = `${y}px`;
+        pointDiv.style.left = `${x}px`;
+        pointDiv.style.width = `${previewSize * 2}px`;
+        pointDiv.style.height = `${previewSize * 2}px`;
+        pointDiv.style.backgroundColor = color;
+
+        canvas.appendChild(pointDiv);
+    });
+}
+
 function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
     const stimulus = stimuli.find((s) => s.id === stimulusId);
     if (stimulus) {
@@ -949,6 +1024,7 @@ function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
         updateStimulusBadges(stimulus);
         renderZoomTagList(stimulus);
         updateZoomAdrenaline(stimulus);
+        renderZoomEPPreview(stimulus);
 
         const editIdVal = document.getElementById("editId") as HTMLInputElement;
         if (editIdVal) {
@@ -1211,7 +1287,7 @@ function createNewTag(nameHint: string = "new") {
             existingPoints[Math.floor(Math.random() * existingPoints.length)];
 
         // Calculate size based on intensity constraint (intensity + size <= 18)
-        const maxSize = Math.min(25, 18 - intensity);
+        const maxSize = Math.min(12, 18 - intensity);
         const minSize = 5;
         const size = Math.max(
             minSize,
@@ -1263,7 +1339,7 @@ function createNewTag(nameHint: string = "new") {
             false,
         );
         clusterIntensities.push(intensity1);
-        const maxSize1 = Math.min(25, 18 - intensity1);
+        const maxSize1 = Math.min(12, 18 - intensity1);
         const minSize1 = 5;
         const size1 = Math.max(
             minSize1,
@@ -1367,12 +1443,15 @@ function editTag(tag: Tag) {
             const layerId = 17;
             const layer = tag.getLayer(layerId);
 
-            // Clamp excitation point sizes to valid range (5-25)
+            // Clamp excitation point sizes to valid range (5-12)
             const clampedExcitationData =
                 layer.excitationData.map(clampExcitationSize);
 
             // Sort by size (largest first) for better visibility
             clampedExcitationData.sort((a, b) => b.size - a.size);
+
+            const maskChecked = showMask ? "checked" : "";
+            const maskClass = showMask ? "mri-mask show" : "mri-mask";
 
             layerContainer.insertAdjacentHTML(
                 "beforeend",
@@ -1380,12 +1459,12 @@ function editTag(tag: Tag) {
           <div class="layer" id="layer_${layerId}">
             <div class="visualizer-section">
               <div class="mask-control">
-                <label><input type="checkbox" checked id="cbMask_${layerId}" onchange="handleMask(event)"> Show mask</label>
+                <label><input type="checkbox" ${maskChecked} id="cbMask_${layerId}" onchange="handleMask(event)"> Show mask</label>
               </div>
               <div class="visualizer" id="vis_${layerId}">
                 <img class="mri-background" src="/mri/mri_017.jpg" alt="MRI scan" draggable="false">
                 <div class="point-container" id="pc_${layerId}"></div>
-                <img id="mask_${layerId}" class="mri-mask show" src="/masks/mri_mask_017.gif" draggable="false">
+                <img id="mask_${layerId}" class="${maskClass}" src="/masks/mri_mask_017.gif" draggable="false">
               </div>
             </div>
             <div class="controls-section">
@@ -1393,7 +1472,7 @@ function editTag(tag: Tag) {
               <div id="pointsList_${layerId}" class="points-list"></div>
             </div>
             <div class="json-section">
-              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-25)</label>
+              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-12)</label>
               <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
                   clampedExcitationData,
               )
@@ -1479,6 +1558,26 @@ function handleMask(event: Event) {
     const target = event.target as HTMLInputElement;
     const id = parseInt(target.id.split("_")[1]);
     const mask = document.getElementById("mask_" + id);
+
+    // Update global mask visibility preference
+    showMask = target.checked;
+
+    if (mask) {
+        if (target.checked) {
+            mask.classList.add("show");
+        } else {
+            mask.classList.remove("show");
+        }
+    }
+}
+
+function handleZoomMask(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const mask = document.getElementById("zoomEpMask");
+
+    // Update global mask visibility preference
+    showMask = target.checked;
+
     if (mask) {
         if (target.checked) {
             mask.classList.add("show");
@@ -1500,7 +1599,7 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
-            // Clamp all sizes to valid range (5-25)
+            // Clamp all sizes to valid range (5-12)
             const clampedData = excitationData.map(clampExcitationSize);
 
             vis.innerHTML = "";
@@ -1515,12 +1614,14 @@ function renderPoints(layerId: number, jsonStr: string) {
             indexedData.sort((a, b) => a.intensity - b.intensity);
 
             // Find max size for z-index calculation
-            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 25);
+            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 12);
 
             // console.log("boe2");
             indexedData.forEach((epd) => {
-                const x = 200 + epd.x - epd.size;
-                const y = 200 - epd.y - epd.size;
+                // Limit size to maximum 12 for display
+                const displaySize = Math.min(epd.size, 12);
+                const x = 200 + epd.x - displaySize;
+                const y = 200 - epd.y - displaySize;
                 const isSelected =
                     selectedPointIndex === epd.originalIndex &&
                     selectedLayerId === layerId;
@@ -1546,8 +1647,8 @@ function renderPoints(layerId: number, jsonStr: string) {
                style="
             top:${y}px;
             left:${x}px;
-            width:${epd.size * 2}px;
-            height:${epd.size * 2}px;
+            width:${displaySize * 2}px;
+            height:${displaySize * 2}px;
             background-color: ${intensityPalette[epd.intensity]};
             cursor: move;
             z-index: ${zIndex};
@@ -1793,8 +1894,8 @@ function exportTehutiXL(): void {
             adrenaline: tag.adrenaline,
             excitationData: layer17.excitationData
                 .map((data) => {
-                    // Clamp size to valid range (5-25)
-                    const clampedSize = Math.max(5, Math.min(25, data.size));
+                    // Clamp size to valid range (5-12)
+                    const clampedSize = Math.max(5, Math.min(12, data.size));
                     return {
                         x: Math.round((data.x / 200) * 10000) / 10000,
                         y: Math.round((data.y / 200) * 10000) / 10000,
@@ -2026,7 +2127,7 @@ function addExcitationPoint(layerId: number) {
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
             <label for="size_${layerId}_${newIndex}">Size:</label>
-            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="25" value="${newPoint.size}"
+            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="12" value="${newPoint.size}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -2353,7 +2454,7 @@ function renderPointsList(layerId: number) {
                    style="width: 100%;">
             <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="5" max="25" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="5" max="12" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -2661,6 +2762,7 @@ windowWithHandlers.handleStimChecked = handleStimChecked;
 windowWithHandlers.handleDescriptionChange = handleDescriptionChange;
 windowWithHandlers.handleZoomDescriptionChange = handleZoomDescriptionChange;
 windowWithHandlers.handleMask = handleMask;
+windowWithHandlers.handleZoomMask = handleZoomMask;
 windowWithHandlers.handlePaste = handlePaste;
 windowWithHandlers.hideOverlay = hideOverlay;
 windowWithHandlers.showImageZoom = showImageZoom;

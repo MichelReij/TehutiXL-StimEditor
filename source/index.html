@@ -113,6 +113,27 @@
             onblur="hideImageZoom()"
         >
             <div class="zoom-content" onclick="event.stopPropagation()">
+                <div class="zoom-ep-preview">
+                    <div class="zoom-mask-control">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked
+                                id="cbZoomMask"
+                                onchange="handleZoomMask(event)"
+                            />
+                            Show mask
+                        </label>
+                    </div>
+                    <div id="zoomEpCanvas" class="ep-preview-canvas">
+                        <img
+                            id="zoomEpMask"
+                            class="ep-mask show"
+                            src="/masks/mri_mask_017.gif"
+                            draggable="false"
+                        />
+                    </div>
+                </div>
                 <div class="zoom-main">
                     <img id="zoomedImage" src="" alt="Vergrote foto" />
                     <textarea

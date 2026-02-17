@@ -276,14 +276,13 @@ main {
                         .excitation-point {
                             position        : absolute;
                             overflow        : hidden;
-                            border-radius   : 0;
+                            border-radius   : 20%;
                             background-color: red;
                             cursor          : move;
                             transition      : opacity 0.2s;
                             pointer-events  : auto;
                             z-index         : 1;
                             opacity         : 0.6;
-                            border-radius   : 20%;
                         }
 
                     }
@@ -441,6 +440,66 @@ div#imageZoom {
         flex-direction: column;
         align-items   : center;
         gap           : 1rem;
+    }
+
+    .zoom-ep-preview {
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        gap           : 0.5rem;
+    }
+
+    .zoom-mask-control {
+        color    : rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+
+        label {
+            display    : flex;
+            align-items: center;
+            gap        : 0.5rem;
+            cursor     : pointer;
+            user-select: none;
+        }
+
+        input[type='checkbox'] {
+            cursor: pointer;
+        }
+    }
+
+    .ep-preview-canvas {
+        position           : relative;
+        width              : 400px;
+        height             : 400px;
+        background-image   : url('/img/mri/mri_017.jpg');
+        background-size    : cover;
+        background-position: center;
+        border             : 2px solid rgba(255, 255, 255, 0.3);
+        border-radius      : 4px;
+        overflow           : hidden;
+
+        .excitation-point {
+            position      : absolute;
+            border-radius : 20%;
+            opacity       : 0.7;
+            pointer-events: none;
+        }
+
+        .ep-mask {
+            position      : absolute;
+            top           : 0;
+            left          : 0;
+            width         : 100%;
+            height        : 100%;
+            display       : none;
+            opacity       : 0;
+            z-index       : 100;
+            pointer-events: none;
+
+            &.show {
+                display: block;
+                opacity: 1;
+            }
+        }
     }
 
     .zoom-nav {
