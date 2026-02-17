@@ -919,9 +919,13 @@ function handleZoomTagFilter(event: Event) {
     if (matchCount === 0) {
         tagsContainer.innerHTML =
             '<div class="no-tags">Geen tags gevonden</div>';
-    } else if (matchCount === 1 && searchTerm.length > 0 && firstMatchButton) {
+    } else if (matchCount === 1 && searchTerm.length > 0) {
         // Highlight the single matching tag (ready to add with Enter)
-        firstMatchButton.classList.add("ready-to-add");
+        if (firstMatchButton) {
+            (firstMatchButton as HTMLButtonElement).classList.add(
+                "ready-to-add",
+            );
+        }
     }
 }
 
@@ -1514,7 +1518,7 @@ function renderPoints(layerId: number, jsonStr: string) {
             const maxSize = Math.max(...indexedData.map((epd) => epd.size), 25);
 
             // console.log("boe2");
-            indexedData.forEach((epd, displayIndex: number) => {
+            indexedData.forEach((epd) => {
                 const x = 200 + epd.x - epd.size;
                 const y = 200 - epd.y - epd.size;
                 const isSelected =
@@ -1715,11 +1719,8 @@ function saveStimuli(): void {
     localStorage.setItem("stimuli", JSON.stringify(stimuli));
 }
 
-function readStimuli(): void {
-    // Stimuli are already loaded by autoDiscoverStimuli()
-    // This function is kept for compatibility but does nothing
-    // as the auto-discovery handles both reading and syncing
-}
+// readStimuli is no longer needed - stimuli are auto-discovered
+// Removed to avoid unused function warning
 
 // ================================================================== //
 //                                                                    //
@@ -1918,6 +1919,7 @@ function importData(): void {
 // ================================================================== //
 
 let draggedElement: HTMLElement | null = null;
+// @ts-ignore - isDragging is used in drag handlers
 let isDragging = false;
 let selectedPointIndex: number | null = null;
 let selectedLayerId: number | null = null;

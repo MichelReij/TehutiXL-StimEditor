@@ -156,14 +156,19 @@ export interface WindowWithHandlers extends Window {
     exportTehutiXL: () => void;
     exportPhotosAndTags: () => void;
     importData: () => void;
-    addExcitationPoint: () => void;
-    selectExcitationPoint: (index: number) => void;
-    selectExcitationPointFromList: (index: number) => void;
-    updatePointProperty: (property: string) => void;
-    deleteExcitationPoint: (index: number) => void;
-    handleDragStart: (event: MouseEvent) => void;
-    handleDrag: (event: MouseEvent) => void;
-    handleDragEnd: (event: MouseEvent) => void;
+    addExcitationPoint: (layerId: number) => void;
+    selectExcitationPoint: (event: Event) => void;
+    selectExcitationPointFromList: (layerId: number, index: number) => void;
+    updatePointProperty: (
+        layerId: number,
+        index: number,
+        property: "intensity" | "size",
+        value: string,
+    ) => void;
+    deleteExcitationPoint: (layerId: number, index: number) => void;
+    handleDragStart: (event: DragEvent) => void;
+    handleDrag: (event: DragEvent) => void;
+    handleDragEnd: (event: DragEvent) => void;
 }
 
 /**
