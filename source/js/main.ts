@@ -45,8 +45,8 @@ const joyLayers: LayerData[] = [
         excitationData: [
             { x: 0, y: 0, intensity: 10, size: 3 },
             { x: 5, y: 3, intensity: 7, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 8 },
-            { x: -5, y: -3, intensity: 3, size: 11 },
+            { x: -5, y: 1, intensity: 5, size: 3 },
+            { x: -5, y: -3, intensity: 3, size: 6 },
         ],
     },
     {
@@ -54,8 +54,8 @@ const joyLayers: LayerData[] = [
         excitationData: [
             { x: 0, y: 0, intensity: 10, size: 3 },
             { x: 5, y: 3, intensity: 7, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 8 },
-            { x: -5, y: -3, intensity: 3, size: 11 },
+            { x: -5, y: 1, intensity: 5, size: 3 },
+            { x: -5, y: -3, intensity: 3, size: 6 },
         ],
     },
 ];
@@ -263,9 +263,9 @@ async function init() {
                     const point = excitationData[selectedPointIndex];
 
                     if (event.key.toLowerCase() === "a") {
-                        // Increase size (max 10)
+                        // Increase size (max 7)
                         event.preventDefault();
-                        const newSize = Math.min(point.size + 1, 10);
+                        const newSize = Math.min(point.size + 1, 7);
                         if (newSize !== point.size) {
                             updatePointProperty(
                                 selectedLayerId,
@@ -282,9 +282,9 @@ async function init() {
                             }
                         }
                     } else if (event.key.toLowerCase() === "z") {
-                        // Decrease size (min 5)
+                        // Decrease size (min 3)
                         event.preventDefault();
-                        const newSize = Math.max(point.size - 1, 5);
+                        const newSize = Math.max(point.size - 1, 3);
                         if (newSize !== point.size) {
                             updatePointProperty(
                                 selectedLayerId,
@@ -636,12 +636,12 @@ function check4JpgExtension(file: string): string {
 }
 
 /**
- * Clamp excitation point size to valid range (5-10)
+ * Clamp excitation point size to valid range (3-7)
  */
 function clampExcitationSize(data: ExcitationData): ExcitationData {
     return {
         ...data,
-        size: Math.max(5, Math.min(10, data.size)),
+        size: Math.max(3, Math.min(7, data.size)),
     };
 }
 
@@ -661,10 +661,10 @@ function clampExcitationPosition(data: ExcitationData): ExcitationData {
 }
 
 /**
- * Generate random intensity and size ensuring intensity + size <= 14
+ * Generate random intensity and size ensuring intensity + size <= 11
  * Intensity: 0-10
- * Size: 5-10
- * Constraint: intensity + size <= 14
+ * Size: 3-7
+ * Constraint: intensity + size <= 11
  */
 function generateIntensityAndSize(): {
     intensity: number;
@@ -673,8 +673,8 @@ function generateIntensityAndSize(): {
     // Generate intensity first (0-10)
     const intensity = Math.floor(Math.random() * 11);
     // Calculate max size based on intensity constraint
-    const maxSize = Math.min(10, 14 - intensity);
-    const minSize = 5;
+    const maxSize = Math.min(7, 11 - intensity);
+    const minSize = 3;
     // Generate size, but ensure it's valid
     const size = Math.max(
         minSize,
@@ -1051,8 +1051,8 @@ function renderZoomEPPreview(stimulus: Stimulus) {
 
     // Render each point
     allPoints.forEach((ep) => {
-        // Limit size to maximum 10 for preview
-        const previewSize = Math.min(ep.size, 10);
+        // Limit size to maximum 7 for preview
+        const previewSize = Math.min(ep.size, 7);
         const x = 200 + ep.x - previewSize;
         const y = 200 - ep.y - previewSize;
         const color = intensityPalette[ep.intensity];
@@ -1328,9 +1328,9 @@ function createNewTag(nameHint: string = "new") {
 
         remainingIntensityBudget -= intensity;
 
-        // Calculate size based on intensity constraint (intensity + size <= 14), max 8
-        const maxSize = Math.min(8, 14 - intensity);
-        const minSize = 5;
+        // Calculate size based on intensity constraint (intensity + size <= 11), max 5
+        const maxSize = Math.min(5, 11 - intensity);
+        const minSize = 3;
         const size = Math.max(
             minSize,
             Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
@@ -1501,7 +1501,7 @@ function editTag(tag: Tag) {
             const layerId = 17;
             const layer = tag.getLayer(layerId);
 
-            // Clamp excitation point sizes to valid range (5-10)
+            // Clamp excitation point sizes to valid range (3-7)
             const clampedExcitationData =
                 layer.excitationData.map(clampExcitationSize);
 
@@ -1530,7 +1530,7 @@ function editTag(tag: Tag) {
               <div id="pointsList_${layerId}" class="points-list"></div>
             </div>
             <div class="json-section">
-              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-10)</label>
+              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 3-7)</label>
               <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
                   clampedExcitationData,
               )
@@ -1657,7 +1657,7 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
-            // Clamp all sizes to valid range (5-10)
+            // Clamp all sizes to valid range (3-7)
             const clampedData = excitationData.map(clampExcitationSize);
 
             vis.innerHTML = "";
@@ -1672,12 +1672,12 @@ function renderPoints(layerId: number, jsonStr: string) {
             indexedData.sort((a, b) => a.intensity - b.intensity);
 
             // Find max size for z-index calculation
-            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 10);
+            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 7);
 
             // console.log("boe2");
             indexedData.forEach((epd) => {
-                // Limit size to maximum 10 for display
-                const displaySize = Math.min(epd.size, 10);
+                // Limit size to maximum 7 for display
+                const displaySize = Math.min(epd.size, 7);
                 const x = 200 + epd.x - displaySize;
                 const y = 200 - epd.y - displaySize;
                 const isSelected =
@@ -1854,16 +1854,28 @@ async function readTags(): Promise<void> {
                 for (let i = 1; i <= 24; i++) {
                     if (i === 17) {
                         // Denormalize coordinates (*200) for layer 17
+                        // Convert old size range (5-10) to new range (3-7): new_size = old_size - 5
                         layers.push({
                             layerId: 17,
-                            excitationData: tagData.excitationData.map(
-                                (ep) => ({
+                            excitationData: tagData.excitationData.map((ep) => {
+                                const denormalizedSize = Math.round(
+                                    ep.size * 200,
+                                );
+                                // Convert size: if > 7, apply formula new_size = old_size - 5
+                                const convertedSize =
+                                    denormalizedSize > 7
+                                        ? denormalizedSize - 5
+                                        : denormalizedSize;
+                                return {
                                     x: Math.round(ep.x * 200),
                                     y: Math.round(ep.y * 200),
                                     intensity: ep.intensity,
-                                    size: Math.round(ep.size * 200),
-                                }),
-                            ),
+                                    size: Math.max(
+                                        3,
+                                        Math.min(7, convertedSize),
+                                    ),
+                                };
+                            }),
                         });
                     } else {
                         // Empty layers for other layer IDs
@@ -1901,7 +1913,7 @@ async function readTags(): Promise<void> {
             layers: LayerData[];
         }[] = JSON.parse(tagsJSON);
 
-        // Convert old intensity scale to new scale (0-10)
+        // Convert old intensity scale to new scale (0-10) and size scale (5-10 to 3-7)
         tagsData.forEach((tagData) => {
             tagData.layers.forEach((layer) => {
                 layer.excitationData.forEach((point) => {
@@ -1909,6 +1921,10 @@ async function readTags(): Promise<void> {
                         point.intensity = Math.round(
                             (point.intensity / 63) * 10,
                         );
+                    }
+                    // Convert size: if > 7, apply formula new_size = old_size - 5
+                    if (point.size > 7) {
+                        point.size = Math.max(3, Math.min(7, point.size - 5));
                     }
                 });
             });
@@ -1951,10 +1967,7 @@ async function saveTags(): Promise<void> {
                 adrenaline: tag.adrenaline,
                 excitationData: layer17.excitationData
                     .map((data) => {
-                        const clampedSize = Math.max(
-                            5,
-                            Math.min(10, data.size),
-                        );
+                        const clampedSize = Math.max(3, Math.min(7, data.size));
                         return {
                             x: Math.round((data.x / 200) * 10000) / 10000,
                             y: Math.round((data.y / 200) * 10000) / 10000,
@@ -2079,8 +2092,8 @@ function exportTehutiXL(): void {
             adrenaline: tag.adrenaline,
             excitationData: layer17.excitationData
                 .map((data) => {
-                    // Clamp size to valid range (5-10)
-                    const clampedSize = Math.max(5, Math.min(10, data.size));
+                    // Clamp size to valid range (3-7)
+                    const clampedSize = Math.max(3, Math.min(7, data.size));
                     return {
                         x: Math.round((data.x / 200) * 10000) / 10000,
                         y: Math.round((data.y / 200) * 10000) / 10000,
@@ -2312,7 +2325,7 @@ function addExcitationPoint(layerId: number) {
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
             <label for="size_${layerId}_${newIndex}">Size:</label>
-            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="10" value="${newPoint.size}"
+            <input type="range" id="size_${layerId}_${newIndex}" min="3" max="7" value="${newPoint.size}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -2639,7 +2652,7 @@ function renderPointsList(layerId: number) {
                    style="width: 100%;">
             <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="5" max="10" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="3" max="7" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
