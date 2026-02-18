@@ -109,9 +109,36 @@ async function autoDiscoverStimuli(): Promise<void> {
         .filter((name) => name && name !== ".DS_Store")
         .sort((a, b) => a.localeCompare(b));
 
-    // Load existing stimuli from localStorage
-    const stimJSON = localStorage.getItem("stimuli");
-    let existingStimuli: Stimulus[] = stimJSON ? JSON.parse(stimJSON) : [];
+    // Load existing stimuli from API (photos format) or localStorage
+    let existingStimuli: Stimulus[] = [];
+    try {
+        const response = await fetch("/api/stimuli");
+        if (response.ok) {
+            const photosData = JSON.parse(await response.text());
+            // Convert photos format to internal Stimulus format
+            if (photosData.photos) {
+                existingStimuli = photosData.photos.map(
+                    (photo: any, index: number) => ({
+                        id: photo.id || index + 1, // Use stored ID or generate new one
+                        file: photo.photo,
+                        size: `sizeof(${photo.photo.replace(".jpg", "")})`,
+                        tags: photo.tags || [],
+                        description: photo.description || "",
+                    }),
+                );
+                console.log("✅ Stimuli loaded from file");
+            }
+        } else {
+            throw new Error("API not available");
+        }
+    } catch (error) {
+        // Fallback to localStorage
+        const stimJSON = localStorage.getItem("stimuli");
+        existingStimuli = stimJSON ? JSON.parse(stimJSON) : [];
+        if (stimJSON) {
+            console.log("📦 Migrating stimuli from localStorage to file...");
+        }
+    }
 
     // Create a map of existing files
     const existingFiles = new Map(existingStimuli.map((s) => [s.file, s]));
@@ -168,8 +195,8 @@ async function autoDiscoverStimuli(): Promise<void> {
 
 // Function to initialize the application
 async function init() {
-    // Attempt to read tags from localStorage on initialization
-    readTags();
+    // Attempt to read tags from API (with localStorage fallback)
+    await readTags();
     await autoDiscoverStimuli();
     // readStimuli is no longer needed - autoDiscoverStimuli handles everything
     console.log(
@@ -236,9 +263,9 @@ async function init() {
                     const point = excitationData[selectedPointIndex];
 
                     if (event.key.toLowerCase() === "a") {
-                        // Increase size (max 12)
+                        // Increase size (max 10)
                         event.preventDefault();
-                        const newSize = Math.min(point.size + 1, 12);
+                        const newSize = Math.min(point.size + 1, 10);
                         if (newSize !== point.size) {
                             updatePointProperty(
                                 selectedLayerId,
@@ -609,12 +636,12 @@ function check4JpgExtension(file: string): string {
 }
 
 /**
- * Clamp excitation point size to valid range (5-12)
+ * Clamp excitation point size to valid range (5-10)
  */
 function clampExcitationSize(data: ExcitationData): ExcitationData {
     return {
         ...data,
-        size: Math.max(5, Math.min(12, data.size)),
+        size: Math.max(5, Math.min(10, data.size)),
     };
 }
 
@@ -634,10 +661,10 @@ function clampExcitationPosition(data: ExcitationData): ExcitationData {
 }
 
 /**
- * Generate random intensity and size ensuring intensity + size <= 18
+ * Generate random intensity and size ensuring intensity + size <= 14
  * Intensity: 0-10
- * Size: 5-12
- * Constraint: intensity + size <= 18
+ * Size: 5-10
+ * Constraint: intensity + size <= 14
  */
 function generateIntensityAndSize(): {
     intensity: number;
@@ -646,7 +673,7 @@ function generateIntensityAndSize(): {
     // Generate intensity first (0-10)
     const intensity = Math.floor(Math.random() * 11);
     // Calculate max size based on intensity constraint
-    const maxSize = Math.min(12, 18 - intensity);
+    const maxSize = Math.min(10, 14 - intensity);
     const minSize = 5;
     // Generate size, but ensure it's valid
     const size = Math.max(
@@ -740,6 +767,32 @@ function showNextZoomImage(event: MouseEvent) {
 function showAdjacentZoomImage(offset: number) {
     const overlay = document.getElementById("imageZoom") as HTMLDivElement;
     if (!overlay) return;
+
+    // Save current description before navigating
+    const descriptionTextarea = document.getElementById(
+        "zoomDescription",
+    ) as HTMLTextAreaElement;
+    if (descriptionTextarea) {
+        const currentId = parseInt(
+            overlay.getAttribute("data-stimulus-id") || "",
+        );
+        const currentStimulus = stimuli.find((s) => s.id === currentId);
+        if (
+            currentStimulus &&
+            currentStimulus.description !== descriptionTextarea.value
+        ) {
+            currentStimulus.description = descriptionTextarea.value;
+            saveStimuli();
+
+            // Update main view description if it exists
+            const mainDescTextarea = document.getElementById(
+                `stimDesc_${currentId}`,
+            ) as HTMLTextAreaElement;
+            if (mainDescTextarea) {
+                mainDescTextarea.value = descriptionTextarea.value;
+            }
+        }
+    }
 
     const sortedStimuli = getSortedStimuli();
     if (sortedStimuli.length === 0) return;
@@ -998,8 +1051,8 @@ function renderZoomEPPreview(stimulus: Stimulus) {
 
     // Render each point
     allPoints.forEach((ep) => {
-        // Limit size to maximum 12 for preview
-        const previewSize = Math.min(ep.size, 12);
+        // Limit size to maximum 10 for preview
+        const previewSize = Math.min(ep.size, 10);
         const x = 200 + ep.x - previewSize;
         const y = 200 - ep.y - previewSize;
         const color = intensityPalette[ep.intensity];
@@ -1038,9 +1091,35 @@ function removeTagFromZoomedPhoto(stimulusId: number, tagId: number) {
 
 function hideImageZoom() {
     const overlay = document.getElementById("imageZoom") as HTMLDivElement;
-    if (overlay) {
-        overlay.style.display = "none";
+    if (!overlay) return;
+
+    // Save current description before closing
+    const descriptionTextarea = document.getElementById(
+        "zoomDescription",
+    ) as HTMLTextAreaElement;
+    if (descriptionTextarea) {
+        const currentId = parseInt(
+            overlay.getAttribute("data-stimulus-id") || "",
+        );
+        const currentStimulus = stimuli.find((s) => s.id === currentId);
+        if (
+            currentStimulus &&
+            currentStimulus.description !== descriptionTextarea.value
+        ) {
+            currentStimulus.description = descriptionTextarea.value;
+            saveStimuli();
+
+            // Update main view description if it exists
+            const mainDescTextarea = document.getElementById(
+                `stimDesc_${currentId}`,
+            ) as HTMLTextAreaElement;
+            if (mainDescTextarea) {
+                mainDescTextarea.value = descriptionTextarea.value;
+            }
+        }
     }
+
+    overlay.style.display = "none";
 }
 
 function handleStimChecked(event: Event) {
@@ -1214,167 +1293,146 @@ function addTag() {
 
 /**
  * Create a new tag with the specified name or "new" as default
- * Generates 6 random excitation points according to the intensity+size constraint
+ * Generates 6 random excitation points in a line formation with overlapping points
  */
 function createNewTag(nameHint: string = "new") {
-    // Create new tag with 6 excitation points in 2 overlapping clusters
+    // Create new tag with 6 excitation points forming a line
     const excitationData: ExcitationData[] = [];
+    const maxTotalIntensity = 18;
+    let remainingIntensityBudget = maxTotalIntensity;
+    let previousDirection = Math.random() * 2 * Math.PI; // Initial random direction
 
-    // Helper function to generate intensity for a cluster point
-    const generateClusterIntensity = (
-        existingIntensities: number[],
-        remainingIntensityBudget: number,
-        isLastPoint: boolean,
-    ): number => {
-        if (existingIntensities.length === 0) {
+    // Generate 6 points
+    for (let i = 0; i < 6; i++) {
+        // Generate intensity for this point
+        const isLastPoint = i === 5;
+        let intensity: number;
+
+        if (i === 0) {
             // First point: random intensity (0-10), but leave room for others
-            return Math.floor(
+            intensity = Math.floor(
                 Math.random() * Math.min(11, remainingIntensityBudget - 5),
             );
-        }
-
-        // Try to find an intensity with difference >= 3 from all existing
-        const attempts = isLastPoint ? 50 : 20;
-        for (let i = 0; i < attempts; i++) {
-            const candidate = Math.floor(
+        } else if (isLastPoint) {
+            // Last point: use remaining budget or random if enough room
+            intensity = Math.floor(
                 Math.random() * Math.min(11, remainingIntensityBudget + 1),
             );
-            const minDiff = Math.min(
-                ...existingIntensities.map((existing) =>
-                    Math.abs(candidate - existing),
-                ),
-            );
-
-            if (minDiff >= 3) {
-                return candidate;
-            }
-        }
-
-        // For last point: if we can't maintain difference >= 3, just use remaining budget
-        if (isLastPoint) {
-            return Math.floor(
-                Math.random() * Math.min(11, remainingIntensityBudget + 1),
+        } else {
+            // Middle points: random but respect budget
+            intensity = Math.floor(
+                Math.random() *
+                    Math.min(11, remainingIntensityBudget - (5 - i)),
             );
         }
 
-        // For second point: ensure some difference, prefer larger differences
-        let bestCandidate = 0;
-        let bestMinDiff = 0;
-        for (let i = 0; i < 10; i++) {
-            const candidate = Math.floor(
-                Math.random() * Math.min(11, remainingIntensityBudget + 1),
-            );
-            const minDiff = Math.min(
-                ...existingIntensities.map((existing) =>
-                    Math.abs(candidate - existing),
-                ),
-            );
-            if (minDiff > bestMinDiff) {
-                bestMinDiff = minDiff;
-                bestCandidate = candidate;
-            }
-        }
-        return bestCandidate;
-    };
+        remainingIntensityBudget -= intensity;
 
-    // Helper function to create an overlapping point near an existing point
-    const createOverlappingPoint = (
-        existingPoints: ExcitationData[],
-        intensity: number,
-    ): ExcitationData => {
-        // Pick a random existing point to overlap with
-        const basePoint =
-            existingPoints[Math.floor(Math.random() * existingPoints.length)];
-
-        // Calculate size based on intensity constraint (intensity + size <= 18)
-        const maxSize = Math.min(12, 18 - intensity);
+        // Calculate size based on intensity constraint (intensity + size <= 14), max 8
+        const maxSize = Math.min(8, 14 - intensity);
         const minSize = 5;
         const size = Math.max(
             minSize,
             Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
         );
 
-        // Position it with slight overlap (max 25%)
-        // Distance between 0.75 and 1.0 of combined radius gives light overlap
-        const combinedRadius = basePoint.size + size;
-        const minDistance = combinedRadius * 0.75;
-        const maxDistance = combinedRadius * 1.0;
-        const angle = Math.random() * 2 * Math.PI;
-        const distance =
-            minDistance + Math.random() * (maxDistance - minDistance);
+        let newPoint: ExcitationData;
 
-        const newPoint = {
-            x: Math.round(basePoint.x + distance * Math.cos(angle)),
-            y: Math.round(basePoint.y + distance * Math.sin(angle)),
-            intensity,
-            size,
-        };
-
-        // Clamp position to visible bounds
-        return clampExcitationPosition(newPoint);
-    };
-
-    // Create 2 clusters
-    for (let cluster = 0; cluster < 2; cluster++) {
-        const clusterPoints: ExcitationData[] = [];
-        const clusterIntensities: number[] = [];
-        const maxClusterIntensity = 18;
-
-        // First point: random position within radius from center
-        // Cluster 0 (left side): negative x, angle between π/2 and 3π/2
-        // Cluster 1 (right side): positive x, angle between -π/2 and π/2
-        let angle;
-        if (cluster === 0) {
-            // Left side: angle between 90° and 270° (π/2 to 3π/2)
-            angle = Math.PI / 2 + Math.random() * Math.PI;
+        if (i === 0) {
+            // First point: random position with radius between 120-170
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 120 + Math.random() * 50; // 120-170
+            newPoint = {
+                x: Math.round(radius * Math.cos(angle)),
+                y: Math.round(radius * Math.sin(angle)),
+                intensity,
+                size,
+            };
+            previousDirection = angle; // Set initial direction
         } else {
-            // Right side: angle between -90° and 90° (-π/2 to π/2)
-            angle = -Math.PI / 2 + Math.random() * Math.PI;
+            // Subsequent points: overlap 20-60% with previous point
+            const prevPoint = excitationData[i - 1];
+
+            // Calculate overlap distance
+            // For 20-60% overlap: distance should be between 40-80% of combined radii
+            const overlapFraction = 0.2 + Math.random() * 0.4; // 20-60%
+            const combinedRadius = prevPoint.size + size;
+            const distance = combinedRadius * (1 - overlapFraction);
+
+            // Adjust direction to form a line (max 60 degrees change)
+            const maxAngleChange = Math.PI / 3; // 60 degrees
+            const angleChange = (Math.random() - 0.5) * 2 * maxAngleChange;
+            const newDirection = previousDirection + angleChange;
+
+            // Calculate new position
+            let x = Math.round(prevPoint.x + distance * Math.cos(newDirection));
+            let y = Math.round(prevPoint.y + distance * Math.sin(newDirection));
+
+            // Ensure point stays within radius 170
+            const currentRadius = Math.sqrt(x * x + y * y);
+            if (currentRadius > 170) {
+                const scale = 170 / currentRadius;
+                x = Math.round(x * scale);
+                y = Math.round(y * scale);
+            }
+
+            newPoint = {
+                x,
+                y,
+                intensity,
+                size,
+            };
+
+            // Check if new point overlaps with any previous points (except immediate predecessor)
+            // If it does, try a different direction
+            let attempts = 0;
+            const maxAttempts = 10;
+            while (attempts < maxAttempts) {
+                let overlapsWithEarlier = false;
+
+                // Check overlap with all points except the immediate predecessor
+                for (let j = 0; j < i - 1; j++) {
+                    const earlierPoint = excitationData[j];
+                    const dx = newPoint.x - earlierPoint.x;
+                    const dy = newPoint.y - earlierPoint.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const minDist = (newPoint.size + earlierPoint.size) * 0.8; // Allow 20% overlap as tolerance
+
+                    if (dist < minDist) {
+                        overlapsWithEarlier = true;
+                        break;
+                    }
+                }
+
+                if (!overlapsWithEarlier) {
+                    break; // Good position found
+                }
+
+                // Try different angle
+                attempts++;
+                const tryAngleChange =
+                    (Math.random() - 0.5) * 2 * maxAngleChange;
+                const tryDirection = previousDirection + tryAngleChange;
+                x = Math.round(prevPoint.x + distance * Math.cos(tryDirection));
+                y = Math.round(prevPoint.y + distance * Math.sin(tryDirection));
+
+                // Ensure within radius 170
+                const tryRadius = Math.sqrt(x * x + y * y);
+                if (tryRadius > 170) {
+                    const scale = 170 / tryRadius;
+                    x = Math.round(x * scale);
+                    y = Math.round(y * scale);
+                }
+
+                newPoint = { x, y, intensity, size };
+            }
+
+            previousDirection = newDirection;
         }
-        const radius = 120 + Math.random() * 50; // 120-170
 
-        const intensity1 = generateClusterIntensity(
-            [],
-            maxClusterIntensity,
-            false,
-        );
-        clusterIntensities.push(intensity1);
-        const maxSize1 = Math.min(12, 18 - intensity1);
-        const minSize1 = 5;
-        const size1 = Math.max(
-            minSize1,
-            Math.floor(Math.random() * (maxSize1 - minSize1 + 1)) + minSize1,
-        );
-
-        const firstPoint: ExcitationData = clampExcitationPosition({
-            x: Math.round(radius * Math.cos(angle)),
-            y: Math.round(radius * Math.sin(angle)),
-            intensity: intensity1,
-            size: size1,
-        });
-        clusterPoints.push(firstPoint);
-        excitationData.push(firstPoint);
-
-        // Second point
-        const intensity2 = generateClusterIntensity(
-            clusterIntensities,
-            maxClusterIntensity - intensity1,
-            false,
-        );
-        clusterIntensities.push(intensity2);
-        const secondPoint = createOverlappingPoint(clusterPoints, intensity2);
-        clusterPoints.push(secondPoint);
-        excitationData.push(secondPoint);
-
-        // Third point
-        const intensity3 = generateClusterIntensity(
-            clusterIntensities,
-            maxClusterIntensity - intensity1 - intensity2,
-            true,
-        );
-        const thirdPoint = createOverlappingPoint(clusterPoints, intensity3);
-        clusterPoints.push(thirdPoint);
-        excitationData.push(thirdPoint);
+        // Clamp position to visible bounds (-180 to +180)
+        newPoint = clampExcitationPosition(newPoint);
+        excitationData.push(newPoint);
     }
 
     // Sort by size (largest first) for better visibility
@@ -1443,7 +1501,7 @@ function editTag(tag: Tag) {
             const layerId = 17;
             const layer = tag.getLayer(layerId);
 
-            // Clamp excitation point sizes to valid range (5-12)
+            // Clamp excitation point sizes to valid range (5-10)
             const clampedExcitationData =
                 layer.excitationData.map(clampExcitationSize);
 
@@ -1472,7 +1530,7 @@ function editTag(tag: Tag) {
               <div id="pointsList_${layerId}" class="points-list"></div>
             </div>
             <div class="json-section">
-              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-12)</label>
+              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 5-10)</label>
               <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
                   clampedExcitationData,
               )
@@ -1599,7 +1657,7 @@ function renderPoints(layerId: number, jsonStr: string) {
         try {
             const excitationData: ExcitationData[] = JSON.parse(jsonStr);
 
-            // Clamp all sizes to valid range (5-12)
+            // Clamp all sizes to valid range (5-10)
             const clampedData = excitationData.map(clampExcitationSize);
 
             vis.innerHTML = "";
@@ -1614,12 +1672,12 @@ function renderPoints(layerId: number, jsonStr: string) {
             indexedData.sort((a, b) => a.intensity - b.intensity);
 
             // Find max size for z-index calculation
-            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 12);
+            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 10);
 
             // console.log("boe2");
             indexedData.forEach((epd) => {
-                // Limit size to maximum 12 for display
-                const displaySize = Math.min(epd.size, 12);
+                // Limit size to maximum 10 for display
+                const displaySize = Math.min(epd.size, 10);
                 const x = 200 + epd.x - displaySize;
                 const y = 200 - epd.y - displaySize;
                 const isSelected =
@@ -1766,16 +1824,75 @@ function generateTagsArray() {
 //                                                                    //
 //                                                                    //
 //                                                                    //
-// Everything around the localStorage                                 //
+// File-based data persistence via API (with localStorage migration)  //
 //                                                                    //
 // ================================================================== //
 
-// Function to read tags from localStorage
-function readTags(): void {
+// Function to read tags from file (with localStorage fallback)
+async function readTags(): Promise<void> {
+    try {
+        // Try to load from API first (Tehuti XL format)
+        const response = await fetch("/api/tags");
+        if (response.ok) {
+            const tagsJSON = await response.text();
+            const tehutiTags: {
+                id: number;
+                name: string;
+                adrenaline: number;
+                excitationData: {
+                    x: number;
+                    y: number;
+                    intensity: number;
+                    size: number;
+                }[];
+            }[] = JSON.parse(tagsJSON);
+
+            // Convert Tehuti XL format to internal format (denormalize and put in layer 17)
+            tags = tehutiTags.map((tagData) => {
+                // Create 24 layers, with layer 17 containing the excitation data
+                const layers: LayerData[] = [];
+                for (let i = 1; i <= 24; i++) {
+                    if (i === 17) {
+                        // Denormalize coordinates (*200) for layer 17
+                        layers.push({
+                            layerId: 17,
+                            excitationData: tagData.excitationData.map(
+                                (ep) => ({
+                                    x: Math.round(ep.x * 200),
+                                    y: Math.round(ep.y * 200),
+                                    intensity: ep.intensity,
+                                    size: Math.round(ep.size * 200),
+                                }),
+                            ),
+                        });
+                    } else {
+                        // Empty layers for other layer IDs
+                        layers.push({
+                            layerId: i,
+                            excitationData: [],
+                        });
+                    }
+                }
+
+                return new Tag(
+                    tagData.id,
+                    tagData.name,
+                    tagData.adrenaline,
+                    layers,
+                );
+            });
+            console.log("✅ Tags loaded from file");
+            return;
+        }
+    } catch (error) {
+        console.log("⚠️ Could not load from API, trying localStorage...");
+    }
+
+    // Fallback to localStorage and migrate
     const tagsJSON = localStorage.getItem("tags");
-    // const tagsJSON = exampleJson;
     if (!tagsJSON) {
         tags = exampleTags;
+        console.log("📝 Using example tags");
     } else {
         const tagsData: {
             id: number;
@@ -1788,9 +1905,7 @@ function readTags(): void {
         tagsData.forEach((tagData) => {
             tagData.layers.forEach((layer) => {
                 layer.excitationData.forEach((point) => {
-                    // If intensity > 10, it's from an old scale, convert it
                     if (point.intensity > 10) {
-                        // Convert from 0-63 scale to 0-10 scale
                         point.intensity = Math.round(
                             (point.intensity / 63) * 10,
                         );
@@ -1808,16 +1923,86 @@ function readTags(): void {
                     tagData.layers,
                 ),
         );
+        console.log("📦 Migrating tags from localStorage to file...");
+        // Migrate to file storage
+        await saveTags();
     }
 }
 
-// Function to write tags to localStorage
-function saveTags(): void {
-    localStorage.setItem("tags", JSON.stringify(tags));
+// Function to write tags to file (Tehuti XL format)
+async function saveTags(): Promise<void> {
+    try {
+        // Convert to Tehuti XL export format (layer 17 only, normalized)
+        const tehutiExport = tags.map((tag) => {
+            const layer17 = tag.layers.find((layer) => layer.layerId === 17);
+
+            if (!layer17) {
+                return {
+                    id: tag.id,
+                    name: tag.name,
+                    adrenaline: tag.adrenaline,
+                    excitationData: [],
+                };
+            }
+
+            return {
+                id: tag.id,
+                name: tag.name,
+                adrenaline: tag.adrenaline,
+                excitationData: layer17.excitationData
+                    .map((data) => {
+                        const clampedSize = Math.max(
+                            5,
+                            Math.min(10, data.size),
+                        );
+                        return {
+                            x: Math.round((data.x / 200) * 10000) / 10000,
+                            y: Math.round((data.y / 200) * 10000) / 10000,
+                            intensity: data.intensity,
+                            size:
+                                Math.round((clampedSize / 200) * 10000) / 10000,
+                        };
+                    })
+                    .sort((a, b) => b.size - a.size),
+            };
+        });
+
+        const response = await fetch("/api/tags", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(tehutiExport, null, 2),
+        });
+        if (!response.ok) {
+            console.error("Failed to save tags");
+        }
+    } catch (error) {
+        console.error("Error saving tags:", error);
+    }
 }
 
-function saveStimuli(): void {
-    localStorage.setItem("stimuli", JSON.stringify(stimuli));
+async function saveStimuli(): Promise<void> {
+    try {
+        // Convert to Tehuti XL photos format (with optional id for internal use)
+        const photosExport = {
+            photos: stimuli.map((stimulus) => ({
+                id: stimulus.id, // Keep ID for internal consistency
+                photo: stimulus.file,
+                tags: stimulus.tags,
+                description: stimulus.description || "",
+            })),
+        };
+
+        const response = await fetch("/api/stimuli", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(photosExport, null, 2),
+        });
+        if (!response.ok) {
+            console.error("Failed to save stimuli");
+        }
+    } catch (error) {
+        console.error("Error saving stimuli:", error);
+    }
 }
 
 // readStimuli is no longer needed - stimuli are auto-discovered
@@ -1894,8 +2079,8 @@ function exportTehutiXL(): void {
             adrenaline: tag.adrenaline,
             excitationData: layer17.excitationData
                 .map((data) => {
-                    // Clamp size to valid range (5-12)
-                    const clampedSize = Math.max(5, Math.min(12, data.size));
+                    // Clamp size to valid range (5-10)
+                    const clampedSize = Math.max(5, Math.min(10, data.size));
                     return {
                         x: Math.round((data.x / 200) * 10000) / 10000,
                         y: Math.round((data.y / 200) * 10000) / 10000,
@@ -2127,7 +2312,7 @@ function addExcitationPoint(layerId: number) {
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
             <label for="size_${layerId}_${newIndex}">Size:</label>
-            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="12" value="${newPoint.size}"
+            <input type="range" id="size_${layerId}_${newIndex}" min="5" max="10" value="${newPoint.size}"
                    oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">
@@ -2454,7 +2639,7 @@ function renderPointsList(layerId: number) {
                    style="width: 100%;">
             <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
             <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="5" max="12" value="${point.size}"
+            <input type="range" id="size_${layerId}_${index}" min="5" max="10" value="${point.size}"
                    oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
                    onclick="event.stopPropagation()"
                    style="width: 100%;">

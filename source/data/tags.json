@@ -1,0 +1,8687 @@
+[
+  {
+    "id": 1,
+    "name": "joy",
+    "adrenaline": -0.08,
+    "excitationData": [
+      {
+        "x": 0.245,
+        "y": -0.885,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.65,
+        "y": 0.19,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.23,
+        "y": -0.855,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.63,
+        "y": 0.14,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.29,
+        "y": -0.82,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.58,
+        "y": 0.195,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.605,
+        "y": 0.09,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.15,
+        "y": -0.855,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "sad",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.465,
+        "y": -0.005,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.675,
+        "y": 0.225,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.61,
+        "y": 0.14,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.6,
+        "y": 0.135,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.65,
+        "y": 0.16,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.57,
+        "y": 0.1,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.51,
+        "y": 0.04,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.545,
+        "y": 0.07,
+        "intensity": 1,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "anger",
+    "adrenaline": 0.13,
+    "excitationData": [
+      {
+        "x": 0.77,
+        "y": -0.08,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.68,
+        "y": -0.57,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.655,
+        "y": -0.63,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.655,
+        "y": 0.165,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": -0.625,
+        "y": 0.145,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.655,
+        "y": 0.115,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.74,
+        "y": -0.14,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.625,
+        "y": -0.615,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.73,
+        "y": -0.06,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "fear",
+    "adrenaline": 0.13,
+    "excitationData": [
+      {
+        "x": -0.44,
+        "y": -0.72,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.34,
+        "y": -0.605,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.35,
+        "y": -0.565,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.395,
+        "y": -0.665,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": -0.345,
+        "y": -0.495,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.42,
+        "y": -0.695,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.335,
+        "y": -0.52,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": -0.365,
+        "y": -0.63,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "love",
+    "adrenaline": -0.17,
+    "excitationData": [
+      {
+        "x": 0.75,
+        "y": -0.02,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.76,
+        "y": -0.425,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.77,
+        "y": -0.305,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.585,
+        "y": -0.685,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.53,
+        "y": -0.76,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": -0.71,
+        "y": -0.42,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.73,
+        "y": 0.025,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.72,
+        "y": -0.04,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "excitement",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.67,
+        "y": -0.6,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.65,
+        "y": -0.57,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.53,
+        "y": -0.485,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.615,
+        "y": -0.53,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.55,
+        "y": -0.505,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.51,
+        "y": -0.465,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.58,
+        "y": -0.52,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "pain",
+    "adrenaline": 0.16,
+    "excitationData": [
+      {
+        "x": 0.395,
+        "y": -0.51,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.775,
+        "y": -0.035,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.36,
+        "y": -0.555,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.31,
+        "y": -0.52,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": -0.77,
+        "y": -0.14,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.715,
+        "y": -0.055,
+        "intensity": 3,
+        "size": 0.025
+      },
+      {
+        "x": 0.4,
+        "y": -0.55,
+        "intensity": 7,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "family",
+    "adrenaline": -0.22,
+    "excitationData": [
+      {
+        "x": -0.575,
+        "y": 0.285,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.76,
+        "y": -0.155,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.56,
+        "y": 0.255,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.74,
+        "y": -0.13,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.61,
+        "y": 0.265,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": 0.71,
+        "y": -0.145,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "snake",
+    "adrenaline": 0.13,
+    "excitationData": [
+      {
+        "x": -0.13,
+        "y": -0.56,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": -0.195,
+        "y": -0.49,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.165,
+        "y": -0.535,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.175,
+        "y": -0.45,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.115,
+        "y": -0.59,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.125,
+        "y": -0.4,
+        "intensity": 0,
+        "size": 0.025
+      },
+      {
+        "x": -0.115,
+        "y": -0.615,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": -0.155,
+        "y": -0.425,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "food",
+    "adrenaline": -0.12,
+    "excitationData": [
+      {
+        "x": -0.12,
+        "y": -0.005,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": -0.2,
+        "y": -0.165,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.115,
+        "y": -0.045,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.12,
+        "y": -0.09,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.125,
+        "y": 0.04,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": -0.17,
+        "y": -0.155,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": -0.145,
+        "y": -0.125,
+        "intensity": 0,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "cute",
+    "adrenaline": -0.08,
+    "excitationData": [
+      {
+        "x": 0.735,
+        "y": -0.495,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.73,
+        "y": -0.52,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.71,
+        "y": -0.5,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "spider",
+    "adrenaline": 0.11,
+    "excitationData": [
+      {
+        "x": -0.12,
+        "y": -0.46,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.2,
+        "y": -0.39,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.175,
+        "y": -0.44,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.185,
+        "y": -0.405,
+        "intensity": 4,
+        "size": 0.025
+      },
+      {
+        "x": -0.24,
+        "y": -0.42,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": -0.105,
+        "y": -0.445,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "competition",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.675,
+        "y": -0.625,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.72,
+        "y": -0.58,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.66,
+        "y": -0.625,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.62,
+        "y": -0.565,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.655,
+        "y": -0.645,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.6,
+        "y": -0.6,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "clown",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": -0.415,
+        "y": 0.68,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.35,
+        "y": 0.685,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.435,
+        "y": 0.65,
+        "intensity": 0,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "frustration",
+    "adrenaline": 0.11,
+    "excitationData": [
+      {
+        "x": 0.185,
+        "y": -0.59,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.195,
+        "y": -0.55,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.16,
+        "y": -0.635,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.19,
+        "y": -0.51,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.16,
+        "y": -0.48,
+        "intensity": 0,
+        "size": 0.025
+      },
+      {
+        "x": 0.145,
+        "y": -0.66,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": 0.13,
+        "y": -0.68,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "crocodile",
+    "adrenaline": 0.13,
+    "excitationData": [
+      {
+        "x": -0.17,
+        "y": -0.535,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": -0.205,
+        "y": -0.53,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.215,
+        "y": -0.5,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "gay",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": -0.165,
+        "y": 0.24,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": -0.16,
+        "y": 0.165,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.18,
+        "y": 0.19,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.135,
+        "y": 0.27,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.155,
+        "y": 0.215,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": -0.14,
+        "y": 0.19,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "scorpion",
+    "adrenaline": 0.13,
+    "excitationData": [
+      {
+        "x": 0.525,
+        "y": -0.41,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.47,
+        "y": -0.46,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.56,
+        "y": -0.405,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.54,
+        "y": -0.445,
+        "intensity": 2,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "fish",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.255,
+        "y": -0.39,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.24,
+        "y": -0.47,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.23,
+        "y": -0.515,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.215,
+        "y": -0.56,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.255,
+        "y": -0.43,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "beer",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.39,
+        "y": -0.18,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.275,
+        "y": -0.575,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": 0.23,
+        "y": -0.605,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.24,
+        "y": -0.585,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.38,
+        "y": -0.225,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.41,
+        "y": -0.145,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.265,
+        "y": -0.565,
+        "intensity": 3,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "desire",
+    "adrenaline": -0.01,
+    "excitationData": [
+      {
+        "x": 0.425,
+        "y": 0.195,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.545,
+        "y": 0.225,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.49,
+        "y": 0.185,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.58,
+        "y": 0.25,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.37,
+        "y": 0.165,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.355,
+        "y": 0.2,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.53,
+        "y": 0.175,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "lightning",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": 0.255,
+        "y": 0.12,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.19,
+        "y": -0.43,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.2,
+        "y": 0.105,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": 0.34,
+        "y": 0.195,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.25,
+        "y": -0.485,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.13,
+        "y": -0.39,
+        "intensity": 7,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "danger",
+    "adrenaline": 0.11,
+    "excitationData": [
+      {
+        "x": -0.435,
+        "y": -0.125,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.52,
+        "y": -0.135,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.565,
+        "y": -0.105,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.445,
+        "y": -0.125,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.52,
+        "y": -0.085,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.485,
+        "y": -0.085,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.46,
+        "y": -0.16,
+        "intensity": 4,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "sunset",
+    "adrenaline": -0.11,
+    "excitationData": [
+      {
+        "x": 0.335,
+        "y": -0.3,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.475,
+        "y": 0.635,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.425,
+        "y": 0.61,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.475,
+        "y": 0.57,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.425,
+        "y": -0.26,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.29,
+        "y": -0.345,
+        "intensity": 7,
+        "size": 0.045
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "jealous",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": -0.265,
+        "y": 0.045,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.215,
+        "y": 0.01,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.33,
+        "y": 0.03,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.165,
+        "y": 0.055,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.21,
+        "y": 0.015,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.225,
+        "y": -0.04,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.395,
+        "y": 0,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "pride",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.68,
+        "y": -0.09,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.755,
+        "y": -0.065,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.72,
+        "y": -0.085,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.66,
+        "y": -0.135,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.74,
+        "y": -0.05,
+        "intensity": 7,
+        "size": 0.025
+      },
+      {
+        "x": 0.645,
+        "y": -0.17,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "surprise",
+    "adrenaline": 0.09,
+    "excitationData": [
+      {
+        "x": -0.135,
+        "y": -0.015,
+        "intensity": 10,
+        "size": 0.045
+      },
+      {
+        "x": -0.27,
+        "y": 0.015,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.2,
+        "y": -0.01,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.4,
+        "y": -0.05,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.445,
+        "y": 0.02,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.38,
+        "y": 0.095,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.3,
+        "y": -0.03,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.41,
+        "y": 0.04,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.365,
+        "y": -0.09,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.225,
+        "y": -0.04,
+        "intensity": 3,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "confrontation",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.345,
+        "y": 0.065,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": -0.195,
+        "y": -0.34,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.22,
+        "y": -0.36,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": -0.12,
+        "y": -0.345,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.38,
+        "y": 0.045,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.21,
+        "y": -0.405,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.32,
+        "y": 0.08,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": 0.355,
+        "y": 0,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "name": "gratitude",
+    "adrenaline": -0.06,
+    "excitationData": [
+      {
+        "x": 0.4,
+        "y": -0.1,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.27,
+        "y": -0.115,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": -0.245,
+        "y": -0.065,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.425,
+        "y": -0.145,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": 0.395,
+        "y": -0.115,
+        "intensity": 10,
+        "size": 0.045
+      },
+      {
+        "x": 0.46,
+        "y": -0.04,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.245,
+        "y": -0.03,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.195,
+        "y": -0.085,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.395,
+        "y": -0.075,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "name": "mother",
+    "adrenaline": -0.12,
+    "excitationData": [
+      {
+        "x": 0.3,
+        "y": -0.355,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.27,
+        "y": -0.415,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.34,
+        "y": -0.34,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.32,
+        "y": -0.385,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": -0.285,
+        "y": -0.35,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.235,
+        "y": -0.29,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.23,
+        "y": -0.45,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.375,
+        "y": -0.35,
+        "intensity": 8,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "name": "despair",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.205,
+        "y": 0.54,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.185,
+        "y": 0.58,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.23,
+        "y": 0.49,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.245,
+        "y": 0.45,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.24,
+        "y": 0.4,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.235,
+        "y": 0.345,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.15,
+        "y": 0.615,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "defiance",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": -0.355,
+        "y": 0.19,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.455,
+        "y": 0.255,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": 0.235,
+        "y": 0.15,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.215,
+        "y": 0.185,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.375,
+        "y": 0.215,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": -0.505,
+        "y": 0.25,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.27,
+        "y": 0.155,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.425,
+        "y": 0.235,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "name": "speed",
+    "adrenaline": 0.02,
+    "excitationData": [
+      {
+        "x": -0.29,
+        "y": -0.04,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.34,
+        "y": -0.015,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.32,
+        "y": -0.155,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.385,
+        "y": 0.03,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.27,
+        "y": -0.17,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.345,
+        "y": -0.115,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.36,
+        "y": -0.175,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.285,
+        "y": -0.04,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "dog",
+    "adrenaline": -0.05,
+    "excitationData": [
+      {
+        "x": 0.69,
+        "y": -0.54,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.66,
+        "y": -0.51,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.625,
+        "y": -0.495,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "name": "cat",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.46,
+        "y": -0.25,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.505,
+        "y": -0.235,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.475,
+        "y": -0.295,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "noise",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": -0.215,
+        "y": 0.14,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.15,
+        "y": 0.175,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.005,
+        "y": -0.365,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.015,
+        "y": -0.32,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.175,
+        "y": 0.1,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.035,
+        "y": -0.305,
+        "intensity": 5,
+        "size": 0.025
+      },
+      {
+        "x": -0.005,
+        "y": -0.27,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "name": "power",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": 0.51,
+        "y": -0.24,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.6,
+        "y": -0.17,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.65,
+        "y": -0.135,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.57,
+        "y": -0.23,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.48,
+        "y": -0.265,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.54,
+        "y": -0.215,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": 0.44,
+        "y": -0.29,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.475,
+        "y": -0.275,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "name": "father",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.585,
+        "y": 0.09,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.7,
+        "y": 0.125,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.55,
+        "y": 0.065,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.525,
+        "y": 0.05,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.49,
+        "y": 0.03,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.615,
+        "y": 0.085,
+        "intensity": 3,
+        "size": 0.025
+      },
+      {
+        "x": 0.46,
+        "y": 0.01,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": 0.675,
+        "y": 0.095,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.64,
+        "y": 0.11,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "nude",
+    "adrenaline": 0.02,
+    "excitationData": [
+      {
+        "x": -0.3,
+        "y": 0.215,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.41,
+        "y": 0.105,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.395,
+        "y": 0.115,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.33,
+        "y": 0.075,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.305,
+        "y": 0.2,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": -0.305,
+        "y": 0.26,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.25,
+        "y": 0.24,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.45,
+        "y": 0.045,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "name": "erotic",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": 0.125,
+        "y": -0.09,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.07,
+        "y": -0.18,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.1,
+        "y": -0.125,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.115,
+        "y": -0.02,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.25,
+        "y": 0.19,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.085,
+        "y": -0.155,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.13,
+        "y": -0.055,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.21,
+        "y": 0.195,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.24,
+        "y": 0.225,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.285,
+        "y": 0.25,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.2,
+        "y": 0.16,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "name": "jump",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.185,
+        "y": -0.54,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.375,
+        "y": -0.255,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.335,
+        "y": -0.26,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.23,
+        "y": -0.565,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.18,
+        "y": -0.495,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.375,
+        "y": -0.3,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "name": "scream",
+    "adrenaline": 0.08,
+    "excitationData": [
+      {
+        "x": 0.555,
+        "y": 0.37,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.61,
+        "y": 0.275,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.485,
+        "y": 0.35,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.57,
+        "y": 0.225,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.64,
+        "y": 0.285,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.57,
+        "y": 0.315,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "name": "friends",
+    "adrenaline": -0.09,
+    "excitationData": [
+      {
+        "x": -0.32,
+        "y": -0.51,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.365,
+        "y": -0.56,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.395,
+        "y": -0.675,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.42,
+        "y": -0.705,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.385,
+        "y": -0.6,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.33,
+        "y": -0.48,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.375,
+        "y": -0.635,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": -0.335,
+        "y": -0.485,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "name": "disgust",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": 0.11,
+        "y": 0.105,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.11,
+        "y": 0.165,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.115,
+        "y": 0.065,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.12,
+        "y": 0.045,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.125,
+        "y": 0.02,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.13,
+        "y": -0.005,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "name": "vertigo",
+    "adrenaline": 0.08,
+    "excitationData": [
+      {
+        "x": -0.565,
+        "y": 0.26,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.625,
+        "y": 0.195,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.665,
+        "y": 0.07,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.56,
+        "y": 0.315,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": 0.69,
+        "y": 0.115,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.65,
+        "y": 0,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": 0.695,
+        "y": -0.025,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.565,
+        "y": 0.205,
+        "intensity": 1,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "name": "work",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.475,
+        "y": 0.61,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": 0.295,
+        "y": 0.815,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.425,
+        "y": 0.665,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.23,
+        "y": 0.785,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": -0.42,
+        "y": 0.63,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.185,
+        "y": 0.765,
+        "intensity": 2,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "name": "wasp",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": -0.19,
+        "y": -0.495,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": -0.29,
+        "y": -0.56,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": -0.15,
+        "y": -0.46,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": -0.305,
+        "y": -0.59,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.23,
+        "y": -0.52,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.315,
+        "y": -0.62,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "name": "play",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.635,
+        "y": 0.325,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.255,
+        "y": -0.47,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.58,
+        "y": 0.32,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.535,
+        "y": 0.28,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.29,
+        "y": -0.42,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.24,
+        "y": -0.51,
+        "intensity": 5,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "name": "violence",
+    "adrenaline": 0.11,
+    "excitationData": [
+      {
+        "x": 0.73,
+        "y": 0.075,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.65,
+        "y": 0,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.705,
+        "y": 0.155,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.69,
+        "y": 0.025,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.61,
+        "y": -0.025,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.71,
+        "y": 0.1,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "name": "magic",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.805,
+        "y": -0.125,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.45,
+        "y": 0.57,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.71,
+        "y": -0.055,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.495,
+        "y": 0.505,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.42,
+        "y": 0.465,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.695,
+        "y": -0.15,
+        "intensity": 0,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "name": "crowded",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": -0.8,
+        "y": -0.21,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.755,
+        "y": -0.24,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.775,
+        "y": -0.175,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "name": "insect",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.58,
+        "y": 0.43,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.73,
+        "y": -0.41,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.63,
+        "y": 0.275,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.74,
+        "y": -0.245,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": -0.8,
+        "y": -0.165,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.51,
+        "y": 0.44,
+        "intensity": 6,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "name": "elephant",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.155,
+        "y": -0.475,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.13,
+        "y": -0.435,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.165,
+        "y": -0.585,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.155,
+        "y": -0.52,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.16,
+        "y": -0.645,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.18,
+        "y": -0.545,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "name": "trophy",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.33,
+        "y": 0.755,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.22,
+        "y": 0.825,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.655,
+        "y": 0.27,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.62,
+        "y": 0.35,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.23,
+        "y": 0.75,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.61,
+        "y": 0.195,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "name": "graduation",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.83,
+        "y": -0.33,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.765,
+        "y": -0.46,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.595,
+        "y": 0.485,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.72,
+        "y": -0.335,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.515,
+        "y": 0.485,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.565,
+        "y": 0.39,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "name": "boy",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.71,
+        "y": -0.17,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.345,
+        "y": -0.37,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.39,
+        "y": -0.34,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.75,
+        "y": -0.22,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": -0.69,
+        "y": -0.215,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.4,
+        "y": -0.385,
+        "intensity": 9,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "name": "shy",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.795,
+        "y": -0.09,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.56,
+        "y": 0.495,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.525,
+        "y": 0.555,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.81,
+        "y": -0.095,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.825,
+        "y": -0.18,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.57,
+        "y": 0.42,
+        "intensity": 2,
+        "size": 0.05
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "name": "forest",
+    "adrenaline": -0.14,
+    "excitationData": [
+      {
+        "x": 0.6,
+        "y": -0.24,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.48,
+        "y": -0.25,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.63,
+        "y": -0.215,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.445,
+        "y": -0.265,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.55,
+        "y": -0.245,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.52,
+        "y": -0.235,
+        "intensity": 2,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "name": "caged",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.78,
+        "y": -0.43,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.37,
+        "y": 0.715,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": 0.325,
+        "y": 0.74,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.745,
+        "y": -0.44,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.715,
+        "y": -0.47,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.37,
+        "y": 0.675,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "name": "telephone",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.62,
+        "y": 0.435,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.1,
+        "y": -0.565,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.64,
+        "y": 0.365,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.115,
+        "y": -0.525,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.6,
+        "y": 0.325,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.085,
+        "y": -0.59,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "name": "colourful",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.565,
+        "y": 0.56,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.575,
+        "y": 0.48,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.59,
+        "y": 0.49,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.535,
+        "y": 0.52,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.525,
+        "y": 0.575,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.495,
+        "y": 0.505,
+        "intensity": 8,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "name": "girl",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.45,
+        "y": -0.835,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.53,
+        "y": -0.7,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.195,
+        "y": 0.585,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.205,
+        "y": 0.505,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.19,
+        "y": 0.63,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.23,
+        "y": 0.54,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "name": "tears",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.28,
+        "y": -0.8,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.28,
+        "y": -0.855,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.595,
+        "y": 0.34,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.575,
+        "y": 0.28,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.67,
+        "y": 0.235,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.21,
+        "y": -0.825,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "name": "strong",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.495,
+        "y": 0.66,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.21,
+        "y": -0.845,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.525,
+        "y": 0.605,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.12,
+        "y": -0.78,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.14,
+        "y": -0.89,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.365,
+        "y": 0.66,
+        "intensity": 5,
+        "size": 0.05
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "name": "tradition",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": 0.575,
+        "y": -0.71,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.3,
+        "y": 0.785,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.57,
+        "y": -0.7,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.37,
+        "y": 0.74,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.505,
+        "y": -0.75,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.215,
+        "y": 0.725,
+        "intensity": 10,
+        "size": 0.045
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "name": "zebra",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.235,
+        "y": -0.49,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.275,
+        "y": -0.535,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.225,
+        "y": -0.575,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.235,
+        "y": -0.52,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.2,
+        "y": -0.46,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": -0.215,
+        "y": -0.475,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "name": "horse",
+    "adrenaline": -0.06,
+    "excitationData": [
+      {
+        "x": -0.425,
+        "y": 0.675,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.855,
+        "y": -0.355,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.43,
+        "y": 0.525,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.755,
+        "y": -0.27,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": -0.365,
+        "y": 0.62,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.75,
+        "y": -0.36,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "name": "beauty",
+    "adrenaline": -0.06,
+    "excitationData": [
+      {
+        "x": 0.445,
+        "y": 0.7,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.515,
+        "y": 0.665,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.535,
+        "y": 0.605,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.01,
+        "y": -0.72,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.045,
+        "y": -0.685,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.005,
+        "y": -0.67,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "name": "sport",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": 0.495,
+        "y": -0.345,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.205,
+        "y": 0.82,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.475,
+        "y": -0.31,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.125,
+        "y": 0.715,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.075,
+        "y": 0.79,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.545,
+        "y": -0.44,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.505,
+        "y": -0.335,
+        "intensity": 6,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "name": "war",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": -0.78,
+        "y": -0.435,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.475,
+        "y": -0.475,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": 0.475,
+        "y": -0.505,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.74,
+        "y": -0.5,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.43,
+        "y": -0.495,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.73,
+        "y": -0.455,
+        "intensity": 3,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "name": "sea",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": -0.545,
+        "y": -0.175,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.615,
+        "y": -0.05,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.67,
+        "y": -0.495,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.65,
+        "y": -0.51,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.5,
+        "y": -0.26,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.565,
+        "y": -0.49,
+        "intensity": 9,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "name": "halloween",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.55,
+        "y": -0.385,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.46,
+        "y": -0.375,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.005,
+        "y": -0.535,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.065,
+        "y": -0.485,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.125,
+        "y": -0.51,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.55,
+        "y": -0.38,
+        "intensity": 7,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "name": "baby",
+    "adrenaline": -0.11,
+    "excitationData": [
+      {
+        "x": -0.435,
+        "y": -0.75,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.415,
+        "y": -0.74,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.42,
+        "y": -0.8,
+        "intensity": 10,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "name": "butterfly",
+    "adrenaline": -0.06,
+    "excitationData": [
+      {
+        "x": -0.68,
+        "y": 0.155,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.355,
+        "y": 0.68,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": 0.325,
+        "y": 0.645,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.31,
+        "y": 0.625,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": -0.645,
+        "y": 0.2,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.67,
+        "y": 0.195,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "name": "sun",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.795,
+        "y": -0.1,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.765,
+        "y": -0.155,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.665,
+        "y": -0.065,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.755,
+        "y": -0.095,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": 0.765,
+        "y": -0.25,
+        "intensity": 10,
+        "size": 0.045
+      },
+      {
+        "x": -0.685,
+        "y": -0.14,
+        "intensity": 0,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "name": "hands",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.77,
+        "y": 0.05,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.48,
+        "y": 0.63,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.76,
+        "y": 0.035,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.35,
+        "y": 0.575,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.82,
+        "y": -0.06,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.31,
+        "y": 0.63,
+        "intensity": 7,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "name": "ceremony",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.76,
+        "y": -0.235,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.705,
+        "y": -0.23,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.74,
+        "y": -0.205,
+        "intensity": 3,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "name": "light",
+    "adrenaline": -0.01,
+    "excitationData": [
+      {
+        "x": -0.305,
+        "y": -0.54,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.235,
+        "y": -0.605,
+        "intensity": 10,
+        "size": 0.05
+      },
+      {
+        "x": 0.585,
+        "y": 0.48,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.53,
+        "y": 0.535,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.35,
+        "y": -0.475,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.58,
+        "y": 0.425,
+        "intensity": 4,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "name": "boxing",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.52,
+        "y": 0.58,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.5,
+        "y": 0.615,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": -0.195,
+        "y": -0.825,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": -0.265,
+        "y": -0.875,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": 0.545,
+        "y": 0.525,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.23,
+        "y": -0.765,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "name": "race",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.115,
+        "y": -0.225,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.11,
+        "y": -0.14,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.095,
+        "y": -0.175,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.115,
+        "y": -0.045,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.155,
+        "y": -0.08,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.13,
+        "y": -0.015,
+        "intensity": 3,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "name": "together",
+    "adrenaline": -0.13,
+    "excitationData": [
+      {
+        "x": 0.515,
+        "y": -0.575,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.585,
+        "y": 0.255,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.47,
+        "y": -0.7,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": 0.625,
+        "y": -0.515,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.57,
+        "y": 0.255,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.57,
+        "y": 0.35,
+        "intensity": 7,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "name": "tattoo",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": -0.705,
+        "y": -0.37,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": -0.65,
+        "y": -0.34,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.605,
+        "y": -0.365,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.745,
+        "y": -0.365,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": -0.56,
+        "y": -0.37,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.51,
+        "y": -0.41,
+        "intensity": 4,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "name": "cheer",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.145,
+        "y": 0.595,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.165,
+        "y": 0.56,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.635,
+        "y": 0.345,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.115,
+        "y": 0.58,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.61,
+        "y": 0.315,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.565,
+        "y": 0.32,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "name": "mysterious",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.31,
+        "y": 0.745,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.36,
+        "y": 0.51,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.055,
+        "y": 0.715,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.39,
+        "y": 0.635,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.035,
+        "y": 0.805,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.045,
+        "y": 0.735,
+        "intensity": 9,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "name": "toothache",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.65,
+        "y": 0.11,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.645,
+        "y": 0.05,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": 0.685,
+        "y": -0.015,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.645,
+        "y": 0.035,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.7,
+        "y": -0.015,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": 0.755,
+        "y": -0.05,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "name": "kiss",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.685,
+        "y": -0.15,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.78,
+        "y": -0.135,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.885,
+        "y": -0.27,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.655,
+        "y": -0.275,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.58,
+        "y": -0.23,
+        "intensity": 10,
+        "size": 0.045
+      },
+      {
+        "x": -0.805,
+        "y": -0.235,
+        "intensity": 2,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "name": "dark",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.505,
+        "y": 0.215,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.47,
+        "y": 0.19,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.555,
+        "y": 0.235,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.59,
+        "y": 0.255,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "name": "silhouette",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.74,
+        "y": -0.5,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.715,
+        "y": -0.33,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.535,
+        "y": -0.37,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.65,
+        "y": -0.265,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.635,
+        "y": -0.415,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.77,
+        "y": -0.205,
+        "intensity": 6,
+        "size": 0.05
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "name": "monkey",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.705,
+        "y": 0.065,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.585,
+        "y": -0.145,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.65,
+        "y": 0.16,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.585,
+        "y": 0.07,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.505,
+        "y": -0.195,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.57,
+        "y": -0.235,
+        "intensity": 4,
+        "size": 0.05
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "name": "cold",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.625,
+        "y": -0.44,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.63,
+        "y": -0.25,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.635,
+        "y": -0.425,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.64,
+        "y": -0.27,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.61,
+        "y": -0.475,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.62,
+        "y": -0.225,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "name": "adventure",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.57,
+        "y": -0.09,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.61,
+        "y": -0.055,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.56,
+        "y": -0.015,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "name": "mask",
+    "adrenaline": 0.02,
+    "excitationData": [
+      {
+        "x": 0.185,
+        "y": 0.835,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.1,
+        "y": 0.765,
+        "intensity": 9,
+        "size": 0.05
+      },
+      {
+        "x": -0.36,
+        "y": 0.63,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.36,
+        "y": 0.685,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.43,
+        "y": 0.645,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": 0.22,
+        "y": 0.775,
+        "intensity": 7,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "name": "evil",
+    "adrenaline": 0.11,
+    "excitationData": [
+      {
+        "x": 0.115,
+        "y": -0.855,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.135,
+        "y": -0.71,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.165,
+        "y": -0.665,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.165,
+        "y": -0.64,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.13,
+        "y": -0.81,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": 0.13,
+        "y": -0.765,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "name": "teeth",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.085,
+        "y": 0.605,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.585,
+        "y": 0.32,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.115,
+        "y": 0.62,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.595,
+        "y": 0.365,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": -0.06,
+        "y": 0.56,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.615,
+        "y": 0.255,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "name": "eyes",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.645,
+        "y": -0.375,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.69,
+        "y": -0.41,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.72,
+        "y": -0.435,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.665,
+        "y": -0.395,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": 0.645,
+        "y": -0.35,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": 0.635,
+        "y": -0.32,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "name": "doubt",
+    "adrenaline": 0.02,
+    "excitationData": [
+      {
+        "x": 0.585,
+        "y": -0.245,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.775,
+        "y": -0.16,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.65,
+        "y": -0.21,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.74,
+        "y": -0.18,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.695,
+        "y": -0.215,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.615,
+        "y": -0.225,
+        "intensity": 5,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "name": "hair",
+    "adrenaline": -0.01,
+    "excitationData": [
+      {
+        "x": -0.4,
+        "y": -0.61,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.455,
+        "y": -0.54,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.62,
+        "y": -0.36,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.575,
+        "y": -0.295,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.52,
+        "y": -0.55,
+        "intensity": 9,
+        "size": 0.025
+      },
+      {
+        "x": 0.56,
+        "y": -0.355,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "name": "pensive",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.51,
+        "y": -0.265,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.615,
+        "y": -0.26,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": 0.545,
+        "y": -0.275,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.46,
+        "y": -0.285,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.57,
+        "y": -0.26,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.645,
+        "y": -0.235,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "name": "dancing",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.05,
+        "y": -0.48,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.045,
+        "y": -0.55,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.07,
+        "y": -0.48,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "name": "fire",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.545,
+        "y": 0.25,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.38,
+        "y": 0.215,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": -0.45,
+        "y": 0.26,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.495,
+        "y": 0.25,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.425,
+        "y": 0.225,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.53,
+        "y": 0.245,
+        "intensity": 6,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "name": "business",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.755,
+        "y": -0.02,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.495,
+        "y": 0.43,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": -0.73,
+        "y": -0.07,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.52,
+        "y": 0.41,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.72,
+        "y": -0.05,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.48,
+        "y": 0.43,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "name": "nature",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.775,
+        "y": -0.31,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.835,
+        "y": -0.205,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.26,
+        "y": -0.69,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.345,
+        "y": -0.61,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.73,
+        "y": -0.21,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.22,
+        "y": -0.62,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "name": "safe",
+    "adrenaline": -0.09,
+    "excitationData": [
+      {
+        "x": 0.425,
+        "y": 0.685,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.105,
+        "y": 0.835,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.485,
+        "y": 0.645,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.35,
+        "y": 0.705,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.135,
+        "y": 0.79,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": -0.08,
+        "y": 0.755,
+        "intensity": 7,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "name": "harmony",
+    "adrenaline": -0.12,
+    "excitationData": [
+      {
+        "x": -0.745,
+        "y": -0.125,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.235,
+        "y": 0.695,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": -0.7,
+        "y": -0.085,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.18,
+        "y": 0.735,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.22,
+        "y": 0.695,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.67,
+        "y": -0.135,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "name": "tired",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": 0.13,
+        "y": 0.7,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.59,
+        "y": -0.405,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.57,
+        "y": -0.4,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.1,
+        "y": 0.715,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.1,
+        "y": 0.67,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": -0.605,
+        "y": -0.365,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "name": "old",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.35,
+        "y": -0.795,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.63,
+        "y": -0.275,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.67,
+        "y": -0.24,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.39,
+        "y": -0.8,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": -0.345,
+        "y": -0.85,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.605,
+        "y": -0.24,
+        "intensity": 2,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "name": "flying",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.295,
+        "y": -0.575,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.325,
+        "y": -0.555,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.355,
+        "y": -0.515,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.27,
+        "y": -0.64,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.43,
+        "y": -0.51,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.385,
+        "y": -0.49,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "name": "money",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.765,
+        "y": 0.025,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.54,
+        "y": -0.425,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.555,
+        "y": -0.45,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.485,
+        "y": -0.47,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.775,
+        "y": 0.03,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.77,
+        "y": -0.05,
+        "intensity": 4,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "name": "poverty",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.275,
+        "y": -0.635,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.225,
+        "y": -0.51,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.24,
+        "y": -0.595,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.27,
+        "y": -0.46,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": 0.235,
+        "y": -0.475,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": 0.215,
+        "y": -0.53,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "name": "hero",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.15,
+        "y": -0.81,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.73,
+        "y": 0.28,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.64,
+        "y": 0.265,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.245,
+        "y": -0.82,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.245,
+        "y": -0.755,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.765,
+        "y": 0.215,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 111,
+    "name": "care",
+    "adrenaline": -0.08,
+    "excitationData": [
+      {
+        "x": 0.735,
+        "y": -0.375,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.675,
+        "y": 0.075,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.66,
+        "y": 0.065,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.725,
+        "y": -0.33,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.685,
+        "y": 0.105,
+        "intensity": 7,
+        "size": 0.025
+      },
+      {
+        "x": 0.675,
+        "y": -0.355,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "name": "pattern",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.25,
+        "y": -0.865,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.275,
+        "y": -0.9,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.6,
+        "y": 0.195,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.6,
+        "y": 0.15,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.64,
+        "y": 0.22,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.245,
+        "y": -0.84,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "name": "giraffe",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": -0.295,
+        "y": -0.365,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.195,
+        "y": -0.42,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.285,
+        "y": -0.385,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.155,
+        "y": -0.395,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.265,
+        "y": -0.44,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.23,
+        "y": -0.46,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 114,
+    "name": "embrace",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": 0.75,
+        "y": -0.455,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.63,
+        "y": -0.505,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.705,
+        "y": -0.485,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.59,
+        "y": -0.495,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": -0.66,
+        "y": -0.475,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.695,
+        "y": -0.46,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.72,
+        "y": -0.49,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": -0.595,
+        "y": -0.49,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": -0.56,
+        "y": -0.5,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "name": "rabbit",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.205,
+        "y": -0.45,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.13,
+        "y": -0.445,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": -0.105,
+        "y": -0.46,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.105,
+        "y": -0.415,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.21,
+        "y": -0.44,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": -0.245,
+        "y": -0.445,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 116,
+    "name": "pray",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.355,
+        "y": -0.555,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.435,
+        "y": -0.535,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.475,
+        "y": -0.485,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.365,
+        "y": -0.54,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.435,
+        "y": -0.5,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": 0.4,
+        "y": -0.545,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 117,
+    "name": "religion",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.615,
+        "y": -0.185,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.75,
+        "y": -0.21,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.695,
+        "y": -0.195,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.585,
+        "y": -0.205,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.655,
+        "y": -0.165,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.555,
+        "y": -0.23,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 118,
+    "name": "smile",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": -0.65,
+        "y": 0.115,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.675,
+        "y": 0.06,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.085,
+        "y": 0.675,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.115,
+        "y": 0.625,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.125,
+        "y": 0.7,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.585,
+        "y": 0.145,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 119,
+    "name": "reflection",
+    "adrenaline": -0.01,
+    "excitationData": [
+      {
+        "x": -0.435,
+        "y": -0.395,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.545,
+        "y": -0.405,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": -0.57,
+        "y": -0.445,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.585,
+        "y": -0.5,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.475,
+        "y": -0.385,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.515,
+        "y": -0.39,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "name": "concentration",
+    "adrenaline": -0.09,
+    "excitationData": [
+      {
+        "x": 0.65,
+        "y": 0.245,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.08,
+        "y": -0.56,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.595,
+        "y": 0.25,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": -0.08,
+        "y": -0.6,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.615,
+        "y": 0.175,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.045,
+        "y": -0.615,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 121,
+    "name": "yawn",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.07,
+        "y": 0.69,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.095,
+        "y": 0.72,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.62,
+        "y": -0.395,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": 0.57,
+        "y": -0.4,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.08,
+        "y": 0.73,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.59,
+        "y": -0.345,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 122,
+    "name": "music",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.675,
+        "y": -0.5,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.69,
+        "y": 0.01,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.66,
+        "y": 0.05,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.61,
+        "y": 0.04,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": -0.65,
+        "y": -0.545,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.69,
+        "y": -0.47,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 123,
+    "name": "drink",
+    "adrenaline": -0.05,
+    "excitationData": [
+      {
+        "x": 0.47,
+        "y": 0.37,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.4,
+        "y": 0.31,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.505,
+        "y": 0.385,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.53,
+        "y": 0.405,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.435,
+        "y": 0.35,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": 0.365,
+        "y": 0.285,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 124,
+    "name": "chess",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.18,
+        "y": 0.845,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.225,
+        "y": 0.805,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.5,
+        "y": 0.495,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.485,
+        "y": 0.525,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.185,
+        "y": 0.8,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.465,
+        "y": 0.5,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 125,
+    "name": "aim",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.615,
+        "y": 0.38,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.58,
+        "y": 0.29,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": -0.635,
+        "y": 0.25,
+        "intensity": 4,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 126,
+    "name": "development",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.155,
+        "y": 0.465,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": -0.165,
+        "y": 0.405,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.15,
+        "y": 0.57,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.135,
+        "y": 0.6,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.18,
+        "y": 0.34,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.145,
+        "y": 0.51,
+        "intensity": 0,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 127,
+    "name": "dirty",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.165,
+        "y": -0.195,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.125,
+        "y": -0.01,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.12,
+        "y": -0.13,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.135,
+        "y": -0.175,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.1,
+        "y": -0.085,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.125,
+        "y": 0.02,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 128,
+    "name": "silence",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.555,
+        "y": 0.595,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.185,
+        "y": -0.225,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.545,
+        "y": 0.575,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": -0.535,
+        "y": 0.505,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.145,
+        "y": -0.205,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.195,
+        "y": -0.21,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 129,
+    "name": "punishment",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.13,
+        "y": -0.68,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.235,
+        "y": -0.575,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.28,
+        "y": -0.62,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.155,
+        "y": -0.645,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.12,
+        "y": -0.71,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.18,
+        "y": -0.61,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 130,
+    "name": "protest",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.365,
+        "y": 0.625,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.405,
+        "y": 0.66,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.435,
+        "y": 0.68,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.32,
+        "y": 0.595,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.39,
+        "y": 0.62,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.3,
+        "y": 0.565,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 131,
+    "name": "whisper",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.58,
+        "y": -0.085,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.545,
+        "y": -0.085,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": -0.245,
+        "y": -0.575,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.215,
+        "y": -0.625,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.205,
+        "y": -0.605,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.58,
+        "y": -0.025,
+        "intensity": 0,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 132,
+    "name": "secret",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.735,
+        "y": 0,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.565,
+        "y": -0.565,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.675,
+        "y": -0.04,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.57,
+        "y": -0.495,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.505,
+        "y": -0.52,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.68,
+        "y": 0.025,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "name": "reading",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": -0.145,
+        "y": 0.535,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.205,
+        "y": 0.35,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.185,
+        "y": 0.425,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.155,
+        "y": 0.47,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": -0.145,
+        "y": 0.58,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.17,
+        "y": 0.385,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 134,
+    "name": "city",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": -0.71,
+        "y": -0.105,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.685,
+        "y": -0.09,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.71,
+        "y": -0.12,
+        "intensity": 5,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 135,
+    "name": "test",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": 0.365,
+        "y": 0.515,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.26,
+        "y": 0.535,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.31,
+        "y": 0.455,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.26,
+        "y": 0.595,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.32,
+        "y": 0.57,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.42,
+        "y": 0.6,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "name": "eureka",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.595,
+        "y": 0.255,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.49,
+        "y": 0.25,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.555,
+        "y": 0.23,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.485,
+        "y": 0.27,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.465,
+        "y": 0.28,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": 0.525,
+        "y": 0.21,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 137,
+    "name": "smell",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": 0.74,
+        "y": -0.325,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.2,
+        "y": -0.675,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": -0.145,
+        "y": -0.77,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": 0.755,
+        "y": -0.355,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": 0.76,
+        "y": -0.29,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.185,
+        "y": -0.73,
+        "intensity": 1,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 138,
+    "name": "flower",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.505,
+        "y": -0.065,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": -0.61,
+        "y": 0,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.58,
+        "y": -0.025,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.485,
+        "y": -0.09,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.56,
+        "y": -0.04,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": -0.465,
+        "y": -0.11,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 139,
+    "name": "fight",
+    "adrenaline": 0.08,
+    "excitationData": [
+      {
+        "x": -0.6,
+        "y": -0.435,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.57,
+        "y": -0.41,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.705,
+        "y": -0.505,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": -0.51,
+        "y": -0.38,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": -0.655,
+        "y": -0.475,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.63,
+        "y": -0.455,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 140,
+    "name": "stress",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.205,
+        "y": -0.8,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.54,
+        "y": -0.525,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.26,
+        "y": -0.805,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.21,
+        "y": -0.87,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.445,
+        "y": -0.505,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.49,
+        "y": -0.49,
+        "intensity": 7,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 141,
+    "name": "sign",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.535,
+        "y": 0.755,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.69,
+        "y": 0.07,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.515,
+        "y": 0.665,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": 0.615,
+        "y": 0.12,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.56,
+        "y": 0.125,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.46,
+        "y": 0.7,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 142,
+    "name": "flood",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.545,
+        "y": -0.12,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.65,
+        "y": -0.02,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.715,
+        "y": 0.035,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.69,
+        "y": 0.015,
+        "intensity": 2,
+        "size": 0.03
+      },
+      {
+        "x": 0.62,
+        "y": -0.045,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.59,
+        "y": -0.065,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 143,
+    "name": "fashion",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.255,
+        "y": -0.27,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.265,
+        "y": -0.225,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.275,
+        "y": -0.15,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.26,
+        "y": -0.2,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.27,
+        "y": -0.33,
+        "intensity": 4,
+        "size": 0.025
+      },
+      {
+        "x": -0.27,
+        "y": -0.31,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 144,
+    "name": "cosplay",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": 0.15,
+        "y": 0.2,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.11,
+        "y": 0.205,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.15,
+        "y": 0.17,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 145,
+    "name": "courage",
+    "adrenaline": 0.06,
+    "excitationData": [
+      {
+        "x": 0.71,
+        "y": -0.42,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": -0.2,
+        "y": -0.835,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.165,
+        "y": -0.8,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.255,
+        "y": -0.83,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.66,
+        "y": -0.445,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": 0.76,
+        "y": -0.44,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 146,
+    "name": "poison",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": -0.305,
+        "y": -0.475,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.315,
+        "y": -0.565,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.285,
+        "y": -0.535,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": -0.24,
+        "y": -0.605,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.275,
+        "y": -0.58,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.22,
+        "y": -0.645,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 147,
+    "name": "bird",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": 0.145,
+        "y": -0.64,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.185,
+        "y": -0.62,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.15,
+        "y": -0.865,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.18,
+        "y": -0.67,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": -0.09,
+        "y": -0.855,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": -0.105,
+        "y": -0.815,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 148,
+    "name": "help",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.72,
+        "y": -0.14,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.705,
+        "y": -0.1,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.225,
+        "y": 0.53,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.205,
+        "y": 0.585,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.74,
+        "y": -0.155,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": 0.24,
+        "y": 0.63,
+        "intensity": 1,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 149,
+    "name": "alone",
+    "adrenaline": 0.07,
+    "excitationData": [
+      {
+        "x": 0.61,
+        "y": 0.345,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.34,
+        "y": -0.79,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.31,
+        "y": -0.735,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.615,
+        "y": 0.33,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": -0.27,
+        "y": -0.765,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": 0.6,
+        "y": 0.385,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 150,
+    "name": "party",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.46,
+        "y": 0.52,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.46,
+        "y": 0.41,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.5,
+        "y": 0.465,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.535,
+        "y": 0.52,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.54,
+        "y": 0.43,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.45,
+        "y": 0.585,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 151,
+    "name": "hide",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.525,
+        "y": 0.37,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.405,
+        "y": 0.71,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.35,
+        "y": 0.715,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": -0.47,
+        "y": 0.365,
+        "intensity": 7,
+        "size": 0.04
+      },
+      {
+        "x": 0.415,
+        "y": 0.75,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.535,
+        "y": 0.375,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 152,
+    "name": "creativity",
+    "adrenaline": -0.03,
+    "excitationData": [
+      {
+        "x": -0.535,
+        "y": -0.58,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.585,
+        "y": 0.04,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.605,
+        "y": 0.03,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.525,
+        "y": -0.61,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.53,
+        "y": 0.035,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.55,
+        "y": -0.54,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 153,
+    "name": "sorry",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.04,
+        "y": 0.105,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.065,
+        "y": 0.07,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.02,
+        "y": 0.14,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.16,
+        "y": 0.595,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.14,
+        "y": 0.565,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": -0.205,
+        "y": 0.66,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.085,
+        "y": 0.135,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.015,
+        "y": 0.12,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.23,
+        "y": 0.54,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.11,
+        "y": 0.12,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.055,
+        "y": 0.085,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 154,
+    "name": "stop",
+    "adrenaline": 0.05,
+    "excitationData": [
+      {
+        "x": 0.045,
+        "y": -0.7,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.01,
+        "y": -0.755,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.075,
+        "y": -0.825,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.14,
+        "y": -0.68,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.105,
+        "y": -0.77,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.075,
+        "y": -0.76,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 155,
+    "name": "greed",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": -0.415,
+        "y": 0.575,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.64,
+        "y": -0.435,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.435,
+        "y": 0.485,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.585,
+        "y": -0.44,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.375,
+        "y": 0.635,
+        "intensity": 9,
+        "size": 0.025
+      },
+      {
+        "x": 0.62,
+        "y": -0.375,
+        "intensity": 3,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 156,
+    "name": "hunger",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.225,
+        "y": 0.805,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.28,
+        "y": 0.895,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.555,
+        "y": 0.395,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.52,
+        "y": 0.395,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.31,
+        "y": 0.8,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.525,
+        "y": 0.45,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 157,
+    "name": "thirst",
+    "adrenaline": 0.03,
+    "excitationData": [
+      {
+        "x": 0.4,
+        "y": 0.46,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.13,
+        "y": 0.66,
+        "intensity": 3,
+        "size": 0.04
+      },
+      {
+        "x": -0.19,
+        "y": 0.68,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.49,
+        "y": 0.485,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.365,
+        "y": 0.48,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.16,
+        "y": 0.61,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 158,
+    "name": "broken",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.195,
+        "y": 0.54,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.16,
+        "y": 0.515,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.145,
+        "y": 0.505,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.19,
+        "y": 0.495,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.195,
+        "y": 0.59,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.225,
+        "y": 0.52,
+        "intensity": 8,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 159,
+    "name": "logo",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.35,
+        "y": -0.185,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.375,
+        "y": -0.205,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.325,
+        "y": -0.21,
+        "intensity": 1,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 160,
+    "name": "clothing",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.205,
+        "y": -0.72,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": 0.205,
+        "y": -0.68,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.175,
+        "y": -0.645,
+        "intensity": 4,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 161,
+    "name": "movie",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.795,
+        "y": -0.205,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.495,
+        "y": 0.63,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.475,
+        "y": 0.67,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.445,
+        "y": 0.625,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.79,
+        "y": -0.265,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": -0.85,
+        "y": -0.215,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 162,
+    "name": "art",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.28,
+        "y": 0.575,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.3,
+        "y": 0.56,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.245,
+        "y": 0.565,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 163,
+    "name": "luxury",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.68,
+        "y": 0.44,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.625,
+        "y": 0.53,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.73,
+        "y": 0.255,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": -0.6,
+        "y": 0.45,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.72,
+        "y": 0.335,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.79,
+        "y": 0.24,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 164,
+    "name": "car",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": 0.62,
+        "y": 0.375,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.22,
+        "y": -0.84,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.65,
+        "y": 0.34,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.2,
+        "y": -0.795,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.61,
+        "y": 0.315,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.15,
+        "y": -0.815,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 165,
+    "name": "tech",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.645,
+        "y": 0.255,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.665,
+        "y": 0.2,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": -0.57,
+        "y": 0.25,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 166,
+    "name": "pollution",
+    "adrenaline": 0.12,
+    "excitationData": [
+      {
+        "x": 0.25,
+        "y": -0.435,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": 0.32,
+        "y": -0.52,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.25,
+        "y": -0.405,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.34,
+        "y": -0.59,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.27,
+        "y": -0.475,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.27,
+        "y": -0.42,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 167,
+    "name": "shoes",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.605,
+        "y": 0.515,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.625,
+        "y": 0.435,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": -0.77,
+        "y": -0.26,
+        "intensity": 7,
+        "size": 0.05
+      },
+      {
+        "x": -0.8,
+        "y": -0.19,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": -0.77,
+        "y": -0.115,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.54,
+        "y": 0.55,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 168,
+    "name": "travel",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.69,
+        "y": -0.085,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.745,
+        "y": 0.01,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.54,
+        "y": -0.605,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.61,
+        "y": -0.56,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": -0.615,
+        "y": -0.005,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.56,
+        "y": -0.69,
+        "intensity": 10,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 169,
+    "name": "politics",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.42,
+        "y": -0.765,
+        "intensity": 8,
+        "size": 0.05
+      },
+      {
+        "x": 0.45,
+        "y": -0.815,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.37,
+        "y": -0.74,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.34,
+        "y": -0.705,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.285,
+        "y": -0.655,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.315,
+        "y": -0.675,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 170,
+    "name": "health",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.515,
+        "y": -0.305,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.66,
+        "y": 0.27,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.595,
+        "y": 0.33,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.64,
+        "y": 0.265,
+        "intensity": 9,
+        "size": 0.045
+      },
+      {
+        "x": 0.605,
+        "y": -0.335,
+        "intensity": 3,
+        "size": 0.045
+      },
+      {
+        "x": 0.61,
+        "y": -0.4,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 171,
+    "name": "jewellery",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.23,
+        "y": -0.745,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.585,
+        "y": -0.09,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.69,
+        "y": -0.115,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.135,
+        "y": -0.75,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": 0.66,
+        "y": -0.045,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.105,
+        "y": -0.815,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 172,
+    "name": "ai",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.835,
+        "y": -0.195,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": 0.435,
+        "y": 0.645,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.425,
+        "y": 0.69,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.805,
+        "y": -0.28,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.77,
+        "y": -0.2,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": 0.47,
+        "y": 0.6,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 173,
+    "name": "fastfood",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.6,
+        "y": 0.055,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.695,
+        "y": 0.135,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": 0.535,
+        "y": 0.02,
+        "intensity": 0,
+        "size": 0.025
+      },
+      {
+        "x": 0.675,
+        "y": 0.1,
+        "intensity": 4,
+        "size": 0.025
+      },
+      {
+        "x": 0.57,
+        "y": 0.035,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.64,
+        "y": 0.08,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 174,
+    "name": "social media",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.24,
+        "y": -0.895,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.67,
+        "y": 0.33,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.185,
+        "y": -0.83,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.615,
+        "y": 0.415,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.12,
+        "y": -0.83,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": -0.64,
+        "y": 0.375,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 175,
+    "name": "photography",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.355,
+        "y": 0.745,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": -0.32,
+        "y": -0.77,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": -0.285,
+        "y": -0.85,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.31,
+        "y": 0.785,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.275,
+        "y": -0.81,
+        "intensity": 8,
+        "size": 0.035
+      },
+      {
+        "x": 0.38,
+        "y": 0.775,
+        "intensity": 7,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 176,
+    "name": "alcohol",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.64,
+        "y": 0.115,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.335,
+        "y": 0.565,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.295,
+        "y": 0.63,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": -0.23,
+        "y": 0.665,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": 0.615,
+        "y": 0.155,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.6,
+        "y": 0.1,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 177,
+    "name": "coffee",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.02,
+        "y": -0.86,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.065,
+        "y": -0.8,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.37,
+        "y": -0.625,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.385,
+        "y": -0.66,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": 0.015,
+        "y": -0.81,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": 0.345,
+        "y": -0.675,
+        "intensity": 2,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 178,
+    "name": "scifi",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.615,
+        "y": 0.215,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.47,
+        "y": 0.275,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.405,
+        "y": -0.685,
+        "intensity": 6,
+        "size": 0.05
+      },
+      {
+        "x": -0.56,
+        "y": 0.295,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": 0.39,
+        "y": -0.6,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.45,
+        "y": -0.63,
+        "intensity": 10,
+        "size": 0.04
+      }
+    ]
+  },
+  {
+    "id": 179,
+    "name": "space",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.41,
+        "y": 0.68,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": -0.52,
+        "y": 0.66,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.31,
+        "y": -0.705,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": 0.2,
+        "y": -0.715,
+        "intensity": 0,
+        "size": 0.05
+      },
+      {
+        "x": -0.5,
+        "y": 0.735,
+        "intensity": 7,
+        "size": 0.045
+      },
+      {
+        "x": 0.24,
+        "y": -0.66,
+        "intensity": 6,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 180,
+    "name": "gaming",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.53,
+        "y": -0.05,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": -0.56,
+        "y": -0.02,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.5,
+        "y": -0.06,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.44,
+        "y": -0.11,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.405,
+        "y": -0.135,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": -0.465,
+        "y": -0.085,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 181,
+    "name": "communication",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.54,
+        "y": 0.415,
+        "intensity": 2,
+        "size": 0.045
+      },
+      {
+        "x": 0.57,
+        "y": 0.39,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": -0.725,
+        "y": -0.24,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.595,
+        "y": 0.36,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.665,
+        "y": -0.26,
+        "intensity": 9,
+        "size": 0.03
+      },
+      {
+        "x": -0.735,
+        "y": -0.295,
+        "intensity": 3,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 182,
+    "name": "funny",
+    "adrenaline": -0.07,
+    "excitationData": [
+      {
+        "x": -0.68,
+        "y": -0.305,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.615,
+        "y": -0.33,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.63,
+        "y": -0.31,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.695,
+        "y": -0.285,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": -0.59,
+        "y": -0.355,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.72,
+        "y": -0.275,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 183,
+    "name": "computer",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.59,
+        "y": 0.035,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.395,
+        "y": 0.54,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.355,
+        "y": 0.515,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.435,
+        "y": 0.53,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": 0.6,
+        "y": 0.01,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.65,
+        "y": 0.025,
+        "intensity": 10,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 184,
+    "name": "science",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.37,
+        "y": 0.735,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.68,
+        "y": -0.04,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": 0.38,
+        "y": 0.83,
+        "intensity": 8,
+        "size": 0.045
+      },
+      {
+        "x": 0.315,
+        "y": 0.855,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": -0.73,
+        "y": 0.005,
+        "intensity": 10,
+        "size": 0.03
+      },
+      {
+        "x": -0.645,
+        "y": -0.115,
+        "intensity": 1,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 185,
+    "name": "smoke",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.775,
+        "y": -0.3,
+        "intensity": 5,
+        "size": 0.05
+      },
+      {
+        "x": -0.715,
+        "y": -0.375,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.275,
+        "y": -0.575,
+        "intensity": 5,
+        "size": 0.045
+      },
+      {
+        "x": 0.34,
+        "y": -0.605,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": -0.675,
+        "y": -0.305,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": 0.325,
+        "y": -0.535,
+        "intensity": 0,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 186,
+    "name": "children",
+    "adrenaline": -0.02,
+    "excitationData": [
+      {
+        "x": -0.075,
+        "y": -0.69,
+        "intensity": 0,
+        "size": 0.045
+      },
+      {
+        "x": 0.765,
+        "y": -0.165,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": -0.065,
+        "y": -0.665,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": 0.785,
+        "y": -0.215,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": -0.075,
+        "y": -0.725,
+        "intensity": 8,
+        "size": 0.03
+      },
+      {
+        "x": 0.76,
+        "y": -0.135,
+        "intensity": 5,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 187,
+    "name": "world",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.73,
+        "y": -0.1,
+        "intensity": 3,
+        "size": 0.05
+      },
+      {
+        "x": -0.58,
+        "y": -0.19,
+        "intensity": 9,
+        "size": 0.035
+      },
+      {
+        "x": -0.64,
+        "y": -0.2,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": -0.55,
+        "y": -0.23,
+        "intensity": 6,
+        "size": 0.025
+      },
+      {
+        "x": 0.69,
+        "y": -0.145,
+        "intensity": 7,
+        "size": 0.025
+      },
+      {
+        "x": 0.68,
+        "y": -0.11,
+        "intensity": 0,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 188,
+    "name": "europe",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.35,
+        "y": 0.24,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": 0.385,
+        "y": 0.28,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.47,
+        "y": 0.385,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.41,
+        "y": 0.305,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.45,
+        "y": 0.355,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": 0.49,
+        "y": 0.41,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 189,
+    "name": "women",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.175,
+        "y": 0.81,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": -0.135,
+        "y": -0.575,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.22,
+        "y": 0.735,
+        "intensity": 6,
+        "size": 0.045
+      },
+      {
+        "x": -0.215,
+        "y": -0.55,
+        "intensity": 9,
+        "size": 0.04
+      },
+      {
+        "x": -0.265,
+        "y": -0.58,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.185,
+        "y": 0.675,
+        "intensity": 10,
+        "size": 0.035
+      }
+    ]
+  },
+  {
+    "id": 190,
+    "name": "robot",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.36,
+        "y": 0.685,
+        "intensity": 1,
+        "size": 0.05
+      },
+      {
+        "x": 0.365,
+        "y": 0.675,
+        "intensity": 4,
+        "size": 0.045
+      },
+      {
+        "x": 0.265,
+        "y": 0.52,
+        "intensity": 10,
+        "size": 0.04
+      },
+      {
+        "x": 0.305,
+        "y": 0.615,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.29,
+        "y": 0.545,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.305,
+        "y": 0.645,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 191,
+    "name": "bat",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.67,
+        "y": -0.345,
+        "intensity": 2,
+        "size": 0.05
+      },
+      {
+        "x": 0.1,
+        "y": 0.785,
+        "intensity": 1,
+        "size": 0.045
+      },
+      {
+        "x": -0.705,
+        "y": -0.275,
+        "intensity": 6,
+        "size": 0.04
+      },
+      {
+        "x": -0.65,
+        "y": -0.43,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.085,
+        "y": 0.725,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.14,
+        "y": 0.735,
+        "intensity": 9,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 192,
+    "name": "ink blot",
+    "adrenaline": 0.02,
+    "excitationData": [
+      {
+        "x": -0.445,
+        "y": 0.41,
+        "intensity": 8,
+        "size": 0.04
+      },
+      {
+        "x": -0.46,
+        "y": 0.445,
+        "intensity": 5,
+        "size": 0.03
+      },
+      {
+        "x": -0.445,
+        "y": 0.37,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": -0.45,
+        "y": 0.49,
+        "intensity": 8,
+        "size": 0.025
+      },
+      {
+        "x": -0.4,
+        "y": 0.48,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": -0.455,
+        "y": 0.325,
+        "intensity": 10,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 193,
+    "name": "sleep",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.135,
+        "y": -0.73,
+        "intensity": 4,
+        "size": 0.05
+      },
+      {
+        "x": 0.035,
+        "y": -0.845,
+        "intensity": 5,
+        "size": 0.04
+      },
+      {
+        "x": 0.1,
+        "y": -0.77,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": 0.055,
+        "y": -0.805,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.145,
+        "y": -0.69,
+        "intensity": 9,
+        "size": 0.025
+      },
+      {
+        "x": 0.05,
+        "y": -0.76,
+        "intensity": 8,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 194,
+    "name": "death",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": -0.59,
+        "y": 0.35,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.51,
+        "y": 0.215,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": -0.57,
+        "y": 0.315,
+        "intensity": 4,
+        "size": 0.035
+      },
+      {
+        "x": -0.605,
+        "y": 0.39,
+        "intensity": 10,
+        "size": 0.025
+      },
+      {
+        "x": -0.555,
+        "y": 0.285,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": -0.535,
+        "y": 0.245,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 195,
+    "name": "tree",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.43,
+        "y": 0.435,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.43,
+        "y": 0.6,
+        "intensity": 6,
+        "size": 0.035
+      },
+      {
+        "x": 0.455,
+        "y": 0.63,
+        "intensity": 7,
+        "size": 0.035
+      },
+      {
+        "x": 0.39,
+        "y": 0.48,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.39,
+        "y": 0.555,
+        "intensity": 0,
+        "size": 0.03
+      },
+      {
+        "x": 0.37,
+        "y": 0.52,
+        "intensity": 2,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 196,
+    "name": "boat",
+    "adrenaline": 0,
+    "excitationData": [
+      {
+        "x": 0.25,
+        "y": 0.63,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.22,
+        "y": 0.72,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.25,
+        "y": 0.66,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.19,
+        "y": 0.76,
+        "intensity": 0,
+        "size": 0.035
+      },
+      {
+        "x": 0.19,
+        "y": 0.8,
+        "intensity": 10,
+        "size": 0.035
+      },
+      {
+        "x": 0.27,
+        "y": 0.565,
+        "intensity": 9,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 197,
+    "name": "crime",
+    "adrenaline": 0.09,
+    "excitationData": [
+      {
+        "x": 0.785,
+        "y": -0.335,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": 0.76,
+        "y": -0.215,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.78,
+        "y": -0.335,
+        "intensity": 2,
+        "size": 0.025
+      },
+      {
+        "x": 0.785,
+        "y": -0.26,
+        "intensity": 0,
+        "size": 0.025
+      },
+      {
+        "x": 0.795,
+        "y": -0.285,
+        "intensity": 9,
+        "size": 0.025
+      },
+      {
+        "x": 0.78,
+        "y": -0.335,
+        "intensity": 4,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 198,
+    "name": "sick",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": -0.695,
+        "y": 0.075,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.71,
+        "y": 0.035,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": -0.685,
+        "y": -0.07,
+        "intensity": 7,
+        "size": 0.03
+      },
+      {
+        "x": -0.705,
+        "y": -0.05,
+        "intensity": 1,
+        "size": 0.03
+      },
+      {
+        "x": -0.655,
+        "y": -0.085,
+        "intensity": 0,
+        "size": 0.025
+      },
+      {
+        "x": -0.705,
+        "y": -0.015,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 199,
+    "name": "home",
+    "adrenaline": -0.04,
+    "excitationData": [
+      {
+        "x": 0.105,
+        "y": -0.72,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": 0.09,
+        "y": -0.765,
+        "intensity": 5,
+        "size": 0.035
+      },
+      {
+        "x": 0.07,
+        "y": -0.845,
+        "intensity": 2,
+        "size": 0.035
+      },
+      {
+        "x": 0.025,
+        "y": -0.85,
+        "intensity": 3,
+        "size": 0.035
+      },
+      {
+        "x": 0.105,
+        "y": -0.795,
+        "intensity": 6,
+        "size": 0.03
+      },
+      {
+        "x": 0.09,
+        "y": -0.845,
+        "intensity": 0,
+        "size": 0.03
+      }
+    ]
+  },
+  {
+    "id": 200,
+    "name": "regret",
+    "adrenaline": 0.04,
+    "excitationData": [
+      {
+        "x": 0.645,
+        "y": 0.3,
+        "intensity": 1,
+        "size": 0.04
+      },
+      {
+        "x": 0.69,
+        "y": 0.235,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.72,
+        "y": 0.185,
+        "intensity": 2,
+        "size": 0.04
+      },
+      {
+        "x": 0.665,
+        "y": 0.26,
+        "intensity": 3,
+        "size": 0.03
+      },
+      {
+        "x": 0.72,
+        "y": 0.14,
+        "intensity": 4,
+        "size": 0.03
+      },
+      {
+        "x": 0.61,
+        "y": 0.315,
+        "intensity": 6,
+        "size": 0.025
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "name": "observe",
+    "adrenaline": 0.01,
+    "excitationData": [
+      {
+        "x": -0.53,
+        "y": -0.38,
+        "intensity": 4,
+        "size": 0.04
+      },
+      {
+        "x": -0.645,
+        "y": -0.295,
+        "intensity": 0,
+        "size": 0.04
+      },
+      {
+        "x": -0.57,
+        "y": -0.38,
+        "intensity": 1,
+        "size": 0.035
+      },
+      {
+        "x": -0.48,
+        "y": -0.38,
+        "intensity": 9,
+        "size": 0.025
+      },
+      {
+        "x": -0.595,
+        "y": -0.36,
+        "intensity": 1,
+        "size": 0.025
+      },
+      {
+        "x": -0.615,
+        "y": -0.335,
+        "intensity": 1,
+        "size": 0.025
+      }
+    ]
+  }
+]
