@@ -3,87 +3,58 @@
  */
 
 /**
- * Represents a single excitation point with coordinates, intensity, and size
+ * @deprecated - Legacy type for backward compatibility only
  */
 export interface ExcitationData {
-    /** X coordinate (-20 to +20) */
     x: number;
-    /** Y coordinate (-20 to +20) */
     y: number;
-    /** Intensity level (0-10) */
     intensity: number;
-    /** Size of the excitation zone (1-20) */
     size: number;
 }
 
 /**
- * Represents a single layer containing excitation data
+ * Position and dimensions for excitation PNG images
  */
-export interface LayerData {
-    /** Layer identifier (0-23) */
-    layerId: number;
-    /** Array of excitation points for this layer */
-    excitationData: ExcitationData[];
+export interface ExcitationPosition {
+    /** X coordinate (relative to top-left of container) */
+    x: number;
+    /** Y coordinate (relative to top-left of container) */
+    y: number;
+    /** Width in pixels */
+    width: number;
+    /** Height in pixels */
+    height: number;
 }
 
 /**
- * Layer class implementation
- */
-export class Layer implements LayerData {
-    layerId: number;
-    excitationData: ExcitationData[];
-
-    constructor(layerData: LayerData) {
-        this.layerId = layerData.layerId;
-        this.excitationData = layerData.excitationData;
-    }
-}
-
-/**
- * Tag with emotional/neurological metadata
+ * Tag with emotional/neurological metadata and excitation image positions
  */
 export class Tag {
     id: number;
     name: string;
     adrenaline: number;
-    layers: Layer[];
+    /** Position data for 400x400 excitation image */
+    exc400?: ExcitationPosition;
+    /** Position data for 240px excitation image */
+    exc240?: ExcitationPosition;
 
     constructor(
         id: number,
         name: string,
         adrenaline: number = 0,
-        layerData: LayerData[] = [],
+        exc400?: ExcitationPosition,
+        exc240?: ExcitationPosition,
     ) {
         this.id = id;
         this.name = name;
         this.adrenaline = adrenaline;
-        this.layers = [];
-
-        // Initialize all 24 layers
-        for (let i = 0; i < 24; i++) {
-            this.layers.push(new Layer({ layerId: i, excitationData: [] }));
-        }
-
-        // Override with provided layer data
-        layerData.forEach((data: LayerData) => {
-            if (data.layerId >= 0 && data.layerId < 24) {
-                this.layers[data.layerId] = new Layer(data);
-            }
-        });
+        this.exc400 = exc400;
+        this.exc240 = exc240;
     }
 
-    getLayers(): Layer[] {
-        return this.layers;
-    }
-
-    setLayers(layerId: number, excitationData: ExcitationData[]): void {
-        if (layerId >= 0 && layerId < this.layers.length) {
-            this.layers[layerId].excitationData = excitationData;
-        }
-    }
-
-    getLayer(layerId: number): Layer {
-        return this.layers[layerId] || this.layers[0];
+    /** @deprecated - Legacy method for backward compatibility */
+    setLayers(_layerId: number, _excitationData: ExcitationData[]): void {
+        // No-op: Tags now use PNG images instead of individual excitation points
     }
 }
 
@@ -110,7 +81,8 @@ export interface SerializedTag {
     id: number;
     name: string;
     adrenaline: number;
-    layers: LayerData[];
+    exc400?: ExcitationPosition;
+    exc240?: ExcitationPosition;
 }
 
 /**
@@ -157,32 +129,6 @@ export interface WindowWithHandlers extends Window {
     exportTehutiXL: () => void;
     exportPhotosAndTags: () => void;
     importData: () => void;
-    addExcitationPoint: (layerId: number) => void;
-    selectExcitationPoint: (event: Event) => void;
-    selectExcitationPointFromList: (layerId: number, index: number) => void;
-    updatePointProperty: (
-        layerId: number,
-        index: number,
-        property: "intensity" | "size",
-        value: string,
-    ) => void;
-    deleteExcitationPoint: (layerId: number, index: number) => void;
-    handleDragStart: (event: DragEvent) => void;
-    handleDrag: (event: DragEvent) => void;
-    handleDragEnd: (event: DragEvent) => void;
-}
-
-/**
- * Type guard to check if object is ExcitationData
- */
-export function isExcitationData(obj: any): obj is ExcitationData {
-    return (
-        typeof obj === "object" &&
-        typeof obj.x === "number" &&
-        typeof obj.y === "number" &&
-        typeof obj.intensity === "number" &&
-        typeof obj.size === "number"
-    );
 }
 
 /**

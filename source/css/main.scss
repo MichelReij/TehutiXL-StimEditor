@@ -471,8 +471,8 @@ div#imageZoom {
         width              : 400px;
         height             : 400px;
         background-image   : url('/img/mri/mri_017.jpg');
-        background-size    : cover;
-        background-position: center;
+        background-size    : 100% 100%;
+        background-position: 0 0;
         border             : 2px solid rgba(255, 255, 255, 0.3);
         border-radius      : 4px;
         overflow           : hidden;
@@ -527,7 +527,6 @@ div#imageZoom {
         max-height: 800px;
         width     : auto;
         height    : auto;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         cursor    : default;
     }
 

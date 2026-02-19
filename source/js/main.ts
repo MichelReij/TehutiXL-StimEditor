@@ -9,11 +9,9 @@
 import "../css/main.scss";
 import {
     ExcitationData,
-    LayerData,
-    Layer,
+    ExcitationPosition,
     Tag,
     Stimulus,
-    DataExport,
     SerializedTag,
     WindowWithHandlers,
 } from "./types";
@@ -23,65 +21,11 @@ let tags: Tag[] = [];
 let stimuli: Stimulus[] = [];
 let selectedFilterTags: number[] = []; // Tag IDs selected for filtering stimuli
 let showMask: boolean = true; // Remember mask visibility preference across tag switches
-// 11-point intensity scale (0-10)
-const intensityPalette: readonly string[] = [
-    "#FAE073", // 0 - low intensity (light yellow)
-    "#F8C34B", // 1
-    "#F7A72B", // 2
-    "#F58924", // 3
-    "#F26839", // 4
-    "#E04E5D", // 5
-    "#CB376E", // 6
-    "#B22375", // 7
-    "#971574", // 8
-    "#7B106D", // 9
-    "#5D1161", // 10 - high intensity (dark purple)
-];
 
-// Example usage of writeTags to store some tags
-const joyLayers: LayerData[] = [
-    {
-        layerId: 0,
-        excitationData: [
-            { x: 0, y: 0, intensity: 10, size: 3 },
-            { x: 5, y: 3, intensity: 7, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 3 },
-            { x: -5, y: -3, intensity: 3, size: 6 },
-        ],
-    },
-    {
-        layerId: 1,
-        excitationData: [
-            { x: 0, y: 0, intensity: 10, size: 3 },
-            { x: 5, y: 3, intensity: 7, size: 5 },
-            { x: -5, y: 1, intensity: 5, size: 3 },
-            { x: -5, y: -3, intensity: 3, size: 6 },
-        ],
-    },
-];
-
-const exampleTags: Tag[] = [new Tag(1, "joy", 0, joyLayers)];
-
-// Throttle function with resettable delay.
-function throttle<F extends (...args: any[]) => void>(
-    func: F,
-    delay: number,
-): F {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-    return function (this: any, ...args: Parameters<F>) {
-        // If there's an existing timer, cancel it
-        if (timeoutId !== null) {
-            clearTimeout(timeoutId);
-        }
-
-        // Set a new timer
-        timeoutId = setTimeout(() => {
-            func.apply(this, args);
-            timeoutId = null;
-        }, delay);
-    } as F;
-}
+// Position lookup for excitation images
+let excitationPositions: {
+    [key: number]: { exc400: ExcitationPosition; exc240: ExcitationPosition };
+} = {};
 
 // ================================================================== //
 //                                                                    //
@@ -193,8 +137,90 @@ async function autoDiscoverStimuli(): Promise<void> {
     }
 }
 
+// ================================================================== //
+//                                                                    //
+//                                                                    //
+//                                                                    //
+// Load excitation position data from CSV files                       //
+//                                                                    //
+// ================================================================== //
+
+/**
+ * Parse CSV line into position object
+ */
+function parsePositionLine(
+    line: string,
+): { id: number; position: ExcitationPosition } | null {
+    const parts = line.trim().split(",");
+    if (parts.length !== 5) return null;
+
+    // Extract ID from filename (exc_001.png -> 1)
+    const match = parts[0].match(/exc_(\d+)\.png/);
+    if (!match) return null;
+
+    const id = parseInt(match[1], 10);
+    const x = parseInt(parts[1], 10);
+    const y = parseInt(parts[2], 10);
+    const width = parseInt(parts[3], 10);
+    const height = parseInt(parts[4], 10);
+
+    if (isNaN(id) || isNaN(x) || isNaN(y) || isNaN(width) || isNaN(height)) {
+        return null;
+    }
+
+    return {
+        id,
+        position: { x, y, width, height },
+    };
+}
+
+/**
+ * Load excitation positions from CSV files
+ */
+async function loadExcitationPositions(): Promise<void> {
+    try {
+        // Load exc400 positions
+        const response400 = await fetch("/img/exc400/positions.csv");
+        const csv400 = await response400.text();
+
+        // Load exc240 positions
+        const response240 = await fetch("/img/exc240/positions.csv");
+        const csv240 = await response240.text();
+
+        // Parse CSV files (skip header line)
+        const lines400 = csv400.split("\n").slice(1);
+        const lines240 = csv240.split("\n").slice(1);
+
+        // Build lookup table
+        lines400.forEach((line, index) => {
+            const parsed400 = parsePositionLine(line);
+            if (!parsed400) return;
+
+            // Find matching line in 240px data
+            const parsed240 = parsePositionLine(lines240[index]);
+            if (!parsed240 || parsed240.id !== parsed400.id) {
+                console.warn(`Mismatch in CSV files at line ${index + 2}`);
+                return;
+            }
+
+            excitationPositions[parsed400.id] = {
+                exc400: parsed400.position,
+                exc240: parsed240.position,
+            };
+        });
+
+        console.log(
+            `✅ Loaded ${Object.keys(excitationPositions).length} excitation positions`,
+        );
+    } catch (error) {
+        console.error("❌ Failed to load excitation positions:", error);
+    }
+}
+
 // Function to initialize the application
 async function init() {
+    // Load excitation positions from CSV files
+    await loadExcitationPositions();
     // Attempt to read tags from API (with localStorage fallback)
     await readTags();
     await autoDiscoverStimuli();
@@ -211,12 +237,6 @@ async function init() {
 
     // Add global keyboard handlers
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-        // Check if focus is in an input or textarea
-        const activeElement = document.activeElement;
-        const isInputFocused =
-            activeElement instanceof HTMLInputElement ||
-            activeElement instanceof HTMLTextAreaElement;
-
         if (event.key === "Escape") {
             const imageZoom = document.getElementById(
                 "imageZoom",
@@ -242,123 +262,6 @@ async function init() {
                 showNextZoomImage(
                     new MouseEvent("click") as unknown as MouseEvent,
                 );
-            }
-        }
-
-        // Handle A and Z keys for size adjustment (only when not typing in input/textarea)
-        if (
-            !isInputFocused &&
-            selectedPointIndex !== null &&
-            selectedLayerId !== null
-        ) {
-            const ta = document.getElementById(
-                `textarea_layer_${selectedLayerId}`,
-            ) as HTMLTextAreaElement;
-
-            if (ta) {
-                try {
-                    const excitationData: ExcitationData[] = JSON.parse(
-                        ta.value,
-                    );
-                    const point = excitationData[selectedPointIndex];
-
-                    if (event.key.toLowerCase() === "a") {
-                        // Increase size (max 7)
-                        event.preventDefault();
-                        const newSize = Math.min(point.size + 1, 7);
-                        if (newSize !== point.size) {
-                            updatePointProperty(
-                                selectedLayerId,
-                                selectedPointIndex,
-                                "size",
-                                String(newSize),
-                            );
-                            // Update the slider value
-                            const slider = document.getElementById(
-                                `size_${selectedLayerId}_${selectedPointIndex}`,
-                            ) as HTMLInputElement;
-                            if (slider) {
-                                slider.value = String(newSize);
-                            }
-                        }
-                    } else if (event.key.toLowerCase() === "z") {
-                        // Decrease size (min 3)
-                        event.preventDefault();
-                        const newSize = Math.max(point.size - 1, 3);
-                        if (newSize !== point.size) {
-                            updatePointProperty(
-                                selectedLayerId,
-                                selectedPointIndex,
-                                "size",
-                                String(newSize),
-                            );
-                            // Update the slider value
-                            const slider = document.getElementById(
-                                `size_${selectedLayerId}_${selectedPointIndex}`,
-                            ) as HTMLInputElement;
-                            if (slider) {
-                                slider.value = String(newSize);
-                            }
-                        }
-                    } else if (event.key.toLowerCase() === "s") {
-                        // Increase intensity (max 10)
-                        event.preventDefault();
-                        const newIntensity = Math.min(point.intensity + 1, 10);
-                        if (newIntensity !== point.intensity) {
-                            updatePointProperty(
-                                selectedLayerId,
-                                selectedPointIndex,
-                                "intensity",
-                                String(newIntensity),
-                            );
-                            // Update the slider value
-                            const slider = document.getElementById(
-                                `intensity_${selectedLayerId}_${selectedPointIndex}`,
-                            ) as HTMLInputElement;
-                            if (slider) {
-                                slider.value = String(newIntensity);
-                            }
-                        }
-                    } else if (event.key.toLowerCase() === "x") {
-                        // Decrease intensity (min 0)
-                        event.preventDefault();
-                        const newIntensity = Math.max(point.intensity - 1, 0);
-                        if (newIntensity !== point.intensity) {
-                            updatePointProperty(
-                                selectedLayerId,
-                                selectedPointIndex,
-                                "intensity",
-                                String(newIntensity),
-                            );
-                            // Update the slider value
-                            const slider = document.getElementById(
-                                `intensity_${selectedLayerId}_${selectedPointIndex}`,
-                            ) as HTMLInputElement;
-                            if (slider) {
-                                slider.value = String(newIntensity);
-                            }
-                        }
-                    } else if (event.key.toLowerCase() === "q") {
-                        // Add new excitation point
-                        event.preventDefault();
-                        addExcitationPoint(selectedLayerId);
-                    } else if (
-                        event.key.toLowerCase() === "w" ||
-                        event.key === "Backspace"
-                    ) {
-                        // Delete selected excitation point (W or Backspace)
-                        event.preventDefault();
-                        deleteExcitationPoint(
-                            selectedLayerId,
-                            selectedPointIndex,
-                        );
-                    }
-                } catch (error) {
-                    console.error(
-                        "Failed to update property via keyboard:",
-                        error,
-                    );
-                }
             }
         }
     });
@@ -633,54 +536,6 @@ function getFilteredStimuli(): Stimulus[] {
 
 function check4JpgExtension(file: string): string {
     return file.indexOf(".jpg") > 0 ? file : file + ".jpg";
-}
-
-/**
- * Clamp excitation point size to valid range (3-7)
- */
-function clampExcitationSize(data: ExcitationData): ExcitationData {
-    return {
-        ...data,
-        size: Math.max(3, Math.min(7, data.size)),
-    };
-}
-
-/**
- * Clamp excitation point coordinates to stay within visible bounds
- * The visualizer is 400x400px with center at (200, 200)
- * Coordinates should stay roughly between -180 and +180 to remain visible
- */
-function clampExcitationPosition(data: ExcitationData): ExcitationData {
-    const maxCoord = 180;
-    const minCoord = -180;
-    return {
-        ...data,
-        x: Math.max(minCoord, Math.min(maxCoord, data.x)),
-        y: Math.max(minCoord, Math.min(maxCoord, data.y)),
-    };
-}
-
-/**
- * Generate random intensity and size ensuring intensity + size <= 11
- * Intensity: 0-10
- * Size: 3-7
- * Constraint: intensity + size <= 11
- */
-function generateIntensityAndSize(): {
-    intensity: number;
-    size: number;
-} {
-    // Generate intensity first (0-10)
-    const intensity = Math.floor(Math.random() * 11);
-    // Calculate max size based on intensity constraint
-    const maxSize = Math.min(7, 11 - intensity);
-    const minSize = 3;
-    // Generate size, but ensure it's valid
-    const size = Math.max(
-        minSize,
-        Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
-    );
-    return { intensity, size };
 }
 
 function showImageZoom(
@@ -1017,16 +872,16 @@ function updateZoomAdrenaline(stimulus: Stimulus) {
 }
 
 /**
- * Render all excitation points from all tags associated with a stimulus
+ * Render all excitation images from all tags associated with a stimulus
  * in the zoom preview canvas
  */
 function renderZoomEPPreview(stimulus: Stimulus) {
     const canvas = document.getElementById("zoomEpCanvas");
     if (!canvas) return;
 
-    // Clear existing excitation points (but keep the mask image)
-    const existingPoints = canvas.querySelectorAll(".excitation-point");
-    existingPoints.forEach((point) => point.remove());
+    // Clear existing excitation images (but keep the mask image)
+    const existingImages = canvas.querySelectorAll(".excitation-image");
+    existingImages.forEach((img) => img.remove());
 
     // Get all tags for this stimulus
     const stimulusTags = stimulus.tags
@@ -1035,37 +890,21 @@ function renderZoomEPPreview(stimulus: Stimulus) {
 
     if (stimulusTags.length === 0) return;
 
-    // Collect all excitation points from all layers of all tags
-    const allPoints: Array<ExcitationData & { tagId: number }> = [];
-
+    // Render excitation image for each tag
     stimulusTags.forEach((tag) => {
-        tag.layers.forEach((layer) => {
-            layer.excitationData.forEach((ep) => {
-                allPoints.push({ ...ep, tagId: tag.id });
-            });
-        });
-    });
+        if (!tag.exc400) return; // Skip if no position data
 
-    // Sort by intensity (lower intensity rendered first, appears behind)
-    allPoints.sort((a, b) => a.intensity - b.intensity);
+        const img = document.createElement("img");
+        img.className = "excitation-image";
+        img.src = `/img/exc400/exc_${String(tag.id).padStart(3, "0")}.png`;
+        img.style.position = "absolute";
+        img.style.left = `${tag.exc400.x}px`;
+        img.style.top = `${tag.exc400.y}px`;
+        img.style.width = `${tag.exc400.width}px`;
+        img.style.height = `${tag.exc400.height}px`;
+        img.style.pointerEvents = "none";
 
-    // Render each point
-    allPoints.forEach((ep) => {
-        // Limit size to maximum 7 for preview
-        const previewSize = Math.min(ep.size, 7);
-        const x = 200 + ep.x - previewSize;
-        const y = 200 - ep.y - previewSize;
-        const color = intensityPalette[ep.intensity];
-
-        const pointDiv = document.createElement("div");
-        pointDiv.className = "excitation-point";
-        pointDiv.style.top = `${y}px`;
-        pointDiv.style.left = `${x}px`;
-        pointDiv.style.width = `${previewSize * 2}px`;
-        pointDiv.style.height = `${previewSize * 2}px`;
-        pointDiv.style.backgroundColor = color;
-
-        canvas.appendChild(pointDiv);
+        canvas.appendChild(img);
     });
 }
 
@@ -1226,19 +1065,6 @@ function handleZoomDescriptionChange(event: Event) {
 //                                                                    //
 // ================================================================== //
 
-// Function to handle keyUp event
-function handleKeyUp(event: KeyboardEvent) {
-    // console.log(`Key pressed: ${event.key}`);
-    const target = event.target as HTMLTextAreaElement;
-    const id = parseInt(target.id.split("_")[2]);
-    // console.log(id);
-    // console.log(target.value);
-    renderPoints(id, target.value);
-}
-
-// Apply throttling to the handleKeyUp function, with a delay of 600 milliseconds
-const throttledKeyUpHandler = throttle(handleKeyUp, 300);
-
 function displayTags(selectId: number = 1) {
     const tagsList = document.getElementById("tagsList");
     if (tagsList) {
@@ -1296,153 +1122,14 @@ function addTag() {
  * Generates 6 random excitation points in a line formation with overlapping points
  */
 function createNewTag(nameHint: string = "new") {
-    // Create new tag with 6 excitation points forming a line
-    const excitationData: ExcitationData[] = [];
-    const maxTotalIntensity = 18;
-    let remainingIntensityBudget = maxTotalIntensity;
-    let previousDirection = Math.random() * 2 * Math.PI; // Initial random direction
+    // Create new tag with next available ID
+    const newId = tags.length > 0 ? Math.max(...tags.map((t) => t.id)) + 1 : 1;
 
-    // Generate 6 points
-    for (let i = 0; i < 6; i++) {
-        // Generate intensity for this point
-        const isLastPoint = i === 5;
-        let intensity: number;
+    // Look up position data from CSV (if available for this ID)
+    const exc400 = excitationPositions[newId]?.exc400;
+    const exc240 = excitationPositions[newId]?.exc240;
 
-        if (i === 0) {
-            // First point: random intensity (0-10), but leave room for others
-            intensity = Math.floor(
-                Math.random() * Math.min(11, remainingIntensityBudget - 5),
-            );
-        } else if (isLastPoint) {
-            // Last point: use remaining budget or random if enough room
-            intensity = Math.floor(
-                Math.random() * Math.min(11, remainingIntensityBudget + 1),
-            );
-        } else {
-            // Middle points: random but respect budget
-            intensity = Math.floor(
-                Math.random() *
-                    Math.min(11, remainingIntensityBudget - (5 - i)),
-            );
-        }
-
-        remainingIntensityBudget -= intensity;
-
-        // Calculate size based on intensity constraint (intensity + size <= 11), max 5
-        const maxSize = Math.min(5, 11 - intensity);
-        const minSize = 3;
-        const size = Math.max(
-            minSize,
-            Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
-        );
-
-        let newPoint: ExcitationData;
-
-        if (i === 0) {
-            // First point: random position with radius between 120-170
-            const angle = Math.random() * 2 * Math.PI;
-            const radius = 120 + Math.random() * 50; // 120-170
-            newPoint = {
-                x: Math.round(radius * Math.cos(angle)),
-                y: Math.round(radius * Math.sin(angle)),
-                intensity,
-                size,
-            };
-            previousDirection = angle; // Set initial direction
-        } else {
-            // Subsequent points: overlap 20-60% with previous point
-            const prevPoint = excitationData[i - 1];
-
-            // Calculate overlap distance
-            // For 20-60% overlap: distance should be between 40-80% of combined radii
-            const overlapFraction = 0.2 + Math.random() * 0.4; // 20-60%
-            const combinedRadius = prevPoint.size + size;
-            const distance = combinedRadius * (1 - overlapFraction);
-
-            // Adjust direction to form a line (max 60 degrees change)
-            const maxAngleChange = Math.PI / 3; // 60 degrees
-            const angleChange = (Math.random() - 0.5) * 2 * maxAngleChange;
-            const newDirection = previousDirection + angleChange;
-
-            // Calculate new position
-            let x = Math.round(prevPoint.x + distance * Math.cos(newDirection));
-            let y = Math.round(prevPoint.y + distance * Math.sin(newDirection));
-
-            // Ensure point stays within radius 170
-            const currentRadius = Math.sqrt(x * x + y * y);
-            if (currentRadius > 170) {
-                const scale = 170 / currentRadius;
-                x = Math.round(x * scale);
-                y = Math.round(y * scale);
-            }
-
-            newPoint = {
-                x,
-                y,
-                intensity,
-                size,
-            };
-
-            // Check if new point overlaps with any previous points (except immediate predecessor)
-            // If it does, try a different direction
-            let attempts = 0;
-            const maxAttempts = 10;
-            while (attempts < maxAttempts) {
-                let overlapsWithEarlier = false;
-
-                // Check overlap with all points except the immediate predecessor
-                for (let j = 0; j < i - 1; j++) {
-                    const earlierPoint = excitationData[j];
-                    const dx = newPoint.x - earlierPoint.x;
-                    const dy = newPoint.y - earlierPoint.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    const minDist = (newPoint.size + earlierPoint.size) * 0.8; // Allow 20% overlap as tolerance
-
-                    if (dist < minDist) {
-                        overlapsWithEarlier = true;
-                        break;
-                    }
-                }
-
-                if (!overlapsWithEarlier) {
-                    break; // Good position found
-                }
-
-                // Try different angle
-                attempts++;
-                const tryAngleChange =
-                    (Math.random() - 0.5) * 2 * maxAngleChange;
-                const tryDirection = previousDirection + tryAngleChange;
-                x = Math.round(prevPoint.x + distance * Math.cos(tryDirection));
-                y = Math.round(prevPoint.y + distance * Math.sin(tryDirection));
-
-                // Ensure within radius 170
-                const tryRadius = Math.sqrt(x * x + y * y);
-                if (tryRadius > 170) {
-                    const scale = 170 / tryRadius;
-                    x = Math.round(x * scale);
-                    y = Math.round(y * scale);
-                }
-
-                newPoint = { x, y, intensity, size };
-            }
-
-            previousDirection = newDirection;
-        }
-
-        // Clamp position to visible bounds (-180 to +180)
-        newPoint = clampExcitationPosition(newPoint);
-        excitationData.push(newPoint);
-    }
-
-    // Sort by size (largest first) for better visibility
-    excitationData.sort((a, b) => b.size - a.size);
-
-    const defaultLayer: LayerData = {
-        layerId: 17,
-        excitationData,
-    };
-    const newTag = new Tag(tags.length + 1, nameHint, 0, [defaultLayer]);
+    const newTag = new Tag(newId, nameHint, 0, exc400, exc240);
     tags.push(newTag);
     saveTags();
     displayTags(newTag.id);
@@ -1495,65 +1182,39 @@ function editTag(tag: Tag) {
 
         const layerContainer = document.getElementById("layerContainer");
         if (layerContainer) {
-            layerContainer.innerHTML = ""; // Clear existing tags display
-            // tag.getLayers().forEach((layer) => {
-            // const layerId: number = layer.layerId;
-            const layerId = 17;
-            const layer = tag.getLayer(layerId);
+            layerContainer.innerHTML = ""; // Clear existing content
 
-            // Clamp excitation point sizes to valid range (3-7)
-            const clampedExcitationData =
-                layer.excitationData.map(clampExcitationSize);
-
-            // Sort by size (largest first) for better visibility
-            clampedExcitationData.sort((a, b) => b.size - a.size);
-
-            const maskChecked = showMask ? "checked" : "";
-            const maskClass = showMask ? "mri-mask show" : "mri-mask";
+            // Show excitation preview
+            const hasPosition = tag.exc400 !== undefined;
+            const excImageSrc = `/img/exc400/exc_${String(tag.id).padStart(3, "0")}.png`;
 
             layerContainer.insertAdjacentHTML(
                 "beforeend",
                 `
-          <div class="layer" id="layer_${layerId}">
-            <div class="visualizer-section">
-              <div class="mask-control">
-                <label><input type="checkbox" ${maskChecked} id="cbMask_${layerId}" onchange="handleMask(event)"> Show mask</label>
-              </div>
-              <div class="visualizer" id="vis_${layerId}">
-                <img class="mri-background" src="/mri/mri_017.jpg" alt="MRI scan" draggable="false">
-                <div class="point-container" id="pc_${layerId}"></div>
-                <img id="mask_${layerId}" class="${maskClass}" src="/masks/mri_mask_017.gif" draggable="false">
-              </div>
+          <div class="excitation-preview">
+            <h3>Excitation Preview (ID: ${tag.id})</h3>
+            ${
+                hasPosition
+                    ? `
+            <div class="visualizer" style="position: relative; width: 400px; height: 400px;">
+              <img class="mri-background" src="/img/mri/mri_017.jpg" alt="MRI scan" draggable="false" style="position: absolute; width: 400px; height: 400px; top: 0; left: 0;">
+              <img class="excitation-image-preview"
+                   src="${excImageSrc}"
+                   style="position: absolute; left: ${tag.exc400!.x}px; top: ${tag.exc400!.y}px; width: ${tag.exc400!.width}px; height: ${tag.exc400!.height}px;"
+                   alt="Excitation pattern">
             </div>
-            <div class="controls-section">
-              <button onclick="addExcitationPoint(${layerId})">+ Add Point</button>
-              <div id="pointsList_${layerId}" class="points-list"></div>
+            <div class="position-info">
+              <p><strong>400x400:</strong> x=${tag.exc400!.x}, y=${tag.exc400!.y}, w=${tag.exc400!.width}, h=${tag.exc400!.height}</p>
+              ${tag.exc240 ? `<p><strong>240px:</strong> x=${tag.exc240.x}, y=${tag.exc240.y}, w=${tag.exc240.width}, h=${tag.exc240.height}</p>` : ""}
             </div>
-            <div class="json-section">
-              <label for="textarea_layer_${layerId}">JSON Data (x, y: -20 to +20 | intensity: 0-10 | size: 3-7)</label>
-              <textarea id="textarea_layer_${layerId}" onkeyup="throttledKeyUpHandler(event)">${JSON.stringify(
-                  clampedExcitationData,
-              )
-                  .replace(/},{/g, "},\n  {")
-                  .replace(/\[{/g, "[\n  {")
-                  .replace(/}\]/g, "}\n]")}</textarea>
-            </div>
+            `
+                    : `
+            <p class="no-excitation">No excitation image available for ID ${tag.id}</p>
+            `
+            }
           </div>
         `,
             );
-
-            renderPoints(layerId, JSON.stringify(clampedExcitationData));
-            renderPointsList(layerId);
-
-            // Select first excitation point by default
-            if (clampedExcitationData.length > 0) {
-                selectedPointIndex = 0;
-                selectedLayerId = layerId;
-                // Re-render to apply selection styling
-                renderPoints(layerId, JSON.stringify(clampedExcitationData));
-                renderPointsList(layerId);
-            }
-            // });
         }
 
         setCheckStimuli();
@@ -1645,113 +1306,14 @@ function handleZoomMask(event: Event) {
     }
 }
 
-function renderPoints(layerId: number, jsonStr: string) {
-    // console.log(layerId);
-    // console.log(jsonStr);
-    const ta = document.getElementById(
-        "textarea_layer_" + layerId,
-    ) as HTMLTextAreaElement;
-
-    const vis = document.getElementById("pc_" + layerId);
-    if (vis) {
-        try {
-            const excitationData: ExcitationData[] = JSON.parse(jsonStr);
-
-            // Clamp all sizes to valid range (3-7)
-            const clampedData = excitationData.map(clampExcitationSize);
-
-            vis.innerHTML = "";
-
-            // Create array with original indices before sorting
-            const indexedData = clampedData.map((epd, originalIndex) => ({
-                ...epd,
-                originalIndex,
-            }));
-
-            // Now sort on intensity
-            indexedData.sort((a, b) => a.intensity - b.intensity);
-
-            // Find max size for z-index calculation
-            const maxSize = Math.max(...indexedData.map((epd) => epd.size), 7);
-
-            // console.log("boe2");
-            indexedData.forEach((epd) => {
-                // Limit size to maximum 7 for display
-                const displaySize = Math.min(epd.size, 7);
-                const x = 200 + epd.x - displaySize;
-                const y = 200 - epd.y - displaySize;
-                const isSelected =
-                    selectedPointIndex === epd.originalIndex &&
-                    selectedLayerId === layerId;
-                const zIndex = isSelected ? 200 : maxSize - epd.size;
-                const opacity =
-                    selectedPointIndex !== null &&
-                    selectedLayerId === layerId &&
-                    !isSelected
-                        ? 0.9
-                        : 1;
-
-                vis.insertAdjacentHTML(
-                    "beforeend",
-                    `
-          <div class="excitation-point"
-               data-index="${epd.originalIndex}"
-               data-layer="${layerId}"
-               draggable="true"
-               ondragstart="handleDragStart(event)"
-               ondrag="handleDrag(event)"
-               ondragend="handleDragEnd(event)"
-               onclick="selectExcitationPoint(event)"
-               style="
-            top:${y}px;
-            left:${x}px;
-            width:${displaySize * 2}px;
-            height:${displaySize * 2}px;
-            background-color: ${intensityPalette[epd.intensity]};
-            cursor: move;
-            z-index: ${zIndex};
-            opacity: ${opacity};
-          "></div>
-`,
-                ); //
-            });
-
-            if (ta) {
-                ta.classList.remove("error");
-            }
-
-            // Now write this to the tags collection
-            // First we need to find the tag id of the current tag
-            const tagIdInput = document.getElementById(
-                "editId",
-            ) as HTMLInputElement;
-            if (tagIdInput) {
-                const tagId: Number = parseInt(tagIdInput.value);
-                // Now we need to find the tag with the corresponding id
-                tags.forEach((tag) => {
-                    if (tag.id === tagId) {
-                        tag.setLayers(layerId, excitationData);
-                    }
-                });
-
-                // And now save this for posterity
-                saveTags();
-            }
-        } catch (error) {
-            if (ta) {
-                ta.classList.add("error");
-            }
-        }
-    }
-}
-
 // ================================================================== //
 //                                                                    //
 //                                                                    //
 //                                                                    //
-// Everything around the creation of the C-style arrays               //
+// C-style array generation                                           //
 //                                                                    //
 // ================================================================== //
+
 function hideOverlay(event: Event) {
     const source = event.target as HTMLElement;
     if (source.id == "overlayMask") {
@@ -1799,21 +1361,7 @@ function generateTagsArray() {
             textarea.style.display = "block";
             var txt = "";
             tags.forEach((tag) => {
-                const layer17: Layer | null = tag.getLayer(17);
-                var epTxt = "{";
-                if (layer17) {
-                    layer17.excitationData.forEach((ep) => {
-                        epTxt += `\n      {17, ${ep.x.toString().padStart(3)}, ${ep.y
-                            .toString()
-                            .padStart(
-                                3,
-                            )}, ${ep.intensity.toString().padStart(2)}, ${ep.size
-                            .toString()
-                            .padStart(2)}},`;
-                    });
-                }
-                epTxt += "\n    }\n";
-                txt += `\n  {\n    ${tag.id},\n    "${tag.name}",\n    ${tag.adrenaline},\n    ${epTxt}  },`;
+                txt += `\n  {\n    ${tag.id},\n    "${tag.name}",\n    ${tag.adrenaline}\n  },`;
             });
             textarea.value = txt;
         }
@@ -1828,71 +1376,46 @@ function generateTagsArray() {
 //                                                                    //
 // ================================================================== //
 
-// Function to read tags from file (with localStorage fallback)
 async function readTags(): Promise<void> {
     try {
-        // Try to load from API first (Tehuti XL format)
+        // Try to load from API first
         const response = await fetch("/api/tags");
         if (response.ok) {
             const tagsJSON = await response.text();
-            const tehutiTags: {
-                id: number;
-                name: string;
-                adrenaline: number;
-                excitationData: {
-                    x: number;
-                    y: number;
-                    intensity: number;
-                    size: number;
-                }[];
-            }[] = JSON.parse(tagsJSON);
+            const tagsData: any[] = JSON.parse(tagsJSON);
 
-            // Convert Tehuti XL format to internal format (denormalize and put in layer 17)
-            tags = tehutiTags.map((tagData) => {
-                // Create 24 layers, with layer 17 containing the excitation data
-                const layers: LayerData[] = [];
-                for (let i = 1; i <= 24; i++) {
-                    if (i === 17) {
-                        // Denormalize coordinates (*200) for layer 17
-                        // Convert old size range (5-10) to new range (3-7): new_size = old_size - 5
-                        layers.push({
-                            layerId: 17,
-                            excitationData: tagData.excitationData.map((ep) => {
-                                const denormalizedSize = Math.round(
-                                    ep.size * 200,
-                                );
-                                // Convert size: if > 7, apply formula new_size = old_size - 5
-                                const convertedSize =
-                                    denormalizedSize > 7
-                                        ? denormalizedSize - 5
-                                        : denormalizedSize;
-                                return {
-                                    x: Math.round(ep.x * 200),
-                                    y: Math.round(ep.y * 200),
-                                    intensity: ep.intensity,
-                                    size: Math.max(
-                                        3,
-                                        Math.min(7, convertedSize),
-                                    ),
-                                };
-                            }),
-                        });
-                    } else {
-                        // Empty layers for other layer IDs
-                        layers.push({
-                            layerId: i,
-                            excitationData: [],
-                        });
-                    }
+            // Check if we need to migrate old format
+            let needsMigration = false;
+
+            // Convert to Tag objects
+            tags = tagsData.map((tagData) => {
+                // Check for old format (has excitationData instead of exc400/exc240)
+                if (!tagData.exc400 && !tagData.exc240) {
+                    needsMigration = true;
                 }
+
+                // Use stored position data if available, otherwise look up from CSV
+                const exc400 =
+                    tagData.exc400 || excitationPositions[tagData.id]?.exc400;
+                const exc240 =
+                    tagData.exc240 || excitationPositions[tagData.id]?.exc240;
 
                 return new Tag(
                     tagData.id,
                     tagData.name,
                     tagData.adrenaline,
-                    layers,
+                    exc400,
+                    exc240,
                 );
             });
+
+            if (needsMigration) {
+                console.log(
+                    "🔄 Migrating tags to new format (exc400/exc240)...",
+                );
+                await saveTags();
+            }
+
             console.log("✅ Tags loaded from file");
             return;
         }
@@ -1903,87 +1426,43 @@ async function readTags(): Promise<void> {
     // Fallback to localStorage and migrate
     const tagsJSON = localStorage.getItem("tags");
     if (!tagsJSON) {
-        tags = exampleTags;
-        console.log("📝 Using example tags");
+        tags = [];
+        console.log("📝 No existing tags found");
     } else {
-        const tagsData: {
-            id: number;
-            name: string;
-            adrenaline: number;
-            layers: LayerData[];
-        }[] = JSON.parse(tagsJSON);
+        const tagsData: any[] = JSON.parse(tagsJSON);
 
-        // Convert old intensity scale to new scale (0-10) and size scale (5-10 to 3-7)
-        tagsData.forEach((tagData) => {
-            tagData.layers.forEach((layer) => {
-                layer.excitationData.forEach((point) => {
-                    if (point.intensity > 10) {
-                        point.intensity = Math.round(
-                            (point.intensity / 63) * 10,
-                        );
-                    }
-                    // Convert size: if > 7, apply formula new_size = old_size - 5
-                    if (point.size > 7) {
-                        point.size = Math.max(3, Math.min(7, point.size - 5));
-                    }
-                });
-            });
+        // Convert old format to new format (remove layers, add positions)
+        tags = tagsData.map((tagData) => {
+            const exc400 = excitationPositions[tagData.id]?.exc400;
+            const exc240 = excitationPositions[tagData.id]?.exc240;
+
+            return new Tag(
+                tagData.id,
+                tagData.name,
+                tagData.adrenaline,
+                exc400,
+                exc240,
+            );
         });
-
-        tags = tagsData.map(
-            (tagData) =>
-                new Tag(
-                    tagData.id,
-                    tagData.name,
-                    tagData.adrenaline,
-                    tagData.layers,
-                ),
-        );
-        console.log("📦 Migrating tags from localStorage to file...");
-        // Migrate to file storage
         await saveTags();
     }
 }
 
-// Function to write tags to file (Tehuti XL format)
 async function saveTags(): Promise<void> {
     try {
-        // Convert to Tehuti XL export format (layer 17 only, normalized)
-        const tehutiExport = tags.map((tag) => {
-            const layer17 = tag.layers.find((layer) => layer.layerId === 17);
-
-            if (!layer17) {
-                return {
-                    id: tag.id,
-                    name: tag.name,
-                    adrenaline: tag.adrenaline,
-                    excitationData: [],
-                };
-            }
-
-            return {
-                id: tag.id,
-                name: tag.name,
-                adrenaline: tag.adrenaline,
-                excitationData: layer17.excitationData
-                    .map((data) => {
-                        const clampedSize = Math.max(3, Math.min(7, data.size));
-                        return {
-                            x: Math.round((data.x / 200) * 10000) / 10000,
-                            y: Math.round((data.y / 200) * 10000) / 10000,
-                            intensity: data.intensity,
-                            size:
-                                Math.round((clampedSize / 200) * 10000) / 10000,
-                        };
-                    })
-                    .sort((a, b) => b.size - a.size),
-            };
-        });
+        // Convert to serialized format
+        const serializedTags: SerializedTag[] = tags.map((tag) => ({
+            id: tag.id,
+            name: tag.name,
+            adrenaline: tag.adrenaline,
+            exc400: tag.exc400,
+            exc240: tag.exc240,
+        }));
 
         const response = await fetch("/api/tags", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(tehutiExport, null, 2),
+            body: JSON.stringify(serializedTags, null, 2),
         });
         if (!response.ok) {
             console.error("Failed to save tags");
@@ -2018,9 +1497,6 @@ async function saveStimuli(): Promise<void> {
     }
 }
 
-// readStimuli is no longer needed - stimuli are auto-discovered
-// Removed to avoid unused function warning
-
 // ================================================================== //
 //                                                                    //
 //                                                                    //
@@ -2029,27 +1505,16 @@ async function saveStimuli(): Promise<void> {
 //                                                                    //
 // ================================================================== //
 
-/**
- * Export complete dataset as JSON file
- * Normalizes x, y, and size values by dividing by 200 (half the MRI image width/height)
- */
 function exportData(): void {
-    const dataExport: DataExport = {
-        version: "2.0.0",
+    const dataExport = {
+        version: "3.0.0",
         exportDate: new Date().toISOString(),
         tags: tags.map((tag) => ({
             id: tag.id,
             name: tag.name,
             adrenaline: tag.adrenaline,
-            layers: tag.layers.map((layer) => ({
-                layerId: layer.layerId,
-                excitationData: layer.excitationData.map((data) => ({
-                    x: data.x / 200,
-                    y: data.y / 200,
-                    intensity: data.intensity,
-                    size: data.size / 200,
-                })),
-            })),
+            exc400: tag.exc400,
+            exc240: tag.exc240,
         })),
         stimuli: stimuli,
     };
@@ -2069,41 +1534,14 @@ function exportData(): void {
     console.log("Data exported successfully");
 }
 
-/**
- * Export tags for Tehuti XL (layer 17 only, normalized coordinates)
- */
 function exportTehutiXL(): void {
-    const tehutiExport = tags.map((tag) => {
-        // Find layer 17
-        const layer17 = tag.layers.find((layer) => layer.layerId === 17);
-
-        if (!layer17) {
-            return {
-                id: tag.id,
-                name: tag.name,
-                adrenaline: tag.adrenaline,
-                excitationData: [],
-            };
-        }
-
-        return {
-            id: tag.id,
-            name: tag.name,
-            adrenaline: tag.adrenaline,
-            excitationData: layer17.excitationData
-                .map((data) => {
-                    // Clamp size to valid range (3-7)
-                    const clampedSize = Math.max(3, Math.min(7, data.size));
-                    return {
-                        x: Math.round((data.x / 200) * 10000) / 10000,
-                        y: Math.round((data.y / 200) * 10000) / 10000,
-                        intensity: data.intensity,
-                        size: Math.round((clampedSize / 200) * 10000) / 10000,
-                    };
-                })
-                .sort((a, b) => b.size - a.size),
-        };
-    });
+    const tehutiExport = tags.map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+        adrenaline: tag.adrenaline,
+        exc400: tag.exc400,
+        exc240: tag.exc240,
+    }));
 
     const dataStr = JSON.stringify(tehutiExport, null, 2);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
@@ -2120,9 +1558,6 @@ function exportTehutiXL(): void {
     console.log("Tehuti XL tags exported successfully");
 }
 
-/**
- * Export photos and tags for Tehuti XL
- */
 function exportPhotosAndTags(): void {
     const photosExport = {
         photos: stimuli.map((stimulus) => ({
@@ -2147,9 +1582,6 @@ function exportPhotosAndTags(): void {
     console.log("Tehuti XL photos and tags exported successfully");
 }
 
-/**
- * Import dataset from JSON file
- */
 function importData(): void {
     const input = document.createElement("input");
     input.type = "file";
@@ -2165,7 +1597,7 @@ function importData(): void {
         reader.onload = (evt: ProgressEvent<FileReader>) => {
             try {
                 const content = evt.target?.result as string;
-                const importedData: DataExport = JSON.parse(content);
+                const importedData: any = JSON.parse(content);
 
                 // Validate import data
                 if (!importedData.tags || !importedData.stimuli) {
@@ -2174,19 +1606,20 @@ function importData(): void {
 
                 // Import tags
                 tags = importedData.tags.map(
-                    (tagData: SerializedTag) =>
+                    (tagData: any) =>
                         new Tag(
                             tagData.id,
                             tagData.name,
                             tagData.adrenaline,
-                            tagData.layers,
+                            tagData.exc400,
+                            tagData.exc240,
                         ),
                 );
 
                 // Import stimuli
                 stimuli = importedData.stimuli;
 
-                // Save to localStorage
+                // Save to file storage
                 saveTags();
                 saveStimuli();
 
@@ -2195,7 +1628,7 @@ function importData(): void {
                 displayStimuli();
 
                 alert(
-                    `Data imported successfully!\nVersion: ${importedData.version}\nExport date: ${new Date(importedData.exportDate).toLocaleString()}`,
+                    `Data imported successfully!\nVersion: ${importedData.version}\n${tags.length} tags, ${stimuli.length} stimuli`,
                 );
             } catch (error) {
                 console.error("Import failed:", error);
@@ -2213,731 +1646,25 @@ function importData(): void {
 //                                                                    //
 //                                                                    //
 //                                                                    //
-// Drag and Drop for Excitation Points                               //
+// Legacy stub functions (obsolete, kept for compatibility)           //
 //                                                                    //
 // ================================================================== //
 
-let draggedElement: HTMLElement | null = null;
-// @ts-ignore - isDragging is used in drag handlers
-let isDragging = false;
-let selectedPointIndex: number | null = null;
-let selectedLayerId: number | null = null;
-
-function addExcitationPoint(layerId: number) {
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-    if (!ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        // Add new point at center with constrained random values
-        const { intensity, size } = generateIntensityAndSize();
-        const newPoint = {
-            x: 0,
-            y: 0,
-            intensity,
-            size,
-        };
-        excitationData.push(newPoint);
-        const newIndex = excitationData.length - 1;
-
-        // Update textarea
-        ta.value = JSON.stringify(excitationData)
-            .replace(/},{/g, "},\n  {")
-            .replace(/\[{/g, "[\n  {")
-            .replace(/}\]/g, "}\n]");
-
-        // Add new point to DOM directly (no render)
-        const pointContainer = document.getElementById(`pc_${layerId}`);
-        if (pointContainer) {
-            // Find max size for z-index calculation
-            const maxSize = Math.max(
-                ...excitationData.map((ep) => ep.size),
-                25,
-            );
-
-            // Set all existing points to non-selected state with correct z-index
-            const allPoints =
-                pointContainer.querySelectorAll(".excitation-point");
-            allPoints.forEach((point) => {
-                const el = point as HTMLElement;
-                const pointIndex = parseInt(el.dataset.index || "0");
-                const pointData = excitationData[pointIndex];
-                if (pointData) {
-                    el.style.zIndex = String(maxSize - pointData.size);
-                }
-                el.style.opacity = "0.6";
-            });
-
-            // Add new point element
-            const x = 200 + newPoint.x - newPoint.size;
-            const y = 200 - newPoint.y - newPoint.size;
-            pointContainer.insertAdjacentHTML(
-                "beforeend",
-                `
-          <div class="excitation-point"
-               data-index="${newIndex}"
-               data-layer="${layerId}"
-               draggable="true"
-               ondragstart="handleDragStart(event)"
-               ondrag="handleDrag(event)"
-               ondragend="handleDragEnd(event)"
-               onclick="selectExcitationPoint(event)"
-               style="
-            top:${y}px;
-            left:${x}px;
-            width:${newPoint.size * 2}px;
-            height:${newPoint.size * 2}px;
-            background-color: ${intensityPalette[newPoint.intensity]};
-            cursor: move;
-            z-index: 200;
-            opacity: 1;
-          "></div>
-`,
-            );
-        }
-
-        // Add new editor to list directly (no render)
-        const listContainer = document.getElementById(`pointsList_${layerId}`);
-        if (listContainer) {
-            // Update all existing editors to non-selected
-            const allEditors = listContainer.querySelectorAll(".point-editor");
-            allEditors.forEach((editor) => {
-                editor.classList.remove("selected");
-            });
-
-            // Add new editor
-            listContainer.insertAdjacentHTML(
-                "beforeend",
-                `
-        <div class="point-editor selected" data-index="${newIndex}" onclick="selectExcitationPointFromList(${layerId}, ${newIndex})" style="cursor: pointer;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
-            <strong>Point ${newIndex}</strong>
-            <button onclick="event.stopPropagation(); deleteExcitationPoint(${layerId}, ${newIndex})" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f44336; color: white; border: none; cursor: pointer;">✕</button>
-          </div>
-          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.3rem; font-size: 0.8rem;">
-            <label>x: ${newPoint.x}</label>
-            <span>y: ${newPoint.y}</span>
-            <label for="intensity_${layerId}_${newIndex}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${newIndex}" min="0" max="10" value="${newPoint.intensity}"
-                   oninput="updatePointProperty(${layerId}, ${newIndex}, 'intensity', this.value)"
-                   onclick="event.stopPropagation()"
-                   style="width: 100%;">
-            <label for="size_${layerId}_${newIndex}">Size:</label>
-            <input type="range" id="size_${layerId}_${newIndex}" min="3" max="7" value="${newPoint.size}"
-                   oninput="updatePointProperty(${layerId}, ${newIndex}, 'size', this.value)"
-                   onclick="event.stopPropagation()"
-                   style="width: 100%;">
-          </div>
-        </div>
-      `,
-            );
-        }
-
-        // Update selection state
-        selectedPointIndex = newIndex;
-        selectedLayerId = layerId;
-
-        // Save to storage
-        const tagIdInput = document.getElementById(
-            "editId",
-        ) as HTMLInputElement;
-        if (tagIdInput) {
-            const tagId: Number = parseInt(tagIdInput.value);
-            tags.forEach((tag) => {
-                if (tag.id === tagId) {
-                    tag.setLayers(layerId, excitationData);
-                }
-            });
-            saveTags();
-        }
-    } catch (error) {
-        console.error("Failed to add point:", error);
-    }
+// @ts-ignore - Legacy function
+function clampExcitationSize(data: ExcitationData): ExcitationData {
+    return data;
 }
 
-function selectExcitationPoint(event: Event) {
-    const target = event.target as HTMLElement;
-    const index = parseInt(target.dataset.index || "0");
-    const layerId = parseInt(target.dataset.layer || "0");
-
-    // Update visual feedback directly without re-rendering
-    const visualizer = document.getElementById(`vis_${layerId}`);
-    if (visualizer) {
-        // Get excitation data for z-index calculation
-        const ta = document.getElementById(
-            `textarea_layer_${layerId}`,
-        ) as HTMLTextAreaElement;
-        if (ta) {
-            try {
-                const excitationData: ExcitationData[] = JSON.parse(ta.value);
-                const maxSize = Math.max(
-                    ...excitationData.map((ep) => ep.size),
-                    25,
-                );
-
-                // Reset previous selected point (if different)
-                if (
-                    selectedPointIndex !== null &&
-                    selectedLayerId === layerId &&
-                    selectedPointIndex !== index
-                ) {
-                    const prevPoint = visualizer.querySelector(
-                        `.excitation-point[data-index="${selectedPointIndex}"]`,
-                    ) as HTMLElement;
-                    if (prevPoint && excitationData[selectedPointIndex]) {
-                        prevPoint.style.zIndex = String(
-                            maxSize - excitationData[selectedPointIndex].size,
-                        );
-                        prevPoint.style.opacity = "0.9";
-                    }
-                }
-            } catch (error) {
-                console.error("Failed to parse excitation data:", error);
-            }
-        }
-
-        // Highlight new selected point
-        target.style.zIndex = "200";
-        target.style.opacity = "1";
-    }
-
-    selectedPointIndex = index;
-    selectedLayerId = layerId;
-
-    // Update list without re-rendering points
-    renderPointsList(layerId);
+// @ts-ignore - Legacy function
+function generateIntensityAndSize() {
+    return { intensity: 5, size: 5 };
 }
 
-function handleDragStart(event: DragEvent) {
-    isDragging = true;
-    draggedElement = event.target as HTMLElement;
-    if (draggedElement && event.dataTransfer) {
-        const layerId = parseInt(draggedElement.dataset.layer || "0");
-        const index = parseInt(draggedElement.dataset.index || "0");
-
-        // Hide the default drag ghost image
-        const emptyImage = new Image();
-        emptyImage.src =
-            "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-        event.dataTransfer.setDragImage(emptyImage, 0, 0);
-
-        // Select this point
-        const visualizer = document.getElementById(`vis_${layerId}`);
-        if (visualizer) {
-            // Get excitation data for z-index calculation
-            const ta = document.getElementById(
-                `textarea_layer_${layerId}`,
-            ) as HTMLTextAreaElement;
-            if (ta) {
-                try {
-                    const excitationData: ExcitationData[] = JSON.parse(
-                        ta.value,
-                    );
-                    const maxSize = Math.max(
-                        ...excitationData.map((ep) => ep.size),
-                        25,
-                    );
-
-                    // Reset previous selected point (if different)
-                    if (
-                        selectedPointIndex !== null &&
-                        selectedLayerId === layerId &&
-                        selectedPointIndex !== index
-                    ) {
-                        const prevPoint = visualizer.querySelector(
-                            `.excitation-point[data-index="${selectedPointIndex}"]`,
-                        ) as HTMLElement;
-                        if (prevPoint && excitationData[selectedPointIndex]) {
-                            prevPoint.style.zIndex = String(
-                                maxSize -
-                                    excitationData[selectedPointIndex].size,
-                            );
-                            prevPoint.style.opacity = "0.6";
-                        }
-                    }
-                } catch (error) {
-                    console.error("Failed to parse excitation data:", error);
-                }
-            }
-        }
-
-        // Update selection state
-        selectedPointIndex = index;
-        selectedLayerId = layerId;
-
-        // Set dragged element appearance
-        draggedElement.style.opacity = "0.8";
-        draggedElement.style.zIndex = "200";
-
-        // Update points list to show selected point editor
-        renderPointsList(layerId);
-
-        // Add mousemove listener to track during drag (ondrag is unreliable)
-        document.addEventListener("dragover", handleDragOver);
-    }
-}
-
-function handleDragOver(event: DragEvent) {
-    event.preventDefault(); // Required to allow drop
-
-    if (!draggedElement || event.clientX === 0 || event.clientY === 0) return;
-
-    const target = draggedElement;
-    const layerId = parseInt(target.dataset.layer || "0");
-    const index = parseInt(target.dataset.index || "0");
-    const visualizer = document.getElementById(`vis_${layerId}`);
-
-    if (!visualizer) return;
-
-    const rect = visualizer.getBoundingClientRect();
-
-    // Calculate new position
-    const x = event.clientX - rect.left - 200;
-    const y = -(event.clientY - rect.top - 200);
-
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (!ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        const point = excitationData[index];
-
-        const newX = 200 + Math.round(x) - point.size;
-        const newY = 200 - Math.round(y) - point.size;
-
-        // Update DOM position immediately (no lag)
-        target.style.left = `${newX}px`;
-        target.style.top = `${newY}px`;
-
-        // Update data in memory
-        point.x = Math.round(x);
-        point.y = Math.round(y);
-
-        // Trigger throttled updates for JSON/list (NO renderPoints!)
-        throttledDragUpdate(layerId, excitationData);
-    } catch (error) {
-        // Ignore errors during drag
-    }
-}
-
-function handleDrag(event: DragEvent) {
-    const target = event.target as HTMLElement;
-    if (!target || event.clientX === 0 || event.clientY === 0) return;
-
-    const layerId = parseInt(target.dataset.layer || "0");
-    const index = parseInt(target.dataset.index || "0");
-    const visualizer = document.getElementById(`vis_${layerId}`);
-
-    if (!visualizer) return;
-
-    const rect = visualizer.getBoundingClientRect();
-
-    // Calculate new position
-    const x = event.clientX - rect.left - 200;
-    const y = -(event.clientY - rect.top - 200);
-
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (!ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        const point = excitationData[index];
-
-        const newX = 200 + Math.round(x) - point.size;
-        const newY = 200 - Math.round(y) - point.size;
-
-        // Update DOM position immediately (no lag)
-        target.style.left = `${newX}px`;
-        target.style.top = `${newY}px`;
-
-        // Update data in memory
-        point.x = Math.round(x);
-        point.y = Math.round(y);
-
-        console.log(
-            `handleDrag: point[${index}] position updated to (${point.x}, ${point.y})`,
-        );
-
-        // Trigger throttled updates for JSON/list (NO renderPoints!)
-        throttledDragUpdate(layerId, excitationData);
-    } catch (error) {
-        // Ignore errors during drag
-    }
-}
-
-function handleDragEnd(event: DragEvent) {
-    const target = event.target as HTMLElement;
-    if (!target) return;
-
-    // Restore opacity based on selection state
-    const layerId = parseInt(target.dataset.layer || "0");
-    const index = parseInt(target.dataset.index || "0");
-    const isSelected =
-        selectedPointIndex === index && selectedLayerId === layerId;
-    target.style.opacity = isSelected ? "1" : "0.6";
-
-    const visualizer = document.getElementById(`vis_${layerId}`);
-    if (!visualizer) return;
-
-    const rect = visualizer.getBoundingClientRect();
-
-    // Calculate final position
-    const x = event.clientX - rect.left - 200;
-    const y = -(event.clientY - rect.top - 200);
-
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (ta) {
-        try {
-            const excitationData: ExcitationData[] = JSON.parse(ta.value);
-            const point = excitationData[index];
-            point.x = Math.round(x);
-            point.y = Math.round(y);
-
-            // Final update: JSON, list, and storage (NO renderPoints!)
-            throttledDragUpdate(layerId, excitationData);
-        } catch (error) {
-            console.error("Failed to update point position:", error);
-        }
-    }
-
-    draggedElement = null;
-    isDragging = false;
-
-    // Remove dragover listener
-    document.removeEventListener("dragover", handleDragOver);
-}
-
-function renderPointsList(layerId: number) {
-    const listContainer = document.getElementById(`pointsList_${layerId}`);
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (!listContainer || !ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        listContainer.innerHTML =
-            "<h4 style='margin: 0 0 0.5rem 0; font-size: 0.9rem;'>Excitation Points</h4>";
-
-        excitationData.forEach((point, index) => {
-            const isSelected =
-                selectedPointIndex === index && selectedLayerId === layerId;
-            listContainer.insertAdjacentHTML(
-                "beforeend",
-                `
-        <div class="point-editor ${isSelected ? "selected" : ""}" data-index="${index}" onclick="selectExcitationPointFromList(${layerId}, ${index})" style="cursor: pointer;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
-            <strong>Point ${index}</strong>
-            <button onclick="event.stopPropagation(); deleteExcitationPoint(${layerId}, ${index})" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f44336; color: white; border: none; cursor: pointer;">✕</button>
-          </div>
-          <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 0.3rem 0.5rem; font-size: 0.8rem; align-items: center;">
-            <label>x: ${point.x}</label>
-            <span style="grid-column: 2 / 4;">y: ${point.y}</span>
-            <label for="intensity_${layerId}_${index}">Intensity:</label>
-            <input type="range" id="intensity_${layerId}_${index}" min="0" max="10" value="${point.intensity}"
-                   oninput="updatePointProperty(${layerId}, ${index}, 'intensity', this.value)"
-                   onclick="event.stopPropagation()"
-                   style="width: 100%;">
-            <span id="intensity_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.intensity}</span>
-            <label for="size_${layerId}_${index}">Size:</label>
-            <input type="range" id="size_${layerId}_${index}" min="3" max="7" value="${point.size}"
-                   oninput="updatePointProperty(${layerId}, ${index}, 'size', this.value)"
-                   onclick="event.stopPropagation()"
-                   style="width: 100%;">
-            <span id="size_value_${layerId}_${index}" style="min-width: 2rem; text-align: right;">${point.size}</span>
-          </div>
-        </div>
-      `,
-            );
-        });
-    } catch (error) {
-        console.error("Failed to render points list:", error);
-    }
-}
-
-function selectExcitationPointFromList(layerId: number, index: number) {
-    // Update visual feedback directly without re-rendering
-    const visualizer = document.getElementById(`vis_${layerId}`);
-    if (visualizer) {
-        // Get excitation data for z-index calculation
-        const ta = document.getElementById(
-            `textarea_layer_${layerId}`,
-        ) as HTMLTextAreaElement;
-        if (ta) {
-            try {
-                const excitationData: ExcitationData[] = JSON.parse(ta.value);
-                const maxSize = Math.max(
-                    ...excitationData.map((ep) => ep.size),
-                    25,
-                );
-
-                // Reset previous selected point (if different)
-                if (
-                    selectedPointIndex !== null &&
-                    selectedLayerId === layerId &&
-                    selectedPointIndex !== index
-                ) {
-                    const prevPoint = visualizer.querySelector(
-                        `.excitation-point[data-index="${selectedPointIndex}"]`,
-                    ) as HTMLElement;
-                    if (prevPoint && excitationData[selectedPointIndex]) {
-                        prevPoint.style.zIndex = String(
-                            maxSize - excitationData[selectedPointIndex].size,
-                        );
-                        prevPoint.style.opacity = "0.6";
-                    }
-                }
-
-                // Highlight new selected point
-                const newPoint = visualizer.querySelector(
-                    `.excitation-point[data-index="${index}"]`,
-                ) as HTMLElement;
-                if (newPoint) {
-                    newPoint.style.zIndex = "200";
-                    newPoint.style.opacity = "1";
-                }
-            } catch (error) {
-                console.error("Failed to parse excitation data:", error);
-            }
-        }
-    }
-
-    selectedPointIndex = index;
-    selectedLayerId = layerId;
-
-    // Update list without re-rendering points
-    renderPointsList(layerId);
-}
-
-function updatePointProperty(
-    layerId: number,
-    index: number,
-    property: "intensity" | "size",
-    value: string,
-) {
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (!ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        const point = excitationData[index];
-        const numValue = parseInt(value);
-        point[property] = numValue;
-
-        // Update the value label immediately
-        const valueLabel = document.getElementById(
-            `${property}_value_${layerId}_${index}`,
-        );
-        if (valueLabel) {
-            valueLabel.textContent = value;
-        }
-
-        // Select this point if not already selected
-        if (selectedPointIndex !== index || selectedLayerId !== layerId) {
-            // Update visual feedback on visualizer
-            const visualizer = document.getElementById(`vis_${layerId}`);
-            if (visualizer) {
-                const maxSize = Math.max(
-                    ...excitationData.map((ep) => ep.size),
-                    25,
-                );
-
-                // Reset previous selected point
-                if (
-                    selectedPointIndex !== null &&
-                    selectedLayerId === layerId
-                ) {
-                    const prevPoint = visualizer.querySelector(
-                        `.excitation-point[data-index="${selectedPointIndex}"]`,
-                    ) as HTMLElement;
-                    if (prevPoint && excitationData[selectedPointIndex]) {
-                        prevPoint.style.zIndex = String(
-                            maxSize - excitationData[selectedPointIndex].size,
-                        );
-                        prevPoint.style.opacity = "0.6";
-                    }
-                }
-
-                // Highlight new selected point
-                const newPoint = visualizer.querySelector(
-                    `.excitation-point[data-index="${index}"]`,
-                ) as HTMLElement;
-                if (newPoint) {
-                    newPoint.style.zIndex = "200";
-                    newPoint.style.opacity = "1";
-                }
-            }
-
-            // Update selected state
-            selectedPointIndex = index;
-            selectedLayerId = layerId;
-
-            // Update list styling
-            const listContainer = document.getElementById(
-                `pointsList_${layerId}`,
-            );
-            if (listContainer) {
-                const allEditors =
-                    listContainer.querySelectorAll(".point-editor");
-                allEditors.forEach((editor, idx) => {
-                    if (idx === index) {
-                        editor.classList.add("selected");
-                    } else {
-                        editor.classList.remove("selected");
-                    }
-                });
-            }
-        }
-
-        // Update DOM immediately for visual feedback
-        const pointElement = document.querySelector(
-            `.excitation-point[data-index="${index}"][data-layer="${layerId}"]`,
-        ) as HTMLElement;
-
-        if (pointElement) {
-            if (property === "size") {
-                // Update size and reposition
-                const x = 200 + point.x - numValue;
-                const y = 200 - point.y - numValue;
-                pointElement.style.width = `${numValue * 2}px`;
-                pointElement.style.height = `${numValue * 2}px`;
-                pointElement.style.left = `${x}px`;
-                pointElement.style.top = `${y}px`;
-                // Update z-index based on size (inverse relation)
-                const maxSize = Math.max(
-                    ...excitationData.map((ep) => ep.size),
-                    25,
-                );
-                const isSelected =
-                    selectedPointIndex === index && selectedLayerId === layerId;
-                pointElement.style.zIndex = isSelected
-                    ? "200"
-                    : String(maxSize - numValue);
-            } else if (property === "intensity") {
-                // Update color
-                pointElement.style.backgroundColor = intensityPalette[numValue];
-            }
-        }
-
-        // Update textarea (throttled)
-        ta.value = JSON.stringify(excitationData)
-            .replace(/},{/g, "},\n  {")
-            .replace(/\[{/g, "[\n  {")
-            .replace(/}\]/g, "}\n]");
-
-        // Save to storage (throttled)
-        throttledStorageSave(layerId, excitationData);
-    } catch (error) {
-        console.error("Failed to update point property:", error);
-    }
-}
-
-// Throttled storage save to avoid performance issues
-const throttledStorageSave = throttle(
-    (layerId: number, excitationData: ExcitationData[]) => {
-        const tagIdInput = document.getElementById(
-            "editId",
-        ) as HTMLInputElement;
-        if (tagIdInput) {
-            const tagId: Number = parseInt(tagIdInput.value);
-            tags.forEach((tag) => {
-                if (tag.id === tagId) {
-                    tag.setLayers(layerId, excitationData);
-                }
-            });
-            saveTags();
-        }
-    },
-    300,
-);
-
-// Throttled drag update - updates JSON, list, and storage (NO renderPoints!)
-const throttledDragUpdate = throttle(
-    (layerId: number, excitationData: ExcitationData[]) => {
-        const ta = document.getElementById(
-            `textarea_layer_${layerId}`,
-        ) as HTMLTextAreaElement;
-
-        if (ta) {
-            // Update textarea JSON
-            ta.value = JSON.stringify(excitationData)
-                .replace(/},{/g, "},\n  {")
-                .replace(/\[{/g, "[\n  {")
-                .replace(/}\]/g, "}\n]");
-
-            // Update list to show new coordinates
-            renderPointsList(layerId);
-
-            // Save to storage
-            const tagIdInput = document.getElementById(
-                "editId",
-            ) as HTMLInputElement;
-            if (tagIdInput) {
-                const tagId: Number = parseInt(tagIdInput.value);
-                tags.forEach((tag) => {
-                    if (tag.id === tagId) {
-                        tag.setLayers(layerId, excitationData);
-                    }
-                });
-                saveTags();
-            }
-        }
-    },
-    100,
-);
-
-function deleteExcitationPoint(layerId: number, index: number) {
-    const ta = document.getElementById(
-        `textarea_layer_${layerId}`,
-    ) as HTMLTextAreaElement;
-
-    if (!ta) return;
-
-    try {
-        const excitationData: ExcitationData[] = JSON.parse(ta.value);
-        excitationData.splice(index, 1);
-
-        // Clear selection if deleting selected point
-        if (selectedPointIndex === index && selectedLayerId === layerId) {
-            selectedPointIndex = null;
-            selectedLayerId = null;
-        } else if (
-            selectedPointIndex !== null &&
-            selectedPointIndex > index &&
-            selectedLayerId === layerId
-        ) {
-            // Adjust selection index if deleting point before selected
-            selectedPointIndex--;
-        }
-
-        // Update textarea
-        ta.value = JSON.stringify(excitationData)
-            .replace(/},{/g, "},\n  {")
-            .replace(/\[{/g, "[\n  {")
-            .replace(/}\]/g, "}\n]");
-
-        // Trigger update
-        renderPoints(layerId, ta.value);
-        renderPointsList(layerId);
-    } catch (error) {
-        console.error("Failed to delete point:", error);
-    }
-}
+// @ts-ignore - Legacy function
+function renderPoints() {}
+
+// @ts-ignore - Legacy function
+function renderPointsList() {}
 
 // ================================================================== //
 //                                                                    //
@@ -2949,7 +1676,6 @@ function deleteExcitationPoint(layerId: number, index: number) {
 
 // Expose all functions that are called from HTML onclick/onchange handlers
 const windowWithHandlers = window as any as WindowWithHandlers;
-windowWithHandlers.throttledKeyUpHandler = throttledKeyUpHandler;
 windowWithHandlers.addTag = addTag;
 windowWithHandlers.addStimuli = addStimuli;
 windowWithHandlers.generateTagsArray = generateTagsArray;
@@ -2975,16 +1701,6 @@ windowWithHandlers.exportData = exportData;
 windowWithHandlers.exportTehutiXL = exportTehutiXL;
 windowWithHandlers.exportPhotosAndTags = exportPhotosAndTags;
 windowWithHandlers.importData = importData;
-windowWithHandlers.addExcitationPoint = addExcitationPoint;
-windowWithHandlers.selectExcitationPoint = selectExcitationPoint;
-windowWithHandlers.selectExcitationPointFromList =
-    selectExcitationPointFromList;
-windowWithHandlers.updatePointProperty = updatePointProperty;
-windowWithHandlers.deleteExcitationPoint = deleteExcitationPoint;
-windowWithHandlers.handleDragStart = handleDragStart;
-windowWithHandlers.handleDragStart = handleDragStart;
-windowWithHandlers.handleDrag = handleDrag;
-windowWithHandlers.handleDragEnd = handleDragEnd;
 
 // ================================================================== //
 //                                                                    //
