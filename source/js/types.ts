@@ -27,29 +27,17 @@ export interface ExcitationPosition {
 }
 
 /**
- * Tag with emotional/neurological metadata and excitation image positions
+ * Tag with emotional/neurological metadata
  */
 export class Tag {
     id: number;
     name: string;
     adrenaline: number;
-    /** Position data for 400x400 excitation image */
-    exc400?: ExcitationPosition;
-    /** Position data for 240px excitation image */
-    exc240?: ExcitationPosition;
 
-    constructor(
-        id: number,
-        name: string,
-        adrenaline: number = 0,
-        exc400?: ExcitationPosition,
-        exc240?: ExcitationPosition,
-    ) {
+    constructor(id: number, name: string, adrenaline: number = 0) {
         this.id = id;
         this.name = name;
         this.adrenaline = adrenaline;
-        this.exc400 = exc400;
-        this.exc240 = exc240;
     }
 
     /** @deprecated - Legacy method for backward compatibility */
@@ -81,8 +69,6 @@ export interface SerializedTag {
     id: number;
     name: string;
     adrenaline: number;
-    exc400?: ExcitationPosition;
-    exc240?: ExcitationPosition;
 }
 
 /**

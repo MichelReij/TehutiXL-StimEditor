@@ -2,3418 +2,1006 @@
   {
     "id": 1,
     "name": "joy",
-    "adrenaline": -0.08,
-    "exc400": {
-      "x": 255,
-      "y": 323,
-      "width": 47,
-      "height": 49
-    },
-    "exc240": {
-      "x": 170,
-      "y": 172,
-      "width": 25,
-      "height": 31
-    }
+    "adrenaline": -0.08
   },
   {
     "id": 2,
     "name": "sad",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 284,
-      "y": 287,
-      "width": 40,
-      "height": 50
-    },
-    "exc240": {
-      "x": 177,
-      "y": 171,
-      "width": 32,
-      "height": 21
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 3,
     "name": "anger",
-    "adrenaline": 0.13,
-    "exc400": {
-      "x": 296,
-      "y": 286,
-      "width": 52,
-      "height": 33
-    },
-    "exc240": {
-      "x": 147,
-      "y": 204,
-      "width": 19,
-      "height": 27
-    }
+    "adrenaline": 0.13
   },
   {
     "id": 4,
     "name": "fear",
-    "adrenaline": 0.13,
-    "exc400": {
-      "x": 245,
-      "y": 340,
-      "width": 31,
-      "height": 45
-    },
-    "exc240": {
-      "x": 178,
-      "y": 161,
-      "width": 38,
-      "height": 19
-    }
+    "adrenaline": 0.13
   },
   {
     "id": 5,
     "name": "love",
-    "adrenaline": -0.17,
-    "exc400": {
-      "x": 297,
-      "y": 269,
-      "width": 63,
-      "height": 31
-    },
-    "exc240": {
-      "x": 184,
-      "y": 144,
-      "width": 34,
-      "height": 21
-    }
+    "adrenaline": -0.17
   },
   {
     "id": 6,
     "name": "excitement",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 308,
-      "y": 241,
-      "width": 57,
-      "height": 34
-    },
-    "exc240": {
-      "x": 178,
-      "y": 133,
-      "width": 41,
-      "height": 25
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 7,
     "name": "pain",
-    "adrenaline": 0.16,
-    "exc400": {
-      "x": 297,
-      "y": 222,
-      "width": 68,
-      "height": 41
-    },
-    "exc240": {
-      "x": 181,
-      "y": 122,
-      "width": 31,
-      "height": 26
-    }
+    "adrenaline": 0.16
   },
   {
     "id": 8,
     "name": "family",
-    "adrenaline": -0.22,
-    "exc400": {
-      "x": 301,
-      "y": 204,
-      "width": 53,
-      "height": 42
-    },
-    "exc240": {
-      "x": 193,
-      "y": 86,
-      "width": 23,
-      "height": 39
-    }
+    "adrenaline": -0.22
   },
   {
     "id": 9,
     "name": "snake",
-    "adrenaline": 0.13,
-    "exc400": {
-      "x": 322,
-      "y": 144,
-      "width": 37,
-      "height": 63
-    },
-    "exc240": {
-      "x": 170,
-      "y": 112,
-      "width": 37,
-      "height": 34
-    }
+    "adrenaline": 0.13
   },
   {
     "id": 10,
     "name": "food",
-    "adrenaline": -0.12,
-    "exc400": {
-      "x": 284,
-      "y": 188,
-      "width": 60,
-      "height": 54
-    },
-    "exc240": {
-      "x": 165,
-      "y": 111,
-      "width": 38,
-      "height": 27
-    }
+    "adrenaline": -0.12
   },
   {
     "id": 11,
     "name": "cute",
-    "adrenaline": -0.08,
-    "exc400": {
-      "x": 276,
-      "y": 185,
-      "width": 62,
-      "height": 46
-    },
-    "exc240": {
-      "x": 166,
-      "y": 100,
-      "width": 34,
-      "height": 25
-    }
+    "adrenaline": -0.08
   },
   {
     "id": 12,
     "name": "spider",
-    "adrenaline": 0.11,
-    "exc400": {
-      "x": 275,
-      "y": 168,
-      "width": 59,
-      "height": 41
-    },
-    "exc240": {
-      "x": 157,
-      "y": 88,
-      "width": 46,
-      "height": 30
-    }
+    "adrenaline": 0.11
   },
   {
     "id": 13,
     "name": "competition",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 262,
-      "y": 147,
-      "width": 76,
-      "height": 49
-    },
-    "exc240": {
-      "x": 172,
-      "y": 75,
-      "width": 31,
-      "height": 32
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 14,
     "name": "clown",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 288,
-      "y": 125,
-      "width": 49,
-      "height": 53
-    },
-    "exc240": {
-      "x": 157,
-      "y": 81,
-      "width": 30,
-      "height": 29
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 15,
     "name": "frustration",
-    "adrenaline": 0.11,
-    "exc400": {
-      "x": 260,
-      "y": 133,
-      "width": 51,
-      "height": 50
-    },
-    "exc240": {
-      "x": 155,
-      "y": 73,
-      "width": 40,
-      "height": 27
-    }
+    "adrenaline": 0.11
   },
   {
     "id": 16,
     "name": "crocodile",
-    "adrenaline": 0.13,
-    "exc400": {
-      "x": 257,
-      "y": 123,
-      "width": 67,
-      "height": 43
-    },
-    "exc240": {
-      "x": 170,
-      "y": 63,
-      "width": 27,
-      "height": 21
-    }
+    "adrenaline": 0.13
   },
   {
     "id": 17,
     "name": "gay",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 284,
-      "y": 105,
-      "width": 43,
-      "height": 35
-    },
-    "exc240": {
-      "x": 178,
-      "y": 52,
-      "width": 20,
-      "height": 29
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 18,
     "name": "scorpion",
-    "adrenaline": 0.13,
-    "exc400": {
-      "x": 298,
-      "y": 85,
-      "width": 33,
-      "height": 50
-    },
-    "exc240": {
-      "x": 160,
-      "y": 57,
-      "width": 27,
-      "height": 30
-    }
+    "adrenaline": 0.13
   },
   {
     "id": 19,
     "name": "fish",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 268,
-      "y": 95,
-      "width": 43,
-      "height": 51
-    },
-    "exc240": {
-      "x": 160,
-      "y": 45,
-      "width": 23,
-      "height": 32
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 20,
     "name": "beer",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 267,
-      "y": 76,
-      "width": 38,
-      "height": 52
-    },
-    "exc240": {
-      "x": 170,
-      "y": 35,
-      "width": 18,
-      "height": 22
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 21,
     "name": "desire",
-    "adrenaline": -0.01,
-    "exc400": {
-      "x": 283,
-      "y": 59,
-      "width": 30,
-      "height": 37
-    },
-    "exc240": {
-      "x": 161,
-      "y": 36,
-      "width": 21,
-      "height": 21
-    }
+    "adrenaline": -0.01
   },
   {
     "id": 22,
     "name": "lightning",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 268,
-      "y": 60,
-      "width": 35,
-      "height": 35
-    },
-    "exc240": {
-      "x": 147,
-      "y": 19,
-      "width": 29,
-      "height": 23
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 23,
     "name": "danger",
-    "adrenaline": 0.11,
-    "exc400": {
-      "x": 243,
-      "y": 33,
-      "width": 50,
-      "height": 37
-    },
-    "exc240": {
-      "x": 146,
-      "y": 31,
-      "width": 23,
-      "height": 31
-    }
+    "adrenaline": 0.11
   },
   {
     "id": 24,
     "name": "sunset",
-    "adrenaline": -0.11,
-    "exc400": {
-      "x": 243,
-      "y": 52,
-      "width": 38,
-      "height": 51
-    },
-    "exc240": {
-      "x": 122,
-      "y": 18,
-      "width": 31,
-      "height": 12
-    }
+    "adrenaline": -0.11
   },
   {
     "id": 25,
     "name": "jealous",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 204,
-      "y": 30,
-      "width": 51,
-      "height": 20
-    },
-    "exc240": {
-      "x": 127,
-      "y": 22,
-      "width": 28,
-      "height": 22
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 26,
     "name": "pride",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 210,
-      "y": 38,
-      "width": 48,
-      "height": 36
-    },
-    "exc240": {
-      "x": 121,
-      "y": 27,
-      "width": 26,
-      "height": 27
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 27,
     "name": "surprise",
-    "adrenaline": 0.09,
-    "exc400": {
-      "x": 202,
-      "y": 45,
-      "width": 43,
-      "height": 45
-    },
-    "exc240": {
-      "x": 135,
-      "y": 34,
-      "width": 23,
-      "height": 23
-    }
+    "adrenaline": 0.09
   },
   {
     "id": 28,
     "name": "confrontation",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 225,
-      "y": 58,
-      "width": 38,
-      "height": 37
-    },
-    "exc240": {
-      "x": 142,
-      "y": 47,
-      "width": 19,
-      "height": 30
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 29,
     "name": "gratitude",
-    "adrenaline": -0.06,
-    "exc400": {
-      "x": 237,
-      "y": 77,
-      "width": 31,
-      "height": 53
-    },
-    "exc240": {
-      "x": 120,
-      "y": 41,
-      "width": 26,
-      "height": 24
-    }
+    "adrenaline": -0.06
   },
   {
     "id": 30,
     "name": "mother",
-    "adrenaline": -0.12,
-    "exc400": {
-      "x": 201,
-      "y": 67,
-      "width": 42,
-      "height": 41
-    },
-    "exc240": {
-      "x": 129,
-      "y": 49,
-      "width": 23,
-      "height": 23
-    }
+    "adrenaline": -0.12
   },
   {
     "id": 31,
     "name": "despair",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 214,
-      "y": 80,
-      "width": 38,
-      "height": 39
-    },
-    "exc240": {
-      "x": 151,
-      "y": 52,
-      "width": 17,
-      "height": 24
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 32,
     "name": "defiance",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 251,
-      "y": 88,
-      "width": 31,
-      "height": 38
-    },
-    "exc240": {
-      "x": 145,
-      "y": 67,
-      "width": 29,
-      "height": 17
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 33,
     "name": "speed",
-    "adrenaline": 0.02,
-    "exc400": {
-      "x": 241,
-      "y": 110,
-      "width": 48,
-      "height": 29
-    },
-    "exc240": {
-      "x": 148,
-      "y": 74,
-      "width": 23,
-      "height": 19
-    }
+    "adrenaline": 0.02
   },
   {
     "id": 34,
     "name": "dog",
-    "adrenaline": -0.05,
-    "exc400": {
-      "x": 248,
-      "y": 124,
-      "width": 37,
-      "height": 31
-    },
-    "exc240": {
-      "x": 119,
-      "y": 49,
-      "width": 35,
-      "height": 40
-    }
+    "adrenaline": -0.05
   },
   {
     "id": 35,
     "name": "cat",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 199,
-      "y": 83,
-      "width": 58,
-      "height": 64
-    },
-    "exc240": {
-      "x": 129,
-      "y": 72,
-      "width": 27,
-      "height": 23
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 36,
     "name": "noise",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 216,
-      "y": 121,
-      "width": 44,
-      "height": 37
-    },
-    "exc240": {
-      "x": 120,
-      "y": 79,
-      "width": 25,
-      "height": 25
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 37,
     "name": "power",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 201,
-      "y": 132,
-      "width": 40,
-      "height": 40
-    },
-    "exc240": {
-      "x": 133,
-      "y": 79,
-      "width": 30,
-      "height": 23
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 38,
     "name": "father",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 222,
-      "y": 132,
-      "width": 51,
-      "height": 38
-    },
-    "exc240": {
-      "x": 137,
-      "y": 87,
-      "width": 26,
-      "height": 21
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 39,
     "name": "nude",
-    "adrenaline": 0.02,
-    "exc400": {
-      "x": 228,
-      "y": 146,
-      "width": 46,
-      "height": 34
-    },
-    "exc240": {
-      "x": 193,
-      "y": 120,
-      "width": 27,
-      "height": 26
-    }
+    "adrenaline": 0.02
   },
   {
     "id": 40,
     "name": "erotic",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 322,
-      "y": 200,
-      "width": 44,
-      "height": 43
-    },
-    "exc240": {
-      "x": 120,
-      "y": 91,
-      "width": 33,
-      "height": 22
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 41,
     "name": "jump",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 200,
-      "y": 153,
-      "width": 56,
-      "height": 35
-    },
-    "exc240": {
-      "x": 138,
-      "y": 97,
-      "width": 33,
-      "height": 19
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 42,
     "name": "scream",
-    "adrenaline": 0.08,
-    "exc400": {
-      "x": 230,
-      "y": 162,
-      "width": 55,
-      "height": 30
-    },
-    "exc240": {
-      "x": 130,
-      "y": 102,
-      "width": 35,
-      "height": 18
-    }
+    "adrenaline": 0.08
   },
   {
     "id": 43,
     "name": "friends",
-    "adrenaline": -0.09,
-    "exc400": {
-      "x": 217,
-      "y": 168,
-      "width": 57,
-      "height": 32
-    },
-    "exc240": {
-      "x": 188,
-      "y": 154,
-      "width": 31,
-      "height": 20
-    }
+    "adrenaline": -0.09
   },
   {
     "id": 44,
     "name": "disgust",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 314,
-      "y": 258,
-      "width": 50,
-      "height": 31
-    },
-    "exc240": {
-      "x": 192,
-      "y": 173,
-      "width": 21,
-      "height": 26
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 45,
     "name": "vertigo",
-    "adrenaline": 0.08,
-    "exc400": {
-      "x": 321,
-      "y": 287,
-      "width": 35,
-      "height": 44
-    },
-    "exc240": {
-      "x": 178,
-      "y": 190,
-      "width": 26,
-      "height": 26
-    }
+    "adrenaline": 0.08
   },
   {
     "id": 46,
     "name": "work",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 298,
-      "y": 317,
-      "width": 41,
-      "height": 42
-    },
-    "exc240": {
-      "x": 170,
-      "y": 195,
-      "width": 17,
-      "height": 27
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 47,
     "name": "wasp",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 283,
-      "y": 325,
-      "width": 28,
-      "height": 45
-    },
-    "exc240": {
-      "x": 157,
-      "y": 183,
-      "width": 26,
-      "height": 34
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 48,
     "name": "play",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 263,
-      "y": 305,
-      "width": 41,
-      "height": 56
-    },
-    "exc240": {
-      "x": 156,
-      "y": 203,
-      "width": 19,
-      "height": 24
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 49,
     "name": "violence",
-    "adrenaline": 0.11,
-    "exc400": {
-      "x": 261,
-      "y": 339,
-      "width": 30,
-      "height": 38
-    },
-    "exc240": {
-      "x": 142,
-      "y": 185,
-      "width": 21,
-      "height": 30
-    }
+    "adrenaline": 0.11
   },
   {
     "id": 50,
     "name": "magic",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 238,
-      "y": 309,
-      "width": 35,
-      "height": 48
-    },
-    "exc240": {
-      "x": 150,
-      "y": 171,
-      "width": 35,
-      "height": 24
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 51,
     "name": "crowded",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 250,
-      "y": 286,
-      "width": 58,
-      "height": 39
-    },
-    "exc240": {
-      "x": 163,
-      "y": 157,
-      "width": 25,
-      "height": 26
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 52,
     "name": "insect",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 272,
-      "y": 263,
-      "width": 43,
-      "height": 41
-    },
-    "exc240": {
-      "x": 131,
-      "y": 211,
-      "width": 26,
-      "height": 19
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 53,
     "name": "elephant",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 219,
-      "y": 350,
-      "width": 43,
-      "height": 35
-    },
-    "exc240": {
-      "x": 112,
-      "y": 213,
-      "width": 26,
-      "height": 17
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 54,
     "name": "trophy",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 187,
-      "y": 355,
-      "width": 43,
-      "height": 29
-    },
-    "exc240": {
-      "x": 96,
-      "y": 205,
-      "width": 20,
-      "height": 22
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 55,
     "name": "graduation",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 161,
-      "y": 343,
-      "width": 31,
-      "height": 34
-    },
-    "exc240": {
-      "x": 79,
-      "y": 194,
-      "width": 26,
-      "height": 31
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 56,
     "name": "boy",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 133,
-      "y": 324,
-      "width": 41,
-      "height": 50
-    },
-    "exc240": {
-      "x": 75,
-      "y": 212,
-      "width": 30,
-      "height": 16
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 57,
     "name": "shy",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 125,
-      "y": 352,
-      "width": 51,
-      "height": 28
-    },
-    "exc240": {
-      "x": 58,
-      "y": 207,
-      "width": 25,
-      "height": 17
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 58,
     "name": "forest",
-    "adrenaline": -0.14,
-    "exc400": {
-      "x": 98,
-      "y": 344,
-      "width": 39,
-      "height": 29
-    },
-    "exc240": {
-      "x": 46,
-      "y": 200,
-      "width": 22,
-      "height": 17
-    }
+    "adrenaline": -0.14
   },
   {
     "id": 59,
     "name": "caged",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 77,
-      "y": 332,
-      "width": 38,
-      "height": 29
-    },
-    "exc240": {
-      "x": 33,
-      "y": 187,
-      "width": 27,
-      "height": 21
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 60,
     "name": "telephone",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 54,
-      "y": 310,
-      "width": 47,
-      "height": 36
-    },
-    "exc240": {
-      "x": 24,
-      "y": 168,
-      "width": 23,
-      "height": 26
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 61,
     "name": "colourful",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 40,
-      "y": 281,
-      "width": 37,
-      "height": 41
-    },
-    "exc240": {
-      "x": 18,
-      "y": 151,
-      "width": 24,
-      "height": 39
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 62,
     "name": "girl",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 31,
-      "y": 252,
-      "width": 39,
-      "height": 64
-    },
-    "exc240": {
-      "x": 18,
-      "y": 136,
-      "width": 18,
-      "height": 22
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 63,
     "name": "tears",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 31,
-      "y": 226,
-      "width": 30,
-      "height": 39
-    },
-    "exc240": {
-      "x": 22,
-      "y": 114,
-      "width": 15,
-      "height": 28
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 64,
     "name": "strong",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 36,
-      "y": 191,
-      "width": 25,
-      "height": 45
-    },
-    "exc240": {
-      "x": 28,
-      "y": 89,
-      "width": 20,
-      "height": 33
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 65,
     "name": "tradition",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 46,
-      "y": 149,
-      "width": 35,
-      "height": 55
-    },
-    "exc240": {
-      "x": 37,
-      "y": 67,
-      "width": 16,
-      "height": 27
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 66,
     "name": "zebra",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 62,
-      "y": 111,
-      "width": 27,
-      "height": 47
-    },
-    "exc240": {
-      "x": 48,
-      "y": 53,
-      "width": 21,
-      "height": 27
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 67,
     "name": "horse",
-    "adrenaline": -0.06,
-    "exc400": {
-      "x": 79,
-      "y": 88,
-      "width": 35,
-      "height": 45
-    },
-    "exc240": {
-      "x": 55,
-      "y": 31,
-      "width": 25,
-      "height": 26
-    }
+    "adrenaline": -0.06
   },
   {
     "id": 68,
     "name": "beauty",
-    "adrenaline": -0.06,
-    "exc400": {
-      "x": 90,
-      "y": 51,
-      "width": 44,
-      "height": 43
-    },
-    "exc240": {
-      "x": 72,
-      "y": 21,
-      "width": 24,
-      "height": 24
-    }
+    "adrenaline": -0.06
   },
   {
     "id": 69,
     "name": "sport",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 120,
-      "y": 35,
-      "width": 39,
-      "height": 39
-    },
-    "exc240": {
-      "x": 93,
-      "y": 19,
-      "width": 30,
-      "height": 25
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 70,
     "name": "war",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 154,
-      "y": 31,
-      "width": 51,
-      "height": 41
-    },
-    "exc240": {
-      "x": 63,
-      "y": 38,
-      "width": 41,
-      "height": 25
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 71,
     "name": "sea",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 104,
-      "y": 64,
-      "width": 68,
-      "height": 42
-    },
-    "exc240": {
-      "x": 56,
-      "y": 53,
-      "width": 24,
-      "height": 34
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 72,
     "name": "halloween",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 92,
-      "y": 88,
-      "width": 41,
-      "height": 57
-    },
-    "exc240": {
-      "x": 95,
-      "y": 56,
-      "width": 25,
-      "height": 24
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 73,
     "name": "baby",
-    "adrenaline": -0.11,
-    "exc400": {
-      "x": 159,
-      "y": 94,
-      "width": 40,
-      "height": 41
-    },
-    "exc240": {
-      "x": 145,
-      "y": 102,
-      "width": 74,
-      "height": 95
-    }
+    "adrenaline": -0.11
   },
   {
     "id": 74,
     "name": "butterfly",
-    "adrenaline": -0.06,
-    "exc400": {
-      "x": 242,
-      "y": 171,
-      "width": 123,
-      "height": 156
-    },
-    "exc240": {
-      "x": 165,
-      "y": 133,
-      "width": 34,
-      "height": 32
-    }
+    "adrenaline": -0.06
   },
   {
     "id": 75,
     "name": "sun",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 276,
-      "y": 222,
-      "width": 55,
-      "height": 52
-    },
-    "exc240": {
-      "x": 117,
-      "y": 123,
-      "width": 29,
-      "height": 35
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 76,
     "name": "hands",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 195,
-      "y": 204,
-      "width": 48,
-      "height": 59
-    },
-    "exc240": {
-      "x": 123,
-      "y": 160,
-      "width": 29,
-      "height": 30
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 77,
     "name": "ceremony",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 206,
-      "y": 267,
-      "width": 49,
-      "height": 49
-    },
-    "exc240": {
-      "x": 121,
-      "y": 192,
-      "width": 34,
-      "height": 33
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 78,
     "name": "light",
-    "adrenaline": -0.01,
-    "exc400": {
-      "x": 201,
-      "y": 311,
-      "width": 56,
-      "height": 66
-    },
-    "exc240": {
-      "x": 74,
-      "y": 136,
-      "width": 45,
-      "height": 31
-    }
+    "adrenaline": -0.01
   },
   {
     "id": 79,
     "name": "boxing",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 124,
-      "y": 227,
-      "width": 74,
-      "height": 51
-    },
-    "exc240": {
-      "x": 61,
-      "y": 186,
-      "width": 26,
-      "height": 29
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 80,
     "name": "race",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 103,
-      "y": 310,
-      "width": 41,
-      "height": 47
-    },
-    "exc240": {
-      "x": 30,
-      "y": 166,
-      "width": 36,
-      "height": 23
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 81,
     "name": "together",
-    "adrenaline": -0.13,
-    "exc400": {
-      "x": 50,
-      "y": 277,
-      "width": 59,
-      "height": 38
-    },
-    "exc240": {
-      "x": 27,
-      "y": 116,
-      "width": 26,
-      "height": 24
-    }
+    "adrenaline": -0.13
   },
   {
     "id": 82,
     "name": "tattoo",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 46,
-      "y": 194,
-      "width": 42,
-      "height": 38
-    },
-    "exc240": {
-      "x": 61,
-      "y": 100,
-      "width": 30,
-      "height": 23
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 83,
     "name": "cheer",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 103,
-      "y": 168,
-      "width": 50,
-      "height": 38
-    },
-    "exc240": {
-      "x": 93,
-      "y": 83,
-      "width": 30,
-      "height": 26
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 84,
     "name": "mysterious",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 156,
-      "y": 139,
-      "width": 48,
-      "height": 44
-    },
-    "exc240": {
-      "x": 41,
-      "y": 73,
-      "width": 31,
-      "height": 23
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 85,
     "name": "toothache",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 69,
-      "y": 122,
-      "width": 52,
-      "height": 40
-    },
-    "exc240": {
-      "x": 70,
-      "y": 51,
-      "width": 26,
-      "height": 24
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 86,
     "name": "kiss",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 118,
-      "y": 85,
-      "width": 41,
-      "height": 39
-    },
-    "exc240": {
-      "x": 93,
-      "y": 31,
-      "width": 31,
-      "height": 26
-    }
+    "adrenaline": 0
   },
   {
     "id": 87,
     "name": "dark",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 155,
-      "y": 53,
-      "width": 51,
-      "height": 42
-    },
-    "exc240": {
-      "x": 39,
-      "y": 51,
-      "width": 73,
-      "height": 90
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 88,
     "name": "silhouette",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 66,
-      "y": 86,
-      "width": 120,
-      "height": 148
-    },
-    "exc240": {
-      "x": 76,
-      "y": 97,
-      "width": 34,
-      "height": 28
-    }
+    "adrenaline": 0
   },
   {
     "id": 89,
     "name": "monkey",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 128,
-      "y": 162,
-      "width": 55,
-      "height": 47
-    },
-    "exc240": {
-      "x": 122,
-      "y": 101,
-      "width": 27,
-      "height": 24
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 90,
     "name": "cold",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 204,
-      "y": 169,
-      "width": 44,
-      "height": 38
-    },
-    "exc240": {
-      "x": 93,
-      "y": 120,
-      "width": 25,
-      "height": 35
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 91,
     "name": "adventure",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 156,
-      "y": 200,
-      "width": 42,
-      "height": 59
-    },
-    "exc240": {
-      "x": 60,
-      "y": 140,
-      "width": 29,
-      "height": 23
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 92,
     "name": "mask",
-    "adrenaline": 0.02,
-    "exc400": {
-      "x": 100,
-      "y": 234,
-      "width": 49,
-      "height": 37
-    },
-    "exc240": {
-      "x": 23,
-      "y": 142,
-      "width": 37,
-      "height": 30
-    }
+    "adrenaline": 0.02
   },
   {
     "id": 93,
     "name": "evil",
-    "adrenaline": 0.11,
-    "exc400": {
-      "x": 39,
-      "y": 238,
-      "width": 61,
-      "height": 48
-    },
-    "exc240": {
-      "x": 34,
-      "y": 177,
-      "width": 44,
-      "height": 23
-    }
+    "adrenaline": 0.11
   },
   {
     "id": 94,
     "name": "teeth",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 56,
-      "y": 295,
-      "width": 73,
-      "height": 38
-    },
-    "exc240": {
-      "x": 76,
-      "y": 177,
-      "width": 25,
-      "height": 35
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 95,
     "name": "eyes",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 128,
-      "y": 295,
-      "width": 39,
-      "height": 57
-    },
-    "exc240": {
-      "x": 115,
-      "y": 172,
-      "width": 22,
-      "height": 25
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 96,
     "name": "doubt",
-    "adrenaline": 0.02,
-    "exc400": {
-      "x": 193,
-      "y": 287,
-      "width": 35,
-      "height": 40
-    },
-    "exc240": {
-      "x": 127,
-      "y": 121,
-      "width": 24,
-      "height": 34
-    }
+    "adrenaline": 0.02
   },
   {
     "id": 97,
     "name": "hair",
-    "adrenaline": -0.01,
-    "exc400": {
-      "x": 212,
-      "y": 202,
-      "width": 39,
-      "height": 56
-    },
-    "exc240": {
-      "x": 138,
-      "y": 177,
-      "width": 25,
-      "height": 27
-    }
+    "adrenaline": -0.01
   },
   {
     "id": 98,
     "name": "pensive",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 230,
-      "y": 295,
-      "width": 43,
-      "height": 44
-    },
-    "exc240": {
-      "x": 158,
-      "y": 145,
-      "width": 34,
-      "height": 22
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 99,
     "name": "dancing",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 263,
-      "y": 243,
-      "width": 57,
-      "height": 35
-    },
-    "exc240": {
-      "x": 148,
-      "y": 114,
-      "width": 28,
-      "height": 26
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 100,
     "name": "fire",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 245,
-      "y": 190,
-      "width": 47,
-      "height": 44
-    },
-    "exc240": {
-      "x": 43,
-      "y": 79,
-      "width": 33,
-      "height": 26
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 101,
     "name": "business",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 71,
-      "y": 132,
-      "width": 55,
-      "height": 43
-    },
-    "exc240": {
-      "x": 92,
-      "y": 66,
-      "width": 18,
-      "height": 37
-    }
+    "adrenaline": 0
   },
   {
     "id": 102,
     "name": "nature",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 152,
-      "y": 110,
-      "width": 33,
-      "height": 61
-    },
-    "exc240": {
-      "x": 86,
-      "y": 42,
-      "width": 26,
-      "height": 35
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 103,
     "name": "safe",
-    "adrenaline": -0.09,
-    "exc400": {
-      "x": 144,
-      "y": 70,
-      "width": 42,
-      "height": 58
-    },
-    "exc240": {
-      "x": 31,
-      "y": 127,
-      "width": 34,
-      "height": 21
-    }
+    "adrenaline": -0.09
   },
   {
     "id": 104,
     "name": "harmony",
-    "adrenaline": -0.12,
-    "exc400": {
-      "x": 50,
-      "y": 213,
-      "width": 60,
-      "height": 34
-    },
-    "exc240": {
-      "x": 57,
-      "y": 119,
-      "width": 30,
-      "height": 24
-    }
+    "adrenaline": -0.12
   },
   {
     "id": 105,
     "name": "tired",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 95,
-      "y": 199,
-      "width": 50,
-      "height": 38
-    },
-    "exc240": {
-      "x": 41,
-      "y": 151,
-      "width": 34,
-      "height": 26
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 106,
     "name": "old",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 67,
-      "y": 252,
-      "width": 57,
-      "height": 42
-    },
-    "exc240": {
-      "x": 70,
-      "y": 159,
-      "width": 25,
-      "height": 39
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 107,
     "name": "flying",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 117,
-      "y": 265,
-      "width": 43,
-      "height": 65
-    },
-    "exc240": {
-      "x": 115,
-      "y": 187,
-      "width": 32,
-      "height": 34
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 108,
     "name": "money",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 192,
-      "y": 313,
-      "width": 52,
-      "height": 55
-    },
-    "exc240": {
-      "x": 95,
-      "y": 96,
-      "width": 27,
-      "height": 41
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 109,
     "name": "poverty",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 157,
-      "y": 161,
-      "width": 46,
-      "height": 67
-    },
-    "exc240": {
-      "x": 120,
-      "y": 111,
-      "width": 38,
-      "height": 20
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 110,
     "name": "hero",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 201,
-      "y": 184,
-      "width": 61,
-      "height": 35
-    },
-    "exc240": {
-      "x": 138,
-      "y": 155,
-      "width": 35,
-      "height": 22
-    }
+    "adrenaline": 0
   },
   {
     "id": 111,
     "name": "care",
-    "adrenaline": -0.08,
-    "exc400": {
-      "x": 230,
-      "y": 259,
-      "width": 57,
-      "height": 36
-    },
-    "exc240": {
-      "x": 144,
-      "y": 126,
-      "width": 39,
-      "height": 22
-    }
+    "adrenaline": -0.08
   },
   {
     "id": 112,
     "name": "pattern",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 239,
-      "y": 210,
-      "width": 65,
-      "height": 36
-    },
-    "exc240": {
-      "x": 63,
-      "y": 77,
-      "width": 30,
-      "height": 26
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 113,
     "name": "giraffe",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 105,
-      "y": 129,
-      "width": 50,
-      "height": 43
-    },
-    "exc240": {
-      "x": 84,
-      "y": 49,
-      "width": 35,
-      "height": 32
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 114,
     "name": "embrace",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 141,
-      "y": 83,
-      "width": 57,
-      "height": 51
-    },
-    "exc240": {
-      "x": 89,
-      "y": 186,
-      "width": 31,
-      "height": 29
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 115,
     "name": "rabbit",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 149,
-      "y": 309,
-      "width": 51,
-      "height": 49
-    },
-    "exc240": {
-      "x": 87,
-      "y": 156,
-      "width": 32,
-      "height": 24
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 116,
     "name": "pray",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 145,
-      "y": 261,
-      "width": 52,
-      "height": 38
-    },
-    "exc240": {
-      "x": 121,
-      "y": 142,
-      "width": 37,
-      "height": 26
-    }
+    "adrenaline": 0
   },
   {
     "id": 117,
     "name": "religion",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 202,
-      "y": 237,
-      "width": 61,
-      "height": 44
-    },
-    "exc240": {
-      "x": 134,
-      "y": 154,
-      "width": 56,
-      "height": 32
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 118,
     "name": "smile",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 224,
-      "y": 258,
-      "width": 93,
-      "height": 53
-    },
-    "exc240": {
-      "x": 124,
-      "y": 188,
-      "width": 27,
-      "height": 25
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 119,
     "name": "reflection",
-    "adrenaline": -0.01,
-    "exc400": {
-      "x": 205,
-      "y": 314,
-      "width": 46,
-      "height": 41
-    },
-    "exc240": {
-      "x": 39,
-      "y": 150,
-      "width": 41,
-      "height": 27
-    }
+    "adrenaline": -0.01
   },
   {
     "id": 120,
     "name": "concentration",
-    "adrenaline": -0.09,
-    "exc400": {
-      "x": 66,
-      "y": 251,
-      "width": 67,
-      "height": 43
-    },
-    "exc240": {
-      "x": 89,
-      "y": 106,
-      "width": 30,
-      "height": 38
-    }
+    "adrenaline": -0.09
   },
   {
     "id": 121,
     "name": "yawn",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 147,
-      "y": 178,
-      "width": 52,
-      "height": 62
-    },
-    "exc240": {
-      "x": 121,
-      "y": 110,
-      "width": 37,
-      "height": 22
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 122,
     "name": "music",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 203,
-      "y": 184,
-      "width": 60,
-      "height": 35
-    },
-    "exc240": {
-      "x": 152,
-      "y": 127,
-      "width": 32,
-      "height": 25
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 123,
     "name": "drink",
-    "adrenaline": -0.05,
-    "exc400": {
-      "x": 254,
-      "y": 211,
-      "width": 52,
-      "height": 42
-    },
-    "exc240": {
-      "x": 63,
-      "y": 76,
-      "width": 32,
-      "height": 35
-    }
+    "adrenaline": -0.05
   },
   {
     "id": 124,
     "name": "chess",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 106,
-      "y": 126,
-      "width": 52,
-      "height": 58
-    },
-    "exc240": {
-      "x": 76,
-      "y": 51,
-      "width": 34,
-      "height": 32
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 125,
     "name": "aim",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 128,
-      "y": 86,
-      "width": 56,
-      "height": 52
-    },
-    "exc240": {
-      "x": 81,
-      "y": 69,
-      "width": 22,
-      "height": 23
-    }
+    "adrenaline": 0
   },
   {
     "id": 126,
     "name": "development",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 135,
-      "y": 116,
-      "width": 36,
-      "height": 37
-    },
-    "exc240": {
-      "x": 87,
-      "y": 97,
-      "width": 32,
-      "height": 20
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 127,
     "name": "dirty",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 146,
-      "y": 161,
-      "width": 53,
-      "height": 33
-    },
-    "exc240": {
-      "x": 52,
-      "y": 135,
-      "width": 40,
-      "height": 23
-    }
+    "adrenaline": 0
   },
   {
     "id": 128,
     "name": "silence",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 88,
-      "y": 226,
-      "width": 64,
-      "height": 36
-    },
-    "exc240": {
-      "x": 58,
-      "y": 169,
-      "width": 35,
-      "height": 28
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 129,
     "name": "punishment",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 98,
-      "y": 280,
-      "width": 57,
-      "height": 47
-    },
-    "exc240": {
-      "x": 88,
-      "y": 172,
-      "width": 31,
-      "height": 26
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 130,
     "name": "protest",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 148,
-      "y": 287,
-      "width": 49,
-      "height": 42
-    },
-    "exc240": {
-      "x": 111,
-      "y": 187,
-      "width": 22,
-      "height": 34
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 131,
     "name": "whisper",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 186,
-      "y": 312,
-      "width": 35,
-      "height": 55
-    },
-    "exc240": {
-      "x": 140,
-      "y": 145,
-      "width": 31,
-      "height": 35
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 132,
     "name": "secret",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 234,
-      "y": 243,
-      "width": 51,
-      "height": 57
-    },
-    "exc240": {
-      "x": 121,
-      "y": 114,
-      "width": 41,
-      "height": 21
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 133,
     "name": "reading",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 202,
-      "y": 191,
-      "width": 67,
-      "height": 35
-    },
-    "exc240": {
-      "x": 29,
-      "y": 134,
-      "width": 33,
-      "height": 24
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 134,
     "name": "city",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 47,
-      "y": 224,
-      "width": 56,
-      "height": 38
-    },
-    "exc240": {
-      "x": 63,
-      "y": 150,
-      "width": 33,
-      "height": 22
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 135,
     "name": "test",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 106,
-      "y": 250,
-      "width": 54,
-      "height": 36
-    },
-    "exc240": {
-      "x": 64,
-      "y": 128,
-      "width": 35,
-      "height": 21
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 136,
     "name": "eureka",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 108,
-      "y": 214,
-      "width": 57,
-      "height": 33
-    },
-    "exc240": {
-      "x": 46,
-      "y": 97,
-      "width": 32,
-      "height": 21
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 137,
     "name": "smell",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 77,
-      "y": 163,
-      "width": 53,
-      "height": 33
-    },
-    "exc240": {
-      "x": 73,
-      "y": 79,
-      "width": 29,
-      "height": 23
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 138,
     "name": "flower",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 121,
-      "y": 133,
-      "width": 48,
-      "height": 37
-    },
-    "exc240": {
-      "x": 33,
-      "y": 172,
-      "width": 24,
-      "height": 17
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 139,
     "name": "fight",
-    "adrenaline": 0.08,
-    "exc400": {
-      "x": 55,
-      "y": 286,
-      "width": 39,
-      "height": 28
-    },
-    "exc240": {
-      "x": 73,
-      "y": 172,
-      "width": 25,
-      "height": 29
-    }
+    "adrenaline": 0.08
   },
   {
     "id": 140,
     "name": "stress",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 123,
-      "y": 288,
-      "width": 39,
-      "height": 47
-    },
-    "exc240": {
-      "x": 114,
-      "y": 150,
-      "width": 29,
-      "height": 26
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 141,
     "name": "sign",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 191,
-      "y": 249,
-      "width": 49,
-      "height": 49
-    },
-    "exc240": {
-      "x": 130,
-      "y": 122,
-      "width": 37,
-      "height": 19
-    }
+    "adrenaline": 0
   },
   {
     "id": 142,
     "name": "flood",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 217,
-      "y": 202,
-      "width": 61,
-      "height": 33
-    },
-    "exc240": {
-      "x": 145,
-      "y": 138,
-      "width": 31,
-      "height": 23
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 143,
     "name": "fashion",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 242,
-      "y": 230,
-      "width": 53,
-      "height": 38
-    },
-    "exc240": {
-      "x": 194,
-      "y": 141,
-      "width": 23,
-      "height": 13
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 144,
     "name": "cosplay",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 322,
-      "y": 236,
-      "width": 40,
-      "height": 21
-    },
-    "exc240": {
-      "x": 126,
-      "y": 175,
-      "width": 27,
-      "height": 26
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 145,
     "name": "courage",
-    "adrenaline": 0.06,
-    "exc400": {
-      "x": 211,
-      "y": 288,
-      "width": 43,
-      "height": 47
-    },
-    "exc240": {
-      "x": 184,
-      "y": 182,
-      "width": 21,
-      "height": 24
-    }
+    "adrenaline": 0.06
   },
   {
     "id": 146,
     "name": "poison",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 307,
-      "y": 304,
-      "width": 34,
-      "height": 38
-    },
-    "exc240": {
-      "x": 47,
-      "y": 67,
-      "width": 21,
-      "height": 19
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 147,
     "name": "bird",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 79,
-      "y": 113,
-      "width": 33,
-      "height": 29
-    },
-    "exc240": {
-      "x": 136,
-      "y": 55,
-      "width": 22,
-      "height": 31
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 148,
     "name": "help",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 228,
-      "y": 92,
-      "width": 35,
-      "height": 53
-    },
-    "exc240": {
-      "x": 179,
-      "y": 95,
-      "width": 25,
-      "height": 21
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 149,
     "name": "alone",
-    "adrenaline": 0.07,
-    "exc400": {
-      "x": 299,
-      "y": 157,
-      "width": 41,
-      "height": 36
-    },
-    "exc240": {
-      "x": 102,
-      "y": 39,
-      "width": 23,
-      "height": 43
-    }
+    "adrenaline": 0.07
   },
   {
     "id": 150,
     "name": "party",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 171,
-      "y": 66,
-      "width": 37,
-      "height": 70
-    },
-    "exc240": {
-      "x": 81,
-      "y": 29,
-      "width": 32,
-      "height": 19
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 151,
     "name": "hide",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 134,
-      "y": 47,
-      "width": 54,
-      "height": 32
-    },
-    "exc240": {
-      "x": 53,
-      "y": 18,
-      "width": 96,
-      "height": 155
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 152,
     "name": "creativity",
-    "adrenaline": -0.03,
-    "exc400": {
-      "x": 89,
-      "y": 31,
-      "width": 161,
-      "height": 256
-    },
-    "exc240": {
-      "x": 162,
-      "y": 28,
-      "width": 19,
-      "height": 22
-    }
+    "adrenaline": -0.03
   },
   {
     "id": 153,
     "name": "sorry",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 271,
-      "y": 47,
-      "width": 30,
-      "height": 36
-    },
-    "exc240": {
-      "x": 130,
-      "y": 44,
-      "width": 28,
-      "height": 21
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 154,
     "name": "stop",
-    "adrenaline": 0.05,
-    "exc400": {
-      "x": 216,
-      "y": 72,
-      "width": 47,
-      "height": 35
-    },
-    "exc240": {
-      "x": 125,
-      "y": 70,
-      "width": 15,
-      "height": 23
-    }
+    "adrenaline": 0.05
   },
   {
     "id": 155,
     "name": "greed",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 208,
-      "y": 116,
-      "width": 25,
-      "height": 38
-    },
-    "exc240": {
-      "x": 151,
-      "y": 57,
-      "width": 29,
-      "height": 45
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 156,
     "name": "hunger",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 253,
-      "y": 95,
-      "width": 47,
-      "height": 75
-    },
-    "exc240": {
-      "x": 89,
-      "y": 40,
-      "width": 22,
-      "height": 17
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 157,
     "name": "thirst",
-    "adrenaline": 0.03,
-    "exc400": {
-      "x": 148,
-      "y": 68,
-      "width": 37,
-      "height": 27
-    },
-    "exc240": {
-      "x": 56,
-      "y": 25,
-      "width": 31,
-      "height": 31
-    }
+    "adrenaline": 0.03
   },
   {
     "id": 158,
     "name": "broken",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 93,
-      "y": 41,
-      "width": 53,
-      "height": 51
-    },
-    "exc240": {
-      "x": 58,
-      "y": 73,
-      "width": 19,
-      "height": 25
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 159,
     "name": "logo",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 98,
-      "y": 123,
-      "width": 29,
-      "height": 39
-    },
-    "exc240": {
-      "x": 35,
-      "y": 69,
-      "width": 18,
-      "height": 38
-    }
+    "adrenaline": 0
   },
   {
     "id": 160,
     "name": "clothing",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 58,
-      "y": 114,
-      "width": 31,
-      "height": 64
-    },
-    "exc240": {
-      "x": 80,
-      "y": 86,
-      "width": 37,
-      "height": 23
-    }
+    "adrenaline": 0
   },
   {
     "id": 161,
     "name": "movie",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 134,
-      "y": 143,
-      "width": 60,
-      "height": 40
-    },
-    "exc240": {
-      "x": 72,
-      "y": 112,
-      "width": 18,
-      "height": 30
-    }
+    "adrenaline": 0
   },
   {
     "id": 162,
     "name": "art",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 120,
-      "y": 188,
-      "width": 31,
-      "height": 48
-    },
-    "exc240": {
-      "x": 130,
-      "y": 99,
-      "width": 25,
-      "height": 16
-    }
+    "adrenaline": 0
   },
   {
     "id": 163,
     "name": "luxury",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 215,
-      "y": 166,
-      "width": 42,
-      "height": 25
-    },
-    "exc240": {
-      "x": 180,
-      "y": 76,
-      "width": 25,
-      "height": 21
-    }
+    "adrenaline": 0
   },
   {
     "id": 164,
     "name": "car",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 301,
-      "y": 127,
-      "width": 40,
-      "height": 34
-    },
-    "exc240": {
-      "x": 167,
-      "y": 104,
-      "width": 34,
-      "height": 25
-    }
+    "adrenaline": 0.01
   },
   {
     "id": 165,
     "name": "tech",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 279,
-      "y": 172,
-      "width": 55,
-      "height": 44
-    },
-    "exc240": {
-      "x": 135,
-      "y": 126,
-      "width": 31,
-      "height": 20
-    }
+    "adrenaline": 0
   },
   {
     "id": 166,
     "name": "pollution",
-    "adrenaline": 0.12,
-    "exc400": {
-      "x": 226,
-      "y": 211,
-      "width": 51,
-      "height": 31
-    },
-    "exc240": {
-      "x": 188,
-      "y": 129,
-      "width": 28,
-      "height": 19
-    }
+    "adrenaline": 0.12
   },
   {
     "id": 167,
     "name": "shoes",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 312,
-      "y": 216,
-      "width": 48,
-      "height": 31
-    },
-    "exc240": {
-      "x": 87,
-      "y": 129,
-      "width": 20,
-      "height": 18
-    }
+    "adrenaline": 0
   },
   {
     "id": 168,
     "name": "travel",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 145,
-      "y": 215,
-      "width": 32,
-      "height": 30
-    },
-    "exc240": {
-      "x": 47,
-      "y": 109,
-      "width": 32,
-      "height": 17
-    }
+    "adrenaline": 0
   },
   {
     "id": 169,
     "name": "politics",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 79,
-      "y": 181,
-      "width": 52,
-      "height": 30
-    },
-    "exc240": {
-      "x": 22,
-      "y": 117,
-      "width": 23,
-      "height": 21
-    }
+    "adrenaline": 0
   },
   {
     "id": 170,
     "name": "health",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 36,
-      "y": 196,
-      "width": 39,
-      "height": 34
-    },
-    "exc240": {
-      "x": 31,
-      "y": 130,
-      "width": 26,
-      "height": 13
-    }
+    "adrenaline": 0
   },
   {
     "id": 171,
     "name": "jewellery",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 52,
-      "y": 215,
-      "width": 42,
-      "height": 24
-    },
-    "exc240": {
-      "x": 24,
-      "y": 153,
-      "width": 26,
-      "height": 20
-    }
+    "adrenaline": 0
   },
   {
     "id": 172,
     "name": "ai",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 39,
-      "y": 254,
-      "width": 43,
-      "height": 34
-    },
-    "exc240": {
-      "x": 43,
-      "y": 158,
-      "width": 18,
-      "height": 15
-    }
+    "adrenaline": 0
   },
   {
     "id": 173,
     "name": "fastfood",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 72,
-      "y": 264,
-      "width": 29,
-      "height": 23
-    },
-    "exc240": {
-      "x": 64,
-      "y": 158,
-      "width": 34,
-      "height": 19
-    }
+    "adrenaline": 0
   },
   {
     "id": 174,
     "name": "social media",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 107,
-      "y": 264,
-      "width": 55,
-      "height": 30
-    },
-    "exc240": {
-      "x": 141,
-      "y": 165,
-      "width": 15,
-      "height": 30
-    }
+    "adrenaline": 0
   },
   {
     "id": 175,
     "name": "photography",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 233,
-      "y": 275,
-      "width": 27,
-      "height": 50
-    },
-    "exc240": {
-      "x": 163,
-      "y": 169,
-      "width": 28,
-      "height": 15
-    }
+    "adrenaline": 0
   },
   {
     "id": 176,
     "name": "alcohol",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 270,
-      "y": 282,
-      "width": 47,
-      "height": 25
-    },
-    "exc240": {
-      "x": 23,
-      "y": 166,
-      "width": 30,
-      "height": 22
-    }
+    "adrenaline": 0
   },
   {
     "id": 177,
     "name": "coffee",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 39,
-      "y": 278,
-      "width": 48,
-      "height": 36
-    },
-    "exc240": {
-      "x": 44,
-      "y": 187,
-      "width": 24,
-      "height": 20
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 178,
     "name": "scifi",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 74,
-      "y": 313,
-      "width": 38,
-      "height": 31
-    },
-    "exc240": {
-      "x": 73,
-      "y": 187,
-      "width": 16,
-      "height": 30
-    }
+    "adrenaline": 0
   },
   {
     "id": 179,
     "name": "space",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 122,
-      "y": 313,
-      "width": 26,
-      "height": 48
-    },
-    "exc240": {
-      "x": 102,
-      "y": 195,
-      "width": 20,
-      "height": 23
-    }
+    "adrenaline": 0
   },
   {
     "id": 180,
     "name": "gaming",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 170,
-      "y": 325,
-      "width": 32,
-      "height": 38
-    },
-    "exc240": {
-      "x": 132,
-      "y": 198,
-      "width": 26,
-      "height": 24
-    }
+    "adrenaline": 0
   },
   {
     "id": 181,
     "name": "communication",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 221,
-      "y": 330,
-      "width": 41,
-      "height": 40
-    },
-    "exc240": {
-      "x": 184,
-      "y": 183,
-      "width": 17,
-      "height": 28
-    }
+    "adrenaline": 0
   },
   {
     "id": 182,
     "name": "funny",
-    "adrenaline": -0.07,
-    "exc400": {
-      "x": 307,
-      "y": 305,
-      "width": 28,
-      "height": 46
-    },
-    "exc240": {
-      "x": 84,
-      "y": 97,
-      "width": 23,
-      "height": 18
-    }
+    "adrenaline": -0.07
   },
   {
     "id": 183,
     "name": "computer",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 141,
-      "y": 163,
-      "width": 37,
-      "height": 29
-    },
-    "exc240": {
-      "x": 58,
-      "y": 147,
-      "width": 23,
-      "height": 14
-    }
+    "adrenaline": 0
   },
   {
     "id": 184,
     "name": "science",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 98,
-      "y": 246,
-      "width": 37,
-      "height": 21
-    },
-    "exc240": {
-      "x": 126,
-      "y": 27,
-      "width": 19,
-      "height": 16
-    }
+    "adrenaline": 0
   },
   {
     "id": 185,
     "name": "smoke",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 210,
-      "y": 45,
-      "width": 33,
-      "height": 26
-    },
-    "exc240": {
-      "x": 169,
-      "y": 59,
-      "width": 23,
-      "height": 25
-    }
+    "adrenaline": 0
   },
   {
     "id": 186,
     "name": "children",
-    "adrenaline": -0.02,
-    "exc400": {
-      "x": 282,
-      "y": 98,
-      "width": 38,
-      "height": 42
-    },
-    "exc240": {
-      "x": 124,
-      "y": 124,
-      "width": 21,
-      "height": 12
-    }
+    "adrenaline": -0.02
   },
   {
     "id": 187,
     "name": "world",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 207,
-      "y": 208,
-      "width": 34,
-      "height": 18
-    },
-    "exc240": {
-      "x": 187,
-      "y": 119,
-      "width": 25,
-      "height": 18
-    }
+    "adrenaline": 0
   },
   {
     "id": 188,
     "name": "europe",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 312,
-      "y": 198,
-      "width": 41,
-      "height": 29
-    },
-    "exc240": {
-      "x": 71,
-      "y": 165,
-      "width": 21,
-      "height": 12
-    }
+    "adrenaline": 0
   },
   {
     "id": 189,
     "name": "women",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 119,
-      "y": 276,
-      "width": 33,
-      "height": 18
-    },
-    "exc240": {
-      "x": 90,
-      "y": 148,
-      "width": 21,
-      "height": 11
-    }
+    "adrenaline": 0
   },
   {
     "id": 190,
     "name": "robot",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 151,
-      "y": 247,
-      "width": 33,
-      "height": 18
-    },
-    "exc240": {
-      "x": 168,
-      "y": 102,
-      "width": 27,
-      "height": 15
-    }
+    "adrenaline": 0
   },
   {
     "id": 191,
     "name": "bat",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 280,
-      "y": 171,
-      "width": 44,
-      "height": 24
-    },
-    "exc240": {
-      "x": 118,
-      "y": 78,
-      "width": 10,
-      "height": 39
-    }
+    "adrenaline": 0
   },
   {
     "id": 192,
     "name": "ink blot",
-    "adrenaline": 0.02,
-    "exc400": {
-      "x": 198,
-      "y": 130,
-      "width": 16,
-      "height": 65
-    },
-    "exc240": {
-      "x": 119,
-      "y": 139,
-      "width": 10,
-      "height": 19
-    }
+    "adrenaline": 0.02
   },
   {
     "id": 193,
     "name": "sleep",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 198,
-      "y": 233,
-      "width": 16,
-      "height": 31
-    },
-    "exc240": {
-      "x": 42,
-      "y": 113,
-      "width": 30,
-      "height": 18
-    }
+    "adrenaline": 0
   },
   {
     "id": 194,
     "name": "death",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 71,
-      "y": 187,
-      "width": 49,
-      "height": 31
-    },
-    "exc240": {
-      "x": 144,
-      "y": 136,
-      "width": 26,
-      "height": 16
-    }
+    "adrenaline": 0
   },
   {
     "id": 195,
     "name": "tree",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 240,
-      "y": 228,
-      "width": 43,
-      "height": 24
-    },
-    "exc240": {
-      "x": 60,
-      "y": 67,
-      "width": 13,
-      "height": 30
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 196,
     "name": "boat",
-    "adrenaline": 0,
-    "exc400": {
-      "x": 100,
-      "y": 112,
-      "width": 21,
-      "height": 49
-    },
-    "exc240": {
-      "x": 147,
-      "y": 22,
-      "width": 29,
-      "height": 26
-    }
+    "adrenaline": 0
   },
   {
     "id": 197,
     "name": "crime",
-    "adrenaline": 0.09,
-    "exc400": {
-      "x": 246,
-      "y": 37,
-      "width": 47,
-      "height": 43
-    },
-    "exc240": {
-      "x": 160,
-      "y": 83,
-      "width": 25,
-      "height": 19
-    }
+    "adrenaline": 0.09
   },
   {
     "id": 198,
     "name": "sick",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 265,
-      "y": 139,
-      "width": 43,
-      "height": 31
-    },
-    "exc240": {
-      "x": 81,
-      "y": 125,
-      "width": 16,
-      "height": 16
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 199,
     "name": "home",
-    "adrenaline": -0.04,
-    "exc400": {
-      "x": 136,
-      "y": 207,
-      "width": 25,
-      "height": 27
-    },
-    "exc240": {
-      "x": 93,
-      "y": 40,
-      "width": 21,
-      "height": 14
-    }
+    "adrenaline": -0.04
   },
   {
     "id": 200,
     "name": "regret",
-    "adrenaline": 0.04,
-    "exc400": {
-      "x": 155,
-      "y": 67,
-      "width": 34,
-      "height": 23
-    },
-    "exc240": {
-      "x": 42,
-      "y": 168,
-      "width": 23,
-      "height": 17
-    }
+    "adrenaline": 0.04
   },
   {
     "id": 201,
     "name": "observe",
-    "adrenaline": 0.01,
-    "exc400": {
-      "x": 70,
-      "y": 281,
-      "width": 38,
-      "height": 26
-    },
-    "exc240": {
-      "x": 64,
-      "y": 194,
-      "width": 12,
-      "height": 24
-    }
+    "adrenaline": 0.01
   }
 ]

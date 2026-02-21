@@ -179,12 +179,17 @@ function parsePositionLine(
  */
 async function loadExcitationPositions(): Promise<void> {
     try {
-        // Load exc400 positions
-        const response400 = await fetch("/img/exc400/positions.csv");
+        // Load exc400 positions (with cache-busting timestamp)
+        const timestamp = Date.now();
+        const response400 = await fetch(
+            `/img/exc400/positions.csv?v=${timestamp}`,
+        );
         const csv400 = await response400.text();
 
         // Load exc240 positions
-        const response240 = await fetch("/img/exc240/positions.csv");
+        const response240 = await fetch(
+            `/img/exc240/positions.csv?v=${timestamp}`,
+        );
         const csv240 = await response240.text();
 
         // Parse CSV files (skip header line)
@@ -892,16 +897,17 @@ function renderZoomEPPreview(stimulus: Stimulus) {
 
     // Render excitation image for each tag
     stimulusTags.forEach((tag) => {
-        if (!tag.exc400) return; // Skip if no position data
+        const position = excitationPositions[tag.id]?.exc400;
+        if (!position) return; // Skip if no position data
 
         const img = document.createElement("img");
         img.className = "excitation-image";
         img.src = `/img/exc400/exc_${String(tag.id).padStart(3, "0")}.png`;
         img.style.position = "absolute";
-        img.style.left = `${tag.exc400.x}px`;
-        img.style.top = `${tag.exc400.y}px`;
-        img.style.width = `${tag.exc400.width}px`;
-        img.style.height = `${tag.exc400.height}px`;
+        img.style.left = `${position.x}px`;
+        img.style.top = `${position.y}px`;
+        img.style.width = `${position.width}px`;
+        img.style.height = `${position.height}px`;
         img.style.pointerEvents = "none";
 
         canvas.appendChild(img);
@@ -1125,11 +1131,7 @@ function createNewTag(nameHint: string = "new") {
     // Create new tag with next available ID
     const newId = tags.length > 0 ? Math.max(...tags.map((t) => t.id)) + 1 : 1;
 
-    // Look up position data from CSV (if available for this ID)
-    const exc400 = excitationPositions[newId]?.exc400;
-    const exc240 = excitationPositions[newId]?.exc240;
-
-    const newTag = new Tag(newId, nameHint, 0, exc400, exc240);
+    const newTag = new Tag(newId, nameHint, 0);
     tags.push(newTag);
     saveTags();
     displayTags(newTag.id);
@@ -1185,7 +1187,9 @@ function editTag(tag: Tag) {
             layerContainer.innerHTML = ""; // Clear existing content
 
             // Show excitation preview
-            const hasPosition = tag.exc400 !== undefined;
+            const exc400 = excitationPositions[tag.id]?.exc400;
+            const exc240 = excitationPositions[tag.id]?.exc240;
+            const hasPosition = exc400 !== undefined;
             const excImageSrc = `/img/exc400/exc_${String(tag.id).padStart(3, "0")}.png`;
 
             layerContainer.insertAdjacentHTML(
@@ -1200,12 +1204,12 @@ function editTag(tag: Tag) {
               <img class="mri-background" src="/img/mri/mri_017.jpg" alt="MRI scan" draggable="false" style="position: absolute; width: 400px; height: 400px; top: 0; left: 0;">
               <img class="excitation-image-preview"
                    src="${excImageSrc}"
-                   style="position: absolute; left: ${tag.exc400!.x}px; top: ${tag.exc400!.y}px; width: ${tag.exc400!.width}px; height: ${tag.exc400!.height}px;"
+                   style="position: absolute; left: ${exc400!.x}px; top: ${exc400!.y}px; width: ${exc400!.width}px; height: ${exc400!.height}px;"
                    alt="Excitation pattern">
             </div>
             <div class="position-info">
-              <p><strong>400x400:</strong> x=${tag.exc400!.x}, y=${tag.exc400!.y}, w=${tag.exc400!.width}, h=${tag.exc400!.height}</p>
-              ${tag.exc240 ? `<p><strong>240px:</strong> x=${tag.exc240.x}, y=${tag.exc240.y}, w=${tag.exc240.width}, h=${tag.exc240.height}</p>` : ""}
+              <p><strong>400x400:</strong> x=${exc400!.x}, y=${exc400!.y}, w=${exc400!.width}, h=${exc400!.height}</p>
+              ${exc240 ? `<p><strong>240px:</strong> x=${exc240.x}, y=${exc240.y}, w=${exc240.width}, h=${exc240.height}</p>` : ""}
             </div>
             `
                     : `
@@ -1384,37 +1388,10 @@ async function readTags(): Promise<void> {
             const tagsJSON = await response.text();
             const tagsData: any[] = JSON.parse(tagsJSON);
 
-            // Check if we need to migrate old format
-            let needsMigration = false;
-
             // Convert to Tag objects
             tags = tagsData.map((tagData) => {
-                // Check for old format (has excitationData instead of exc400/exc240)
-                if (!tagData.exc400 && !tagData.exc240) {
-                    needsMigration = true;
-                }
-
-                // Use stored position data if available, otherwise look up from CSV
-                const exc400 =
-                    tagData.exc400 || excitationPositions[tagData.id]?.exc400;
-                const exc240 =
-                    tagData.exc240 || excitationPositions[tagData.id]?.exc240;
-
-                return new Tag(
-                    tagData.id,
-                    tagData.name,
-                    tagData.adrenaline,
-                    exc400,
-                    exc240,
-                );
+                return new Tag(tagData.id, tagData.name, tagData.adrenaline);
             });
-
-            if (needsMigration) {
-                console.log(
-                    "🔄 Migrating tags to new format (exc400/exc240)...",
-                );
-                await saveTags();
-            }
 
             console.log("✅ Tags loaded from file");
             return;
@@ -1431,18 +1408,9 @@ async function readTags(): Promise<void> {
     } else {
         const tagsData: any[] = JSON.parse(tagsJSON);
 
-        // Convert old format to new format (remove layers, add positions)
+        // Convert old format to new format
         tags = tagsData.map((tagData) => {
-            const exc400 = excitationPositions[tagData.id]?.exc400;
-            const exc240 = excitationPositions[tagData.id]?.exc240;
-
-            return new Tag(
-                tagData.id,
-                tagData.name,
-                tagData.adrenaline,
-                exc400,
-                exc240,
-            );
+            return new Tag(tagData.id, tagData.name, tagData.adrenaline);
         });
         await saveTags();
     }
@@ -1455,8 +1423,6 @@ async function saveTags(): Promise<void> {
             id: tag.id,
             name: tag.name,
             adrenaline: tag.adrenaline,
-            exc400: tag.exc400,
-            exc240: tag.exc240,
         }));
 
         const response = await fetch("/api/tags", {
@@ -1513,8 +1479,6 @@ function exportData(): void {
             id: tag.id,
             name: tag.name,
             adrenaline: tag.adrenaline,
-            exc400: tag.exc400,
-            exc240: tag.exc240,
         })),
         stimuli: stimuli,
     };
@@ -1539,8 +1503,6 @@ function exportTehutiXL(): void {
         id: tag.id,
         name: tag.name,
         adrenaline: tag.adrenaline,
-        exc400: tag.exc400,
-        exc240: tag.exc240,
     }));
 
     const dataStr = JSON.stringify(tehutiExport, null, 2);
@@ -1607,13 +1569,7 @@ function importData(): void {
                 // Import tags
                 tags = importedData.tags.map(
                     (tagData: any) =>
-                        new Tag(
-                            tagData.id,
-                            tagData.name,
-                            tagData.adrenaline,
-                            tagData.exc400,
-                            tagData.exc240,
-                        ),
+                        new Tag(tagData.id, tagData.name, tagData.adrenaline),
                 );
 
                 // Import stimuli
