@@ -1467,82 +1467,9 @@ async function saveStimuli(): Promise<void> {
 //                                                                    //
 //                                                                    //
 //                                                                    //
-// Export/Import Functionality                                        //
+// Import Functionality                                               //
 //                                                                    //
 // ================================================================== //
-
-function exportData(): void {
-    const dataExport = {
-        version: "3.0.0",
-        exportDate: new Date().toISOString(),
-        tags: tags.map((tag) => ({
-            id: tag.id,
-            name: tag.name,
-            adrenaline: tag.adrenaline,
-        })),
-        stimuli: stimuli,
-    };
-
-    const dataStr = JSON.stringify(dataExport, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `tehuti-stimeditor-${new Date().toISOString().split("T")[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    console.log("Data exported successfully");
-}
-
-function exportTehutiXL(): void {
-    const tehutiExport = tags.map((tag) => ({
-        id: tag.id,
-        name: tag.name,
-        adrenaline: tag.adrenaline,
-    }));
-
-    const dataStr = JSON.stringify(tehutiExport, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `tehuti-xl-tags-${new Date().toISOString().split("T")[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    console.log("Tehuti XL tags exported successfully");
-}
-
-function exportPhotosAndTags(): void {
-    const photosExport = {
-        photos: stimuli.map((stimulus) => ({
-            photo: stimulus.file,
-            tags: stimulus.tags,
-            description: stimulus.description || "",
-        })),
-    };
-
-    const dataStr = JSON.stringify(photosExport, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `tehuti-xl-photos-tags-${new Date().toISOString().split("T")[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    console.log("Tehuti XL photos and tags exported successfully");
-}
 
 function importData(): void {
     const input = document.createElement("input");
@@ -1653,9 +1580,6 @@ windowWithHandlers.showNextZoomImage = showNextZoomImage;
 windowWithHandlers.handleZoomTagSearchKeydown = handleZoomTagSearchKeydown;
 windowWithHandlers.handleZoomTagFilter = handleZoomTagFilter;
 windowWithHandlers.clearTagFilters = clearTagFilters;
-windowWithHandlers.exportData = exportData;
-windowWithHandlers.exportTehutiXL = exportTehutiXL;
-windowWithHandlers.exportPhotosAndTags = exportPhotosAndTags;
 windowWithHandlers.importData = importData;
 
 // ================================================================== //

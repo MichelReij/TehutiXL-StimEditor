@@ -111,9 +111,6 @@ export interface WindowWithHandlers extends Window {
     handleZoomTagSearchKeydown: (event: KeyboardEvent) => void;
     handleZoomTagFilter: (event: Event) => void;
     clearTagFilters: () => void;
-    exportData: () => void;
-    exportTehutiXL: () => void;
-    exportPhotosAndTags: () => void;
     importData: () => void;
 }
 
