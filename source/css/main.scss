@@ -782,13 +782,40 @@ div#imageZoom {
 }
 
 #pathsEditorArea {
-    flex           : 0 0 auto;
+    flex           : 1 1 auto;
     display        : flex;
     flex-direction : column;
     align-items    : center;
     justify-content: flex-start;
     padding        : 1rem;
-    overflow       : hidden;
+    overflow       : auto;
+
+    #sizeToggle {
+        display      : flex;
+        gap          : 0.5rem;
+        margin-bottom: 0.75rem;
+        align-self   : flex-start;
+    }
+
+    .size-toggle-btn {
+        padding         : 0.3rem 0.9rem;
+        background-color: #3a3a3a;
+        color           : #ccc;
+        border          : 1px solid #555;
+        border-radius   : 4px;
+        cursor          : pointer;
+        font-size       : 0.85rem;
+
+        &:hover {
+            background-color: #4a4a4a;
+        }
+
+        &.active {
+            background-color: #2d4a6e;
+            color           : #fff;
+            border-color    : #4a7abf;
+        }
+    }
 
     .no-path-msg {
         color    : #888;
@@ -798,15 +825,15 @@ div#imageZoom {
 
     #epCanvas {
         position     : relative;
-        width        : 400px;
-        height       : 400px;
+        width        : 800px;
+        height       : 800px;
         overflow     : hidden;
         border-radius: 4px;
 
         #mriBackground {
             position: absolute;
-            width   : 400px;
-            height  : 400px;
+            width   : 800px;
+            height  : 800px;
             top     : 0;
             left    : 0;
             z-index : 0;

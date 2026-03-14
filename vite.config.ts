@@ -89,28 +89,40 @@ function dataApiPlugin() {
                     return;
                 }
 
-                // GET /api/paths
-                if (req.url === "/api/paths" && req.method === "GET") {
+                // Generic helper for paths GET/POST
+                const pathsRoutes: Record<string, string> = {
+                    "/api/paths": "paths.json",
+                    "/api/paths400": "paths400.json",
+                    "/api/paths240": "paths240.json",
+                };
+
+                if (req.url && req.url in pathsRoutes && req.method === "GET") {
                     try {
-                        const filePath = path.join(dataDir, "paths.json");
+                        const filePath = path.join(
+                            dataDir,
+                            pathsRoutes[req.url],
+                        );
                         const data = await fs.readFile(filePath, "utf-8");
                         res.setHeader("Content-Type", "application/json");
                         res.end(data);
                     } catch (error) {
-                        // Return empty array if file doesn't exist yet
                         res.setHeader("Content-Type", "application/json");
                         res.end("[]");
                     }
                     return;
                 }
 
-                // POST /api/paths
-                if (req.url === "/api/paths" && req.method === "POST") {
+                if (
+                    req.url &&
+                    req.url in pathsRoutes &&
+                    req.method === "POST"
+                ) {
+                    const jsonFile = pathsRoutes[req.url];
                     let body = "";
                     req.on("data", (chunk: any) => (body += chunk));
                     req.on("end", async () => {
                         try {
-                            const filePath = path.join(dataDir, "paths.json");
+                            const filePath = path.join(dataDir, jsonFile);
                             await fs.mkdir(dataDir, { recursive: true });
                             await fs.writeFile(filePath, body, "utf-8");
                             res.setHeader("Content-Type", "application/json");
@@ -119,7 +131,7 @@ function dataApiPlugin() {
                             res.statusCode = 500;
                             res.end(
                                 JSON.stringify({
-                                    error: "Failed to save paths",
+                                    error: `Failed to save ${jsonFile}`,
                                 }),
                             );
                         }

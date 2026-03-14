@@ -37,6 +37,22 @@
 
             <!-- Center: brain scan canvas with EP images -->
             <div id="pathsEditorArea" class="panel">
+                <div id="sizeToggle">
+                    <button
+                        class="size-toggle-btn active"
+                        data-size="400"
+                        onclick="switchSize(400)"
+                    >
+                        400px
+                    </button>
+                    <button
+                        class="size-toggle-btn"
+                        data-size="240"
+                        onclick="switchSize(240)"
+                    >
+                        240px
+                    </button>
+                </div>
                 <div id="noPathSelected" class="no-path-msg">
                     Selecteer of maak een pad aan om te beginnen.
                 </div>

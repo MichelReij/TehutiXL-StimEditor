@@ -3,7 +3,8 @@
 // Tehuti StimEditor – Paths page                                     //
 //                                                                    //
 // Lets the user compose activation paths by clicking excitation (EP) //
-// images on a brain scan. Paths are saved to data/paths.json.       //
+// images on a brain scan. Paths are saved to data/paths400.json     //
+// or data/paths240.json depending on the active size.               //
 //                                                                    //
 // ================================================================== //
 
@@ -14,13 +15,40 @@ import { ExcitationPosition, Path } from "./types";
 // State                                                               //
 // ------------------------------------------------------------------ //
 
-let paths: Path[] = [];
+type EpSize = 400 | 240;
+let activeSize: EpSize = 400;
+
+/** Separate path lists per size */
+const pathsMap: Record<EpSize, Path[]> = { 400: [], 240: [] };
 let selectedPathId: number | null = null;
 
 /** Map from EP numeric id → positions for both sizes */
 let excitationPositions: {
     [key: number]: { exc400: ExcitationPosition; exc240: ExcitationPosition };
 } = {};
+
+function getPaths(): Path[] {
+    return pathsMap[activeSize];
+}
+
+function getApiEndpoint(): string {
+    return activeSize === 400 ? "/api/paths400" : "/api/paths240";
+}
+
+function getImgFolder(): string {
+    return activeSize === 400 ? "exc400" : "exc240";
+}
+
+function getCanvasSize(): number {
+    // 400px version at 2×, 240px version at 3×
+    return activeSize === 400 ? 800 : 720;
+}
+
+function getPosition(epId: number): ExcitationPosition | undefined {
+    const entry = excitationPositions[epId];
+    if (!entry) return undefined;
+    return activeSize === 400 ? entry.exc400 : entry.exc240;
+}
 
 // ------------------------------------------------------------------ //
 // Pixel-level hit testing (skip transparent areas of EP PNGs)        //
@@ -63,7 +91,8 @@ function loadEpAlpha(filename: string): Promise<EpAlphaData | null> {
         };
         probe.onerror = () => resolve(null);
         // Use blue variant for alpha sampling (same shape as yellow)
-        probe.src = `/exc400/blue/${filename}`;
+        // Use blue variant for alpha sampling (same shape as yellow)
+        probe.src = `/${getImgFolder()}/blue/${filename}`;
     });
 }
 
@@ -149,26 +178,27 @@ async function loadExcitationPositions(): Promise<void> {
 // API persistence                                                     //
 // ------------------------------------------------------------------ //
 
-async function loadPaths(): Promise<void> {
+async function loadPathsForSize(size: EpSize): Promise<void> {
+    const endpoint = size === 400 ? "/api/paths400" : "/api/paths240";
     try {
-        const response = await fetch("/api/paths");
+        const response = await fetch(endpoint);
         if (response.ok) {
             const data = await response.json();
-            paths = Array.isArray(data) ? data : [];
-            console.log(`✅ Paths loaded: ${paths.length}`);
+            pathsMap[size] = Array.isArray(data) ? data : [];
+            console.log(`✅ Paths${size} loaded: ${pathsMap[size].length}`);
         }
     } catch (error) {
-        console.error("❌ Failed to load paths:", error);
-        paths = [];
+        console.error(`❌ Failed to load paths${size}:`, error);
+        pathsMap[size] = [];
     }
 }
 
 async function savePaths(): Promise<void> {
     try {
-        await fetch("/api/paths", {
+        await fetch(getApiEndpoint(), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(paths, null, 2),
+            body: JSON.stringify(getPaths(), null, 2),
         });
     } catch (error) {
         console.error("❌ Failed to save paths:", error);
@@ -179,7 +209,29 @@ async function savePaths(): Promise<void> {
 // Path management                                                     //
 // ------------------------------------------------------------------ //
 
+function switchSize(size: EpSize): void {
+    if (size === activeSize) return;
+    activeSize = size;
+    selectedPathId = null;
+    epAlphaCache.clear();
+    updateSizeToggleUI();
+    renderPathsList();
+    renderCanvas();
+    renderStepsList();
+    updateEditorVisibility();
+}
+
+function updateSizeToggleUI(): void {
+    document
+        .querySelectorAll<HTMLElement>(".size-toggle-btn")
+        .forEach((btn) => {
+            const s = parseInt(btn.dataset.size ?? "400") as EpSize;
+            btn.classList.toggle("active", s === activeSize);
+        });
+}
+
 function addPath(): void {
+    const paths = getPaths();
     const newId =
         paths.length > 0 ? Math.max(...paths.map((p) => p.id)) + 1 : 1;
     const newPath: Path = { id: newId, steps: [] };
@@ -190,7 +242,8 @@ function addPath(): void {
 }
 
 function deletePath(id: number): void {
-    paths = paths.filter((p) => p.id !== id);
+    pathsMap[activeSize] = pathsMap[activeSize].filter((p) => p.id !== id);
+    const paths = getPaths();
     if (selectedPathId === id) {
         selectedPathId = paths.length > 0 ? paths[paths.length - 1].id : null;
     }
@@ -212,7 +265,7 @@ function selectPath(id: number): void {
 function toggleEpInPath(epFilename: string): void {
     if (selectedPathId === null) return;
 
-    const path = paths.find((p) => p.id === selectedPathId);
+    const path = getPaths().find((p) => p.id === selectedPathId);
     if (!path) return;
 
     const idx = path.steps.indexOf(epFilename);
@@ -235,7 +288,7 @@ function toggleEpInPath(epFilename: string): void {
 
 function clearPathSteps(): void {
     if (selectedPathId === null) return;
-    const path = paths.find((p) => p.id === selectedPathId);
+    const path = getPaths().find((p) => p.id === selectedPathId);
     if (!path) return;
     path.steps = [];
     savePaths();
@@ -258,7 +311,7 @@ function renderPathsList(): void {
 
     list.innerHTML = "";
 
-    paths.forEach((path) => {
+    getPaths().forEach((path) => {
         const row = document.createElement("div");
         row.id = `pathNav_${path.id}`;
         row.className =
@@ -292,27 +345,42 @@ function renderPathsList(): void {
     });
 }
 
+let canvasClickController: AbortController | null = null;
+
 function renderCanvas(): void {
     const canvas = document.getElementById("epCanvas");
     if (!canvas) return;
 
-    // Remove existing EP images (keep MRI background) and old click handler
+    // Remove existing EP images (keep MRI background)
     canvas.querySelectorAll(".ep-image").forEach((el) => el.remove());
-    canvas.replaceWith(canvas.cloneNode(false)); // strip old listeners
-    const freshCanvas = document.getElementById("epCanvas")!;
-    // Re-append the MRI background
-    const mri = document.getElementById("mriBackground");
-    if (mri) freshCanvas.appendChild(mri);
+
+    // Remove previous click listener
+    if (canvasClickController) {
+        canvasClickController.abort();
+        canvasClickController = null;
+    }
 
     const selectedPath =
         selectedPathId !== null
-            ? paths.find((p) => p.id === selectedPathId)
+            ? getPaths().find((p) => p.id === selectedPathId)
             : null;
 
     const epIds = Object.keys(excitationPositions).map(Number);
+    const scale = activeSize === 400 ? 2 : 3;
+    const folder = getImgFolder();
+    const canvasSize = getCanvasSize();
+
+    // Resize the canvas element
+    (canvas as HTMLElement).style.width = `${canvasSize}px`;
+    (canvas as HTMLElement).style.height = `${canvasSize}px`;
+    const mri = canvas.querySelector<HTMLImageElement>("#mriBackground");
+    if (mri) {
+        mri.style.width = `${canvasSize}px`;
+        mri.style.height = `${canvasSize}px`;
+    }
 
     epIds.forEach((epId) => {
-        const pos = excitationPositions[epId]?.exc400;
+        const pos = getPosition(epId);
         if (!pos) return;
 
         const filename = `exc_${String(epId).padStart(3, "0")}.png`;
@@ -321,46 +389,48 @@ function renderCanvas(): void {
         const img = document.createElement("img");
         img.className = "ep-image";
         img.src = isSelected
-            ? `/exc400/yellow/${filename}`
-            : `/exc400/blue/${filename}`;
+            ? `/${folder}/yellow/${filename}`
+            : `/${folder}/blue/${filename}`;
         img.dataset.filename = filename;
         img.style.position = "absolute";
-        img.style.left = `${pos.x}px`;
-        img.style.top = `${pos.y}px`;
-        img.style.width = `${pos.width}px`;
-        img.style.height = `${pos.height}px`;
-        // pointer-events none: the canvas handles all clicks
+        img.style.left = `${pos.x * scale}px`;
+        img.style.top = `${pos.y * scale}px`;
+        img.style.width = `${pos.width * scale}px`;
+        img.style.height = `${pos.height * scale}px`;
         img.style.pointerEvents = "none";
         img.title = filename;
         img.draggable = false;
 
-        freshCanvas.appendChild(img);
+        canvas.appendChild(img);
     });
 
     // Single canvas-level click handler: walk all EP images at the click point
     // and pick the first one whose pixel is non-transparent.
     if (selectedPathId !== null) {
-        freshCanvas.style.cursor = "pointer";
-        freshCanvas.addEventListener("click", async (e: MouseEvent) => {
-            const epImages = Array.from(
-                freshCanvas.querySelectorAll<HTMLImageElement>(".ep-image"),
-            );
-            // Sort by z-index descending (last appended = highest z) so we
-            // test topmost visually-painted EP first.
-            epImages.reverse();
+        canvas.style.cursor = "pointer";
+        canvasClickController = new AbortController();
+        canvas.addEventListener(
+            "click",
+            async (e: MouseEvent) => {
+                const epImages = Array.from(
+                    canvas.querySelectorAll<HTMLImageElement>(".ep-image"),
+                );
+                epImages.reverse();
 
-            for (const img of epImages) {
-                const filename = img.dataset.filename!;
-                const alpha = await loadEpAlpha(filename);
-                if (!alpha) continue;
-                if (!isTransparentAt(alpha, img, e.clientX, e.clientY)) {
-                    toggleEpInPath(filename);
-                    return;
+                for (const img of epImages) {
+                    const filename = img.dataset.filename!;
+                    const alpha = await loadEpAlpha(filename);
+                    if (!alpha) continue;
+                    if (!isTransparentAt(alpha, img, e.clientX, e.clientY)) {
+                        toggleEpInPath(filename);
+                        return;
+                    }
                 }
-            }
-        });
+            },
+            { signal: canvasClickController.signal },
+        );
     } else {
-        freshCanvas.style.cursor = "default";
+        canvas.style.cursor = "default";
     }
 }
 
@@ -378,7 +448,7 @@ function renderStepsList(): void {
         return;
     }
 
-    const path = paths.find((p) => p.id === selectedPathId);
+    const path = getPaths().find((p) => p.id === selectedPathId);
     if (!path) return;
 
     titleEl.textContent = `Pad ${path.id} – ${path.steps.length} stap(pen)`;
@@ -396,7 +466,7 @@ function renderStepsList(): void {
         removeBtn.textContent = "✕";
         removeBtn.title = "Verwijder stap";
         removeBtn.addEventListener("click", () => {
-            const p = paths.find((pp) => pp.id === selectedPathId);
+            const p = getPaths().find((pp) => pp.id === selectedPathId);
             if (p) {
                 p.steps.splice(index, 1);
                 savePaths();
@@ -427,8 +497,9 @@ function updateEditorVisibility(): void {
 
 async function init(): Promise<void> {
     await loadExcitationPositions();
-    await loadPaths();
+    await Promise.all([loadPathsForSize(400), loadPathsForSize(240)]);
 
+    updateSizeToggleUI();
     renderPathsList();
     renderCanvas();
     renderStepsList();
@@ -441,6 +512,7 @@ async function init(): Promise<void> {
 const w = window as any;
 w.addPath = addPath;
 w.clearPathSteps = clearPathSteps;
+w.switchSize = switchSize;
 
 // Start
 if (document.readyState === "loading") {
