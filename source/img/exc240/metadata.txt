@@ -1,0 +1,12 @@
+# PSD Layer Export Metadata
+# Generated on: 2026-03-13 16:01:57
+
+# Command to regenerate this folder:
+/Users/michelreij/Machines/TehutiXL/Stimuli/export_psd_layers.sh originals/excitations_240.psd exc_ spiffs/exc240
+
+# Parameters:
+PSD file: originals/excitations_240.psd
+Prefix: exc_
+Output folder: spiffs/exc240
+Force: false
+Total layers exported: 256

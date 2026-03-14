@@ -115,6 +115,16 @@ export interface WindowWithHandlers extends Window {
 }
 
 /**
+ * A single activation path: an ordered sequence of excitation image filenames
+ */
+export interface Path {
+    /** Unique path identifier */
+    id: number;
+    /** Ordered list of EP filenames, e.g. ["exc_001.png", "exc_003.png"] */
+    steps: string[];
+}
+
+/**
  * Type guard to check if object is Stimulus
  */
 export function isStimulus(obj: any): obj is Stimulus {

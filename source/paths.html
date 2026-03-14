@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <title>Tehuti StimEditor – Paden</title>
+    </head>
+    <body class="antialiased">
+        <div id="toolbar">
+            <h1>Tehuti StimEditor – Paden</h1>
+            <a href="/" id="backLink">← Terug naar StimEditor</a>
+        </div>
+
+        <main>
+            <!-- Left panel: path list -->
+            <div class="panel" id="pathNavContainer">
+                <button id="addPathButton" onclick="addPath()">
+                    Pad toevoegen
+                </button>
+                <div id="pathsList"></div>
+            </div>
+
+            <!-- Center: brain scan canvas with EP images -->
+            <div id="pathsEditorArea" class="panel">
+                <div id="noPathSelected" class="no-path-msg">
+                    Selecteer of maak een pad aan om te beginnen.
+                </div>
+                <div id="epCanvasWrapper">
+                    <div id="epCanvas">
+                        <img
+                            id="mriBackground"
+                            src="/mri/mri_017.jpg"
+                            alt="MRI-scan"
+                            draggable="false"
+                        />
+                        <!-- EP images injected here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: steps in current path -->
+            <div id="pathStepsPanel" class="panel">
+                <div class="steps-header">
+                    <h3 id="pathStepsTitle">Geen pad geselecteerd</h3>
+                    <button id="clearStepsButton" onclick="clearPathSteps()">
+                        Wis stappen
+                    </button>
+                </div>
+                <ol id="stepsList"></ol>
+            </div>
+        </main>
+
+        <script type="module" src="/js/paths.ts"></script>
+    </body>
+</html>

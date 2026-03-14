@@ -89,6 +89,44 @@ function dataApiPlugin() {
                     return;
                 }
 
+                // GET /api/paths
+                if (req.url === "/api/paths" && req.method === "GET") {
+                    try {
+                        const filePath = path.join(dataDir, "paths.json");
+                        const data = await fs.readFile(filePath, "utf-8");
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(data);
+                    } catch (error) {
+                        // Return empty array if file doesn't exist yet
+                        res.setHeader("Content-Type", "application/json");
+                        res.end("[]");
+                    }
+                    return;
+                }
+
+                // POST /api/paths
+                if (req.url === "/api/paths" && req.method === "POST") {
+                    let body = "";
+                    req.on("data", (chunk: any) => (body += chunk));
+                    req.on("end", async () => {
+                        try {
+                            const filePath = path.join(dataDir, "paths.json");
+                            await fs.mkdir(dataDir, { recursive: true });
+                            await fs.writeFile(filePath, body, "utf-8");
+                            res.setHeader("Content-Type", "application/json");
+                            res.end(JSON.stringify({ success: true }));
+                        } catch (error) {
+                            res.statusCode = 500;
+                            res.end(
+                                JSON.stringify({
+                                    error: "Failed to save paths",
+                                }),
+                            );
+                        }
+                    });
+                    return;
+                }
+
                 next();
             });
         },
@@ -110,6 +148,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, "source/index.html"),
+                paths: resolve(__dirname, "source/paths.html"),
             },
         },
     },
