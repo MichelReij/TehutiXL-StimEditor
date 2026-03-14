@@ -13,11 +13,17 @@ body {
 
 
 button {
-    background-color: #ccc;
+    background-color: #3a3a3a;
+    color           : #ddd;
     border-radius   : 4px;
-    border          : none;
+    border          : 1px solid rgba(255, 255, 255, 0.12);
     padding         : 4px 8px;
-    box-shadow      : 1px 1px 5px #333;
+    box-shadow      : 1px 1px 4px rgba(0, 0, 0, 0.5);
+    cursor          : pointer;
+
+    &:hover {
+        background-color: #4a4a4a;
+    }
 }
 
 #toolbar {
@@ -63,9 +69,10 @@ main {
 
     .panel {
         position        : relative;
-        background-color: #fff;
+        background-color: #1e1e1e;
         border-radius   : 0.25rem;
         padding         : 1rem;
+        color           : #e0e0e0;
 
         &#tagNavContainer {
             position      : relative;
@@ -82,7 +89,7 @@ main {
         position        : sticky;
         top             : 0;
         z-index         : 10;
-        background-color: #fff;
+        background-color: #1e1e1e;
         margin-bottom   : 0.5rem;
     }
 
@@ -105,7 +112,12 @@ main {
             transition   : background-color 0.2s;
 
             &.selected {
-                background-color: lightsteelblue;
+                background-color: #2d4a6e;
+                color           : #fff;
+            }
+
+            &:hover:not(.selected) {
+                background-color: #2a2a2a;
             }
 
             input[type='checkbox'] {
@@ -146,10 +158,20 @@ main {
                 label {
                     font-weight: bold;
                     font-size  : 0.9rem;
+                    color      : #ccc;
                 }
 
                 input[type="text"] {
-                    padding: 0.25rem 0.5rem;
+                    padding         : 0.25rem 0.5rem;
+                    background-color: #2a2a2a;
+                    color           : #e0e0e0;
+                    border          : 1px solid rgba(255, 255, 255, 0.15);
+                    border-radius   : 3px;
+
+                    &:focus {
+                        outline     : none;
+                        border-color: rgba(255, 255, 255, 0.35);
+                    }
                 }
 
                 .slider-with-value {
@@ -166,6 +188,7 @@ main {
                         text-align : right;
                         font-family: monospace;
                         font-size  : 0.9rem;
+                        color      : #ccc;
                     }
                 }
             }
@@ -212,31 +235,31 @@ main {
                         border       : 1px solid #ccc;
                         padding      : 0.5rem;
                         border-radius: 4px;
-                        background   : white;
-                        color        : black;
+                        background   : #242424;
+                        color        : #e0e0e0;
 
                         h4 {
                             margin   : 0 0 0.5rem 0;
                             font-size: 0.9rem;
-                            color    : black;
+                            color    : #ccc;
                         }
 
                         .point-editor {
-                            border       : 1px solid #ddd;
+                            border       : 1px solid rgba(255, 255, 255, 0.1);
                             padding      : 0.5rem;
                             margin-bottom: 0.5rem;
                             border-radius: 4px;
-                            background   : white;
+                            background   : #2a2a2a;
                             transition   : background-color 0.2s;
-                            color        : black;
+                            color        : #e0e0e0;
 
                             &.selected {
-                                background  : #e0e0e0;
+                                background  : #2d4a3a;
                                 border-color: #4CAF50;
                             }
 
                             &:hover {
-                                background: #f5f5f5;
+                                background: #333;
                             }
 
                             input[type="range"] {
@@ -257,9 +280,13 @@ main {
                     }
 
                     textarea {
-                        width : 100%;
-                        height: 15rem;
-                        resize: vertical;
+                        width           : 100%;
+                        height          : 15rem;
+                        resize          : vertical;
+                        background-color: #2a2a2a;
+                        color           : #e0e0e0;
+                        border          : 1px solid rgba(255, 255, 255, 0.15);
+                        border-radius   : 3px;
 
                         &.error {
                             background-color: #f001;
@@ -688,7 +715,7 @@ div#imageZoom {
         position        : sticky;
         top             : 0;
         z-index         : 10;
-        background-color: #fff;
+        background-color: #1e1e1e;
         margin-bottom   : 0.5rem;
     }
 
@@ -709,11 +736,12 @@ div#imageZoom {
             transition   : background-color 0.2s;
 
             &.selected {
-                background-color: lightsteelblue;
+                background-color: #2d4a6e;
+                color           : #fff;
             }
 
             &:hover:not(.selected) {
-                background-color: #eee;
+                background-color: #2a2a2a;
             }
 
             .path-name {
@@ -726,12 +754,13 @@ div#imageZoom {
             }
 
             .path-step-count {
-                background-color: rgba(0, 0, 0, 0.15);
+                background-color: rgba(255, 255, 255, 0.12);
                 border-radius   : 10px;
                 padding         : 1px 6px;
                 font-size       : 0.75rem;
                 font-weight     : bold;
                 flex-shrink     : 0;
+                color           : #ccc;
             }
 
             .delete-path-btn {
@@ -795,6 +824,7 @@ div#imageZoom {
     flex-direction: column;
     overflow-y    : auto;
     padding       : 1rem;
+    color         : #e0e0e0;
 
     .steps-header {
         display        : flex;
@@ -807,6 +837,7 @@ div#imageZoom {
             margin   : 0;
             font-size: 0.9rem;
             flex     : 1;
+            color    : #ccc;
         }
 
         #clearStepsButton {
@@ -828,10 +859,11 @@ div#imageZoom {
             align-items    : center;
             justify-content: space-between;
             padding        : 3px 6px;
-            background     : #f5f5f5;
+            background     : #2a2a2a;
             border-radius  : 3px;
             font-size      : 0.8rem;
             gap            : 0.4rem;
+            color          : #ccc;
 
             .step-label {
                 flex       : 1;
