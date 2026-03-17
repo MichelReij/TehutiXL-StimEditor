@@ -302,6 +302,49 @@ function clearPathSteps(): void {
 }
 
 // ------------------------------------------------------------------ //
+// Canvas EP hover highlight                                          //
+// ------------------------------------------------------------------ //
+
+function highlightEpOnCanvas(filename: string): void {
+    const canvas = document.getElementById("epCanvas");
+    if (!canvas) return;
+    const path =
+        selectedPathId !== null
+            ? getPaths().find((p) => p.id === selectedPathId)
+            : null;
+    const stepSet = new Set(path?.steps ?? []);
+    canvas.querySelectorAll<HTMLImageElement>(".ep-image").forEach((img) => {
+        const fn = img.dataset.filename!;
+        if (stepSet.has(fn)) {
+            img.style.opacity = fn === filename ? "1" : "0.4";
+        }
+    });
+}
+
+function dimAllYellowEps(): void {
+    const canvas = document.getElementById("epCanvas");
+    if (!canvas) return;
+    const path =
+        selectedPathId !== null
+            ? getPaths().find((p) => p.id === selectedPathId)
+            : null;
+    const stepSet = new Set(path?.steps ?? []);
+    canvas.querySelectorAll<HTMLImageElement>(".ep-image").forEach((img) => {
+        if (stepSet.has(img.dataset.filename!)) {
+            img.style.opacity = "0.4";
+        }
+    });
+}
+
+function resetEpOpacity(): void {
+    const canvas = document.getElementById("epCanvas");
+    if (!canvas) return;
+    canvas.querySelectorAll<HTMLImageElement>(".ep-image").forEach((img) => {
+        img.style.opacity = "";
+    });
+}
+
+// ------------------------------------------------------------------ //
 // Rendering                                                           //
 // ------------------------------------------------------------------ //
 
@@ -451,11 +494,22 @@ function renderStepsList(): void {
     const path = getPaths().find((p) => p.id === selectedPathId);
     if (!path) return;
 
-    titleEl.textContent = `Pad ${path.id} – ${path.steps.length} stap(pen)`;
+    titleEl.textContent = `Pad ${path.id} \u2013 ${path.steps.length} stap(pen)`;
     if (clearBtn) clearBtn.style.display = path.steps.length > 0 ? "" : "none";
+
+    let dragSrcIndex: number | null = null;
+
+    listEl.addEventListener("mouseenter", () => dimAllYellowEps());
+    listEl.addEventListener("mouseleave", () => resetEpOpacity());
 
     path.steps.forEach((filename, index) => {
         const li = document.createElement("li");
+        li.draggable = true;
+        li.dataset.index = String(index);
+
+        const handle = document.createElement("span");
+        handle.className = "drag-handle";
+        handle.textContent = "☰";
 
         const label = document.createElement("span");
         label.className = "step-label";
@@ -479,6 +533,42 @@ function renderStepsList(): void {
             }
         });
 
+        li.addEventListener("mouseenter", () => highlightEpOnCanvas(filename));
+        li.addEventListener("mouseleave", () => dimAllYellowEps());
+
+        li.addEventListener("dragstart", (e) => {
+            dragSrcIndex = index;
+            li.classList.add("dragging");
+            e.dataTransfer!.effectAllowed = "move";
+        });
+        li.addEventListener("dragend", () => {
+            li.classList.remove("dragging");
+            listEl
+                .querySelectorAll("li")
+                .forEach((el) => el.classList.remove("drag-over"));
+        });
+        li.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            e.dataTransfer!.dropEffect = "move";
+            listEl
+                .querySelectorAll("li")
+                .forEach((el) => el.classList.remove("drag-over"));
+            li.classList.add("drag-over");
+        });
+        li.addEventListener("drop", (e) => {
+            e.preventDefault();
+            if (dragSrcIndex === null || dragSrcIndex === index) return;
+            const p = getPaths().find((pp) => pp.id === selectedPathId);
+            if (!p) return;
+            const [moved] = p.steps.splice(dragSrcIndex, 1);
+            p.steps.splice(index, 0, moved);
+            dragSrcIndex = null;
+            savePaths();
+            renderCanvas();
+            renderStepsList();
+        });
+
+        li.appendChild(handle);
         li.appendChild(label);
         li.appendChild(removeBtn);
         listEl.appendChild(li);

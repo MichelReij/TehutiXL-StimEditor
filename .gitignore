@@ -38,6 +38,10 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 
+# Excitation images (synced via sync-excitations.sh, not stored in git)
+source/img/exc240/
+source/img/exc400/
+
 # Temporary files
 *.tmp
 temp/
