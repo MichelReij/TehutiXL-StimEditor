@@ -2,9 +2,8 @@
   {
     "id": 1,
     "steps": [
-      "exc_053.png",
-      "exc_205.png",
       "exc_052.png",
+      "exc_205.png",
       "exc_048.png",
       "exc_046.png",
       "exc_225.png",
@@ -13,8 +12,23 @@
       "exc_175.png",
       "exc_132.png",
       "exc_099.png",
-      "exc_211.png",
-      "exc_005.png"
+      "exc_211.png"
+    ]
+  },
+  {
+    "id": 2,
+    "steps": [
+      "exc_158.png",
+      "exc_067.png",
+      "exc_242.png",
+      "exc_151.png",
+      "exc_200.png",
+      "exc_157.png",
+      "exc_125.png",
+      "exc_102.png",
+      "exc_084.png",
+      "exc_192.png",
+      "exc_251.png"
     ]
   }
 ]

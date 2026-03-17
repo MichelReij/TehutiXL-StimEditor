@@ -1,1 +1,98 @@
-[]
+[
+  {
+    "id": 1,
+    "steps": [
+      "exc_158.png",
+      "exc_068.png",
+      "exc_069.png",
+      "exc_152.png",
+      "exc_022.png",
+      "exc_197.png",
+      "exc_021.png",
+      "exc_019.png",
+      "exc_031.png",
+      "exc_028.png",
+      "exc_154.png"
+    ]
+  },
+  {
+    "id": 3,
+    "steps": [
+      "exc_053.png",
+      "exc_131.png",
+      "exc_115.png",
+      "exc_095.png",
+      "exc_140.png",
+      "exc_213.png",
+      "exc_116.png",
+      "exc_241.png",
+      "exc_135.png",
+      "exc_184.png",
+      "exc_128.png"
+    ]
+  },
+  {
+    "id": 4,
+    "steps": [
+      "exc_066.png",
+      "exc_147.png",
+      "exc_085.png",
+      "exc_160.png",
+      "exc_064.png",
+      "exc_194.png",
+      "exc_105.png",
+      "exc_162.png",
+      "exc_199.png",
+      "exc_083.png",
+      "exc_222.png"
+    ]
+  },
+  {
+    "id": 5,
+    "steps": [
+      "exc_198.png",
+      "exc_038.png",
+      "exc_040.png",
+      "exc_090.png",
+      "exc_133.png",
+      "exc_212.png",
+      "exc_190.png",
+      "exc_135.png",
+      "exc_120.png",
+      "exc_093.png",
+      "exc_062.png"
+    ]
+  },
+  {
+    "id": 6,
+    "steps": [
+      "exc_138.png",
+      "exc_124.png",
+      "exc_183.png",
+      "exc_127.png",
+      "exc_225.png",
+      "exc_192.png",
+      "exc_155.png",
+      "exc_250.png",
+      "exc_034.png",
+      "exc_029.png",
+      "exc_154.png"
+    ]
+  },
+  {
+    "id": 7,
+    "steps": [
+      "exc_146.png",
+      "exc_044.png",
+      "exc_207.png",
+      "exc_176.png",
+      "exc_050.png",
+      "exc_251.png",
+      "exc_099.png",
+      "exc_075.png",
+      "exc_007.png",
+      "exc_188.png",
+      "exc_008.png"
+    ]
+  }
+]
